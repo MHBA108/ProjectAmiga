@@ -19,7 +19,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "userInterfaceStyle": "light",
+      "infoPlist": {
+        "UIUserInterfaceStyle": "Light"
+      }
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

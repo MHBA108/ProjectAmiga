@@ -12,7 +12,7 @@ export default class Calendar extends Component <{}, {selectedStartDate: Date | 
         this.onDateChange = this.onDateChange.bind(this);
       }
 
-    onDateChange(date: Date) {
+    onDateChange(date: any) { // potential future error here, switched date: Date to date: any
     this.setState({
         selectedStartDate: date,
     });
@@ -24,7 +24,7 @@ export default class Calendar extends Component <{}, {selectedStartDate: Date | 
         return (
           <View style={styles.container}>
             <CalendarPicker
-              onDateChange={this.onDateChange.toString}     // potential future error here
+              onDateChange={this.onDateChange}     // potential future error here
               textStyle={{fontFamily: 'HindSiliguri_400Regular', color: '#464D77'}}
             />
             <View>

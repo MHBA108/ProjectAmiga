@@ -33,9 +33,9 @@ export default function CalendarScreen() {
           step={1}
         />
         <View style={styles.textCon}>
-                    <Text style={styles.textStyle}>Terrible</Text>
+                    <Text style={styles.textStyle}>Poor</Text>
                     <Text style={styles.textStyle}>Neutral</Text>
-                    <Text style={styles.textStyle}>Great</Text>
+                    <Text style={styles.textStyle}>Good</Text>
                 </View>
       </View>
       <Calendar/>
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: "#6699CC",
     fontSize: 20,
-    marginLeft: 10
   },
 
   questionStyle:{
