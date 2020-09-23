@@ -36,7 +36,7 @@ export default class Clock extends Component <{}, {time: string, date: string}>{
         setTimeout( () => {
             this.setState({
                 date: moment().format("dddd, MMMM Do"),
-                time: moment().format("H:mm:ss A")
+                time: moment().format("h:mm:ss A")
             })
         })
 
