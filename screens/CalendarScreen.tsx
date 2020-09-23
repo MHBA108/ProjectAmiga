@@ -13,7 +13,7 @@ export default function CalendarScreen() {
       <Clock/>
       <View style={{ 
           backgroundColor: "#6699CC", 
-          padding: "10, 10, 10, 10",
+          padding: '1%',
           borderRadius:10,
           marginLeft: 10, 
           marginRight: 10,
@@ -25,6 +25,7 @@ export default function CalendarScreen() {
             marginLeft: 30,
             marginRight: 30
           }}
+          value={2}
           minimumValue={0}
           maximumValue={4}
           minimumTrackTintColor="#464D77"
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
   textCon: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: "#6699CC",
     marginLeft: 10,
     marginRight: 10
   },
@@ -70,12 +72,12 @@ const styles = StyleSheet.create({
     fontSize: 75,
     fontWeight: 'bold',
     fontFamily: 'HindSiliguri_700Bold',
-    paddingTop: 20,
     marginLeft: 10
   },
 
   textStyle:{
     color: 'white',
+    backgroundColor: "#6699CC",
     fontSize: 20,
     marginLeft: 10
   },
