@@ -4,6 +4,7 @@ import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
 import LoginScreen from '../screens/LoginScreen';
+import SplashScreen from '../screens/SplashScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -27,10 +28,18 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const initialState = {
+    isLoading: true,
     isLoggedIn: false,
     userToken: null,
   }
   const [state, setState] = React.useState(initialState);
+  if (state.isLoading) {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      </Stack.Navigator>
+    )
+  }
   if (!state.userToken) {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>

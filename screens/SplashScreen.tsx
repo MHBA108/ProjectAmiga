@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animation from 'lottie-react-native';
-import splash from './assets/splash.json';
+import splash from '../assets/images/splash.json';
 
 export default class SplashScreen extends React.Component {
   componentDidMount() {
@@ -10,7 +10,8 @@ export default class SplashScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.animationContainer}>
+      <View style={styles.SplashScreen_RootView}>
+        <View style={styles.SplashScreen_ChildView}>
         <Animation
           ref={animation => {
             this.animation = animation;
@@ -22,6 +23,7 @@ export default class SplashScreen extends React.Component {
           loop={true}
           source={splash}
         />
+        </View>
       </View>
     );
   }
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
   {
   justifyContent: 'center', flex:1, 
   backgroundColor: '#6699CC',
-  margin: 20,
+  padding: 20,
   position: 'absolute', width: '100%',
   height: '100%',
   },
