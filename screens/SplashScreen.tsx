@@ -2,16 +2,35 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animation from 'lottie-react-native';
 import splash from '../assets/images/splash.json';
+import { useNavigation } from '@react-navigation/native';
+import {useEffect} from 'react';
 
-export default class SplashScreen extends React.Component {
-  componentDidMount() {
-    this.animation.play();
+export default function SplashScreen() {
+  const isLoggedIn = false
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    this.animation.play()
+    setTimeout(load, 2000) // temporary timer
+    // load()
+  }, []);
+
+  // authentication and stuffs
+  function load(){
+    // TODO check if logged in
+    if (isLoggedIn) {
+      // TODO load anything necessary for home page
+      navigation.navigate("Root")
+    } else {
+      navigation.navigate("LoginScreen")
+    }
   }
 
-  render() {
-    return (
-      <View style={styles.SplashScreen_RootView}>
-        <View style={styles.SplashScreen_ChildView}>
+  console.log('I\'m in splash')
+
+  return (
+    <View style={styles.SplashScreen_RootView}>
+      <View style={styles.SplashScreen_ChildView}>
         <Animation
           ref={animation => {
             this.animation = animation;
@@ -23,10 +42,10 @@ export default class SplashScreen extends React.Component {
           loop={true}
           source={splash}
         />
-        </View>
       </View>
-    );
-  }
+    </View>
+  );
+
 }
 
 const styles = StyleSheet.create({

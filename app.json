@@ -7,6 +7,9 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#6699CC"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

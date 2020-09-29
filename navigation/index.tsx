@@ -27,18 +27,9 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const initialState = {
-    isLoading: false,
-    isLoggedIn: false,
-    userToken: null,
-  }
-  const [state, setState] = React.useState(initialState);
   let initialRoute: "SplashScreen" | "LoginScreen" | "Root" = "Root"
-  if (state.isLoading) {
-    initialRoute = "SplashScreen"
-  } else if (!state.userToken) {
-    initialRoute = "LoginScreen"
-  }
+  initialRoute = "SplashScreen"
+  console.log('I\'m doing what I am suppose to be');
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}
       initialRouteName={initialRoute}>
