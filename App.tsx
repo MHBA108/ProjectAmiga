@@ -4,14 +4,18 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import { useFonts, 
-  HindSiliguri_700Bold, 
-  HindSiliguri_400Regular, 
-  HindSiliguri_300Light, 
+import {
+  useFonts,
+  HindSiliguri_700Bold,
+  HindSiliguri_400Regular,
+  HindSiliguri_300Light,
   HindSiliguri_600SemiBold,
-  HindSiliguri_500Medium} from '@expo-google-fonts/hind-siliguri';
+  HindSiliguri_500Medium
+} from '@expo-google-fonts/hind-siliguri';
 import { AppLoading } from 'expo';
 
+// TODO: Pressing back in the root tab crashes the app! I am not sure the arrow
+// should even be there.
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
@@ -19,14 +23,14 @@ export default function App() {
   let [fontsLoaded] = useFonts({
     HindSiliguri_700Bold,
     HindSiliguri_400Regular,
-    HindSiliguri_300Light, 
+    HindSiliguri_300Light,
     HindSiliguri_600SemiBold,
     HindSiliguri_500Medium
   });
 
   if (!fontsLoaded || !isLoadingComplete) {
     return <AppLoading />;
-  }else {
+  } else {
     return (
       <SafeAreaProvider>
         <Navigation colorScheme={colorScheme} />
