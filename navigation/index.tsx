@@ -29,7 +29,6 @@ const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
   let initialRoute: "SplashScreen" | "LoginScreen" | "Root" = "Root"
   initialRoute = "SplashScreen"
-  console.log('I\'m doing what I am suppose to be');
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}
       initialRouteName={initialRoute}>

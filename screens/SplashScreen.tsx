@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import {useEffect} from 'react';
 
 export default function SplashScreen() {
-  const isLoggedIn = false
+  const isLoggedIn = false // temporary
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -25,8 +25,6 @@ export default function SplashScreen() {
       navigation.navigate("LoginScreen")
     }
   }
-
-  console.log('I\'m in splash')
 
   return (
     <View style={styles.SplashScreen_RootView}>
