@@ -28,30 +28,24 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const initialState = {
-    isLoading: true,
+    isLoading: false,
     isLoggedIn: false,
     userToken: null,
   }
   const [state, setState] = React.useState(initialState);
+  let initialRoute: "SplashScreen" | "LoginScreen" | "Root" = "Root"
   if (state.isLoading) {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      </Stack.Navigator>
-    )
+    initialRoute = "SplashScreen"
+  } else if (!state.userToken) {
+    initialRoute = "LoginScreen"
   }
-  if (!state.userToken) {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      </Stack.Navigator>
-    )
-  } else {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Root" component={BottomTabNavigator} />
-        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      </Stack.Navigator>
-    );
-  }
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}
+      initialRouteName={initialRoute}>
+      <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    </Stack.Navigator>
+  );
 }
