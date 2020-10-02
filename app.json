@@ -8,7 +8,8 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "backgroundColor": "#6699CC"
+      "backgroundColor": "#6699CC",
+      "image": "./assets/images/splash.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

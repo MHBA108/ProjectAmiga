@@ -36,11 +36,11 @@ export default function LoginScreen() {
     return (
       <View style={styles.container}>
         <Text style={styles.logo}>AMIGA</Text>
-        <TouchableOpacity style={styles.loginBtn}>
-          <Text style={styles.loginText} onPress={signInWithGoogle}>LOGIN WITH GOOGLE</Text>
+        <TouchableOpacity style={styles.loginBtn} onPress={signInWithGoogle}>
+          <Text style={styles.loginText} >LOGIN WITH GOOGLE</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn}>
-          <Text style={styles.loginText} onPress={goToRoot}>LOGIN FOR IOS TESTING</Text>
+        <TouchableOpacity style={styles.loginBtn} onPress={goToRoot}>
+          <Text style={styles.loginText}>LOGIN FOR IOS TESTING</Text>
         </TouchableOpacity>
       </View>
     );
