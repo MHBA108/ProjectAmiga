@@ -25,6 +25,7 @@ export default function LoginScreen() {
     }
   }
 
+  // bypass googleAuth
   function goToRoot(){
     navigation.navigate("Root")
     return null
