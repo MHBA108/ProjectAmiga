@@ -15,7 +15,6 @@ import LinkingConfiguration from './LinkingConfiguration';
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RootNavigator />
     </NavigationContainer>
@@ -27,18 +26,8 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const initialState = {
-    isLoading: false,
-    isLoggedIn: false,
-    userToken: null,
-  }
-  const [state, setState] = React.useState(initialState);
   let initialRoute: "SplashScreen" | "LoginScreen" | "Root" = "Root"
-  if (state.isLoading) {
-    initialRoute = "SplashScreen"
-  } else if (!state.userToken) {
-    initialRoute = "LoginScreen"
-  }
+  initialRoute = "SplashScreen"
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}
       initialRouteName={initialRoute}>

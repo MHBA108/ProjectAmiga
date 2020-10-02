@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import { useNavigation } from '@react-navigation/native';
 
@@ -23,15 +23,24 @@ export default function LoginScreen() {
     } else {
       return { type: 'cancel' };
     }
-
   }
 
+  // bypass googleAuth
+  function goToRoot(){
+    navigation.navigate("Root")
+    return null
+  }
+
+  // added temporary login for IOS button
   if (!state.isLoggedIn) {
     return (
       <View style={styles.container}>
         <Text style={styles.logo}>AMIGA</Text>
-        <TouchableOpacity style={styles.loginBtn}>
-          <Text style={styles.loginText} onPress={signInWithGoogle}>LOGIN WITH GOOGLE</Text>
+        <TouchableOpacity style={styles.loginBtn} onPress={signInWithGoogle}>
+          <Text style={styles.loginText} >LOGIN WITH GOOGLE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.loginBtn} onPress={goToRoot}>
+          <Text style={styles.loginText}>LOGIN FOR IOS TESTING</Text>
         </TouchableOpacity>
       </View>
     );
