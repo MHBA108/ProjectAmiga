@@ -69,7 +69,6 @@ function CalendarNavigator() {
       <CalendarStack.Screen
         name="CalendarScreen"
         component={CalendarScreen}
-        options={{ headerTitle: 'Tab One Title' }}
       />
     </CalendarStack.Navigator>
   );
@@ -83,7 +82,6 @@ function EditNavigator() {
       <EditStack.Screen
         name="EditScreen"
         component={EditScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
       />
     </EditStack.Navigator>
   );

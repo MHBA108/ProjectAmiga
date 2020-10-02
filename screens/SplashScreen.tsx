@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Animation from 'lottie-react-native';
-import splash from '../assets/images/splash.json';
+import { StyleSheet, View, Platform } from 'react-native';
+import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 import {useEffect} from 'react';
 
@@ -9,14 +8,8 @@ export default function SplashScreen() {
   const isLoggedIn = false // temporary
   const navigation = useNavigation();
 
-  useEffect(() => {
-    this.animation.play()
-    setTimeout(load, 2000) // temporary timer
-    // load()
-  }, []);
-
   // authentication and stuffs
-  function load(){
+  function load() {
     // TODO check if logged in
     if (isLoggedIn) {
       // TODO load anything necessary for home page
@@ -26,38 +19,46 @@ export default function SplashScreen() {
     }
   }
 
+  // skip playing animation for android!!!
+  if(Platform.OS === 'android') {
+    load()
+    return(
+      <View style={styles.animationContainer}></View>
+    );
+  } 
+
+  // animation
+  useEffect(() => {
+    this.animation.play()
+    setTimeout(load, 2000) // temporary timer
+    // load()
+  }, []);
+
+
+
   return (
-    <View style={styles.SplashScreen_RootView}>
-      <View style={styles.SplashScreen_ChildView}>
-        <Animation
-          ref={animation => {
-            this.animation = animation;
-          }}
-          style={{
-            width: 200,
-            height: 200
-          }}
-          loop={true}
-          source={splash}
-        />
-      </View>
-    </View>
+    <View style={styles.animationContainer}>
+    <LottieView
+      ref={animation => {
+        this.animation = animation;
+      }}
+      style={{
+        width: 200,
+        height: 200,
+        backgroundColor: '#6699CC',
+      }}
+      loop={true}
+      source={require('../assets/images/splash.json')}
+    />
+  </View>
   );
 
 }
-
 const styles = StyleSheet.create({
-  SplashScreen_RootView:
-  {
-  justifyContent: 'center', flex:1, 
-  backgroundColor: '#6699CC',
-  padding: 20,
-  position: 'absolute', width: '100%',
-  height: '100%',
-  },
-  SplashScreen_ChildView:
-  {
-  justifyContent: 'center', alignItems: 'center', backgroundColor: '#6699CC',
-  flex:1,
+  animationContainer: {
+    backgroundColor: '#6699CC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
 });
