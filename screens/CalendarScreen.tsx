@@ -5,6 +5,7 @@ import { Text, View } from '../components/Themed';
 import Clock from "../components/Clock";
 import Calendar from "../components/Calendar";
 import Slider from '@react-native-community/slider';
+import TodoList from '../components/TodoList';
 
 export default function CalendarScreen() {
   return (
@@ -39,6 +40,7 @@ export default function CalendarScreen() {
                 </View>
       </View>
       <Calendar/>
+      <TodoList/>
     </ScrollView>
   );
 }
