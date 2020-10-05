@@ -64,7 +64,7 @@ export default class TodoList extends React.Component<{}> {
 				const newToDoObject = {
 					[ID]: {
 						id: ID,
-						isComplete: false,
+						isCompleted: false,
 						textValue: newTodoItem,
 						createdAt: Date.now()
 					}
@@ -78,7 +78,6 @@ export default class TodoList extends React.Component<{}> {
 					}
 				};
 				this.saveTodos(newState.todos);
-				console.log(ID);
 				return {...newState};
 			});
 		}
@@ -92,7 +91,7 @@ export default class TodoList extends React.Component<{}> {
 					...prevState.todos,
 					[id]: {
 						...prevState.todos[id],
-						isComplete: false,
+						isCompleted: false,
 					}
 				}
 			};
@@ -109,7 +108,7 @@ export default class TodoList extends React.Component<{}> {
 					...prevState.todos,
 					[id]: {
 						...prevState.todos[id],
-						isComplete: true,
+						isCompleted: true,
 					}
 				}
 			};
@@ -159,7 +158,7 @@ export default class TodoList extends React.Component<{}> {
 				<View style={styles.card}>
 					<TextInput 
 						style={styles.input} 
-						placeholder="Add an item!"
+						placeholder="Add task..."
 						value={newTodoItem}
 						onChangeText={this.newTodoItemController}
 						placeholderTextColor='#f2e9e3'
