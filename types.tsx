@@ -7,7 +7,7 @@ export type RootStackParamList = {
 
 export type BottomTabParamList = {
   Calendar: undefined;
-  Edit: undefined;
+  Todo: undefined;
   Stats: undefined;
   Settings: undefined;
 };
