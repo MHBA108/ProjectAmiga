@@ -4,6 +4,9 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { Text, View } from './Themed';
 import TodoItem from './TodoItem';
 import { AppLoading } from 'expo';
+import 'react-native-get-random-values';
+import {v1 as uuidv1} from 'uuid';
+import {AsyncStorage} from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
@@ -13,37 +16,140 @@ export default class TodoList extends React.Component<{}> {
 		this.state = {
 			dataIsReady: false,
 			newTodoItem: '',
+			todos: {},
 		};
 		this.newTodoItemController = this.newTodoItemController.bind(this);
 		this.componentDidMount = this.componentDidMount.bind(this);
 		this.loadTodos = this.loadTodos.bind(this);
 		this.addTodo = this.addTodo.bind(this);
+		this.deleteTodo = this.deleteTodo.bind(this);
+		this.inCompleteTodo = this.inCompleteTodo.bind(this);
+		this.CompleteTodo = this.CompleteTodo.bind(this);
+		this.UpdateTodo = this.UpdateTodo.bind(this);
+		this.saveTodos = this.saveTodos.bind(this);
 	   }
 
 	newTodoItemController(textValue: any){
 		this.setState({
 			newTodoItem: textValue,
 		});
+		console.log(textValue);
 	}
 
 	componentDidMount(){
 		this.loadTodos();
 	};
 
-	loadTodos(){
-		this.setState({dataIsReady: true});
+	loadTodos = async () => {
+		try {
+			const getTodos = await AsyncStorage.getItem('todos');
+			const parsedTodos = JSON.parse(getTodos);
+			this.setState({dataIsReady: true, todos:parsedTodos || {}});
+		}
+		catch (err) {
+			console.log(err);
+		}
 	};
 
-	addTodo(){
-		if(this.state.newTodoItem !== ''){
-			this.setState({
-				newTodoItem: ''
+	saveTodos(newToDos: any){
+		const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newToDos));
+	};
+
+	addTodo = () =>{
+		const { newTodoItem } = this.state;
+		if(newTodoItem != ''){
+			console.log("Here");
+			this.setState(prevState => {
+				const ID = uuidv1();
+				const newToDoObject = {
+					[ID]: {
+						id: ID,
+						isComplete: false,
+						textValue: newTodoItem,
+						createdAt: Date.now()
+					}
+				};
+				const newState = {
+					...prevState,
+					newTodoItem: '',
+					todos: {
+						...prevState.todos,
+						...newToDoObject
+					}
+				};
+				this.saveTodos(newState.todos);
+				console.log(ID);
+				return {...newState};
 			});
 		}
 	};
 
+	inCompleteTodo(id: any){
+		this.setState(prevState => {
+			const newState = {
+				...prevState,
+				todos: {
+					...prevState.todos,
+					[id]: {
+						...prevState.todos[id],
+						isComplete: false,
+					}
+				}
+			};
+			this.saveTodos(newState.todos);
+			return {...newState};
+		})
+	};
+
+	CompleteTodo(id: any){
+		this.setState(prevState => {
+			const newState = {
+				...prevState,
+				todos: {
+					...prevState.todos,
+					[id]: {
+						...prevState.todos[id],
+						isComplete: true,
+					}
+				}
+			};
+			this.saveTodos(newState.todos);
+			return {...newState};
+		});
+	};
+
+	UpdateTodo(id: any, textValue: any){
+		this.setState(prevState => {
+			const newState = {
+				...prevState,
+				todos: {
+					...prevState.todos,
+					[id]: {
+						...prevState.todos[id],
+						textValue: textValue
+					}
+				}
+			};
+			this.saveTodos(newState.todos);
+			return {...newState};
+		});
+	};
+
+	deleteTodo(id: any){
+		this.setState(prevState => {
+			const todos = prevState.todos;
+			delete todos[id];
+			const newState = {
+				...prevState,
+				...todos
+			};
+			this.saveTodos(newState.todos);
+			return {...newState}
+		})
+	}
+
 	render() {
-		const { newTodoItem, dataIsReady } = this.state;
+		const { newTodoItem, dataIsReady, todos } = this.state;
 		if(!dataIsReady){
 			return <AppLoading/>;
 		}
@@ -59,9 +165,17 @@ export default class TodoList extends React.Component<{}> {
 						placeholderTextColor='#f2e9e3'
 						returnKeyType={'done'}
 						autoCorrect={false}
+						onSubmitEditing={this.addTodo}
 						/>
-					<ScrollView>
-						<TodoItem textValue={'TodoItem'}/>
+					<ScrollView contentContainerStyle={styles.listContainer}>
+						{Object.values(todos).map(todo => <TodoItem 
+														key={todo.id} 
+														{...todo} 
+														deleteTodo={this.deleteTodo}
+														inCompleteTodo={this.inCompleteTodo}
+														CompleteTodo={this.CompleteTodo}
+														updateTodo={this.UpdateTodo}
+														/>)}
 					</ScrollView>
 				</View>
 			</View>
@@ -106,4 +220,7 @@ const styles = StyleSheet.create({
 		padding: 20,
 		fontSize: 24,
 	},
+	listContainer: {
+		alignItems: 'center',
+	}
 });

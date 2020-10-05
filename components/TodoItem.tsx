@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    TouchableOpacity,
-    Dimensions
-    } from 'react-native';
+import { StyleSheet,TouchableOpacity, Dimensions } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { View, Text } from './Themed';
+import PropTypes from 'prop-types';
  
 const {height, width} = Dimensions.get('window');
  
 class TodoItem extends Component<{}> {
+
+	static propTypes = {
+		textValue: PropTypes.string.isRequired,
+		isCompleted: PropTypes.bool.isRequired,
+		deleteTodo: PropTypes.func.isRequired,
+		id: PropTypes.string.isRequired,
+		inCompleteTodo: PropTypes.func.isRequired,
+		CompleteTodo: PropTypes.func.isRequired,
+		updateTodo: PropTypes.func.isRequired,
+	}
+	
 	constructor(props: any) {
 		super(props);
 		this.state = {
-			todoValue: '',
+			todoValue: props.textValue,
 			isEditing: false,
-			isCompleted: false,
 		};
 		this.toggleItem = this.toggleItem.bind(this);
 		this.startEditing = this.startEditing.bind(this);
@@ -27,11 +34,13 @@ class TodoItem extends Component<{}> {
 		const { textValue } = this.props;
 		this.setState({
 			isEditing: true,
-			todoValue: textValue,
 		});
 	};
 
 	finishEditing(){
+		const {todoValue} = this.state;
+		const {id, updateTodo} = this.props;
+		updateTodo(id, todoValue);
 		this.setState({
 			isEditing: false,
 		});
@@ -42,16 +51,17 @@ class TodoItem extends Component<{}> {
 	};
 
     toggleItem(){
-         this.setState(prevState => {
-              return {
-                   isCompleted: !prevState.isCompleted,
-              };
-         });
+	    const { isCompleted, inCompleteTodo, CompleteTodo, id } = this.props;
+         if(isCompleted){
+		    inCompleteTodo(id);
+	    }else{
+		    CompleteTodo(id);
+	    }
     };
  
     render() {
-	    const {isEditing, isCompleted, todoValue} = this.state;
-	    const {textValue} = this.props;
+	    const {isEditing, todoValue} = this.state;
+	    const {textValue, id, deleteTodo, isCompleted} = this.props;
          return(
               <View style={styles.container}>
 				<View style={styles.rowContainer}>
@@ -72,7 +82,7 @@ class TodoItem extends Component<{}> {
 								onBlur={this.finishEditing}
 							/>
 					) : (
-                   			<Text style={[styles.text, isCompleted ? styles.strikeText : styles.unstrikeText]}>{todoValue}</Text>
+                   			<Text style={[styles.text, isCompleted ? styles.strikeText : styles.unstrikeText]}>{textValue}</Text>
 					)
 					}
 				</View>
@@ -91,7 +101,7 @@ class TodoItem extends Component<{}> {
 									<Text style={styles.buttonText}>e</Text>
 								</View>
 							</TouchableOpacity>
-							<TouchableOpacity>
+							<TouchableOpacity onPressOut={() => deleteTodo(id)}>
 								<View style={styles.buttonContainer}>
 									<Text style={styles.buttonText}>d</Text>
 								</View>
