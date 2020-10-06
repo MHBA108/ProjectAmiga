@@ -29,7 +29,7 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Todo"
+        name="Edit"
         component={EditNavigator}
         options={{
           tabBarIcon: ({ color }) => <Feather name="edit" size={24} color={color} />,
