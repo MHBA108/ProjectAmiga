@@ -1,43 +1,21 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView} from 'react-native';
+import { StyleSheet, ScrollView, TextInput} from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import Clock from "../components/Clock";
 import Calendar from "../components/Calendar";
 import Slider from '@react-native-community/slider';
+import CreateLog from '../components/CreateLog';
 
 export default function CalendarScreen() {
+
+  const [value, onChangeText] = React.useState('Write note here ...');
+
   return (
     <ScrollView>
-      <Text style={styles.todayStyle}>Today</Text>
+      <Text style={styles.todayStyle}>Welcome</Text>
       <Clock/>
-      <View style={{ 
-          backgroundColor: "#6699CC", 
-          padding: '1%',
-          borderRadius:10,
-          marginLeft: 10, 
-          marginRight: 10,
-          }}>
-        <Text style={styles.questionStyle}>How are you feeling today?</Text>
-        <Slider
-          style={{
-            height: 40,
-            marginLeft: 30,
-            marginRight: 30
-          }}
-          value={2}
-          minimumValue={0}
-          maximumValue={4}
-          minimumTrackTintColor="#464D77"
-          maximumTrackTintColor="white"
-          step={1}
-        />
-        <View style={styles.textCon}>
-                    <Text style={styles.textStyle}>Poor</Text>
-                    <Text style={styles.textStyle}>Neutral</Text>
-                    <Text style={styles.textStyle}>Good</Text>
-                </View>
-      </View>
+      <CreateLog/>
       <Calendar/>
     </ScrollView>
   );
@@ -63,6 +41,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: "#6699CC",
+    marginLeft: 10,
+    marginRight: 10
+  },
+
+  note: {
+    height: 40, 
+    color: '#CCD0E1',
     marginLeft: 10,
     marginRight: 10
   },

@@ -32,9 +32,6 @@ export default function LoginScreen() {
       <TouchableOpacity style={styles.loginBtn} onPress={signInWithGoogle}>
         <Text style={styles.loginText} >LOGIN WITH GOOGLE</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.loginBtn} onPress={authContext.signIn}>
-        <Text style={styles.loginText}>LOGIN FOR IOS TESTING</Text>
-      </TouchableOpacity>
     </View>
   );
 

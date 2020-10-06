@@ -1,0 +1,202 @@
+import React, { Component, useState } from "react";
+import {
+  View, Text, StyleSheet, TextInput, LayoutAnimation, Platform,
+  UIManager, TouchableOpacity, Modal, Button, Alert, Image
+} from "react-native";
+import Slider from '@react-native-community/slider';
+import LogModal from '../components/LogModal';
+
+export default class CreateLog extends Component<{}, { value: string, expanded: boolean, modalVisible: boolean, height: any, sliderValue: any, noteText: any}>{
+  onChangeText = (text: any) => {
+    this.setState({ value: text })
+  }
+
+  triggerModal = () => this.setState({ modalVisible: true });
+
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      value: '',
+      modalVisible: false,
+      expanded: false,
+      height: 0,
+      sliderValue: 50,
+      noteText: ''
+    }
+
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }
+
+  perc2color(perc: any) {
+    var r, g, b = 0;
+    if (perc < 50) {
+      r = 255;
+      g = Math.round(5.1 * perc);
+    }
+    else {
+      g = 255;
+      r = Math.round(510 - 5.10 * perc);
+    }
+    var h = r * 0x10000 + g * 0x100 + b * 0x1;
+    return '#' + ('000000' + h.toString(16)).slice(-6);
+  }
+
+  changeLayout = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({ expanded: !this.state.expanded });
+  }
+
+  render() {
+    const { modalVisible } = this.state;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.questionStyle}>How are you feeling today?</Text>
+        <Slider
+          style={{
+            height: 40,
+            marginLeft: 30,
+            marginRight: 30,
+          }}
+          value={50}
+          minimumValue={0}
+          maximumValue={100}
+          trackImage={require('../assets/images/RYG-slider-image.png')}
+          thumbTintColor="#F2E9E3"
+          onSlidingComplete={value =>{
+            console.log(this.perc2color(value), value)
+            {this.setState({sliderValue: value})}
+          }
+          }
+        />
+        <View style={styles.textCon}>
+          <Text style={styles.textStyle}>Poor</Text>
+          <Text style={styles.textStyle}>Neutral</Text>
+          <Text style={styles.textStyle}>Good</Text>
+        </View>
+        <TextInput
+          placeholder="Write note here ..."
+          style={[styles.note, { height: this.state.height }]}
+          onChangeText={text => this.onChangeText(text)}
+          onContentSizeChange={(event) => {
+            this.setState({ height: (event.nativeEvent.contentSize.height + 20)})
+          }}
+          value={this.state.value}
+          placeholderTextColor="#F2E9E3"
+          multiline={true}
+        />
+        <View style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+        }}>
+          <View style={styles.buttonStyle}>
+            <Button
+              title="Save your thoughts"
+              onPress={() => Alert.alert('Save button pressed')}
+              color="#F2E9E3"
+            />
+          </View>
+          <View style={styles.buttonStyle}>
+            <LogModal
+              sliderValue={this.state.sliderValue}
+              noteText={this.state.value}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#6699CC",
+    margin: 10,
+    borderRadius: 20,
+    padding: 10
+  },
+
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
+  },
+
+  textCon: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: "#6699CC",
+    marginLeft: 10,
+    marginRight: 10
+  },
+
+  note: {
+    height: 40,
+    color: '#F2E9E3',
+    fontSize: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+  },
+
+  todayStyle: {
+    color: '#464D77',
+    fontSize: 75,
+    fontWeight: 'bold',
+    fontFamily: 'HindSiliguri_700Bold',
+    marginLeft: 10
+  },
+
+  textStyle: {
+    color: '#F2E9E3',
+    backgroundColor: "#6699CC",
+    fontSize: 20,
+  },
+
+  questionStyle: {
+    color: '#F2E9E3',
+    fontSize: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    textAlign: 'center'
+  },
+
+  modalView: {
+    margin: 20,
+    marginTop: 40,
+    flex: 1,
+    backgroundColor: "#6699CC",
+    borderRadius: 20,
+    padding: 35,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+
+  openButton: {
+    backgroundColor: "#6699CC",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+
+  buttonStyle: {
+    backgroundColor: "#464D77",
+    borderRadius: 20,
+    padding: 5
+  }
+
+});
