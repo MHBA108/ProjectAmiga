@@ -1,53 +1,39 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform } from 'react-native';
 import * as Google from 'expo-google-app-auth';
-import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from "../navigation/context"
 
 
 export default function LoginScreen() {
 
-  const [state, setState] = React.useState({ isLoggedIn: false });
-  const navigation = useNavigation();
+  const authContext = React.useContext(AuthContext);
+  const config: Google.GoogleLogInConfig = {
+    androidClientId: "778316018433-r6fk17in0n3olu8num4dffoqab2bc82n.apps.googleusercontent.com",
+    iosClientId: "778316018433-g734kgicr0bdmh9iq24r354v3dki37ei.apps.googleusercontent.com",
+    scopes: ['profile'],
+  }
 
-  // TODO: Pass the LogInResult as a Navigation parameter
+
+  // TODO: Pass the LogInResult to the AuthContext
   async function signInWithGoogle(): Promise<Google.LogInResult> {
-    const result = await Google.logInAsync({
-      androidClientId: "778316018433-r6fk17in0n3olu8num4dffoqab2bc82n.apps.googleusercontent.com",
-      scopes: ['profile', 'email'],
-    });
+    const result = await Google.logInAsync(config);
 
     if (result.type === 'success') {
       console.log(result.user);
-      setState({ isLoggedIn: true });
-      return result;
-    } else {
-      return { type: 'cancel' };
+      authContext.signIn();
     }
-  }
-
-  // bypass googleAuth
-  function goToRoot(){
-    navigation.navigate("Root")
-    return null
+    return result;
   }
 
   // added temporary login for IOS button
-  if (!state.isLoggedIn) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.logo}>AMIGA</Text>
-        <TouchableOpacity style={styles.loginBtn} onPress={signInWithGoogle}>
-          <Text style={styles.loginText} >LOGIN WITH GOOGLE</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn} onPress={goToRoot}>
-          <Text style={styles.loginText}>LOGIN FOR IOS TESTING</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  } else {
-    navigation.navigate("Root");
-    return null;
-  }
+  return (
+    <View style={styles.container}>
+      <Text style={styles.logo}>AMIGA</Text>
+      <TouchableOpacity style={styles.loginBtn} onPress={signInWithGoogle}>
+        <Text style={styles.loginText} >LOGIN WITH GOOGLE</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
 }
 
