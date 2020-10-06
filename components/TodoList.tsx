@@ -184,6 +184,7 @@ export default class TodoList extends React.Component<{}> {
 
 const styles = StyleSheet.create({
 	container: {
+		marginTop: 20,
 		flex: 1,
 		backgroundColor: '#f2e9e3',
 		alignItems: 'center',
@@ -218,6 +219,8 @@ const styles = StyleSheet.create({
 		fontFamily: 'HindSiliguri_400Regular',
 		padding: 20,
 		fontSize: 24,
+		color: '#f2e9e3',
+
 	},
 	listContainer: {
 		alignItems: 'center',

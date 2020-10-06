@@ -39,7 +39,7 @@ export default function CalendarScreen() {
                     <Text style={styles.textStyle}>Good</Text>
                 </View>
       </View>
-      <Calendar/>
+      <Calendar />
       <TodoList/>
     </ScrollView>
   );

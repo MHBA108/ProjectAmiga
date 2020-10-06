@@ -123,7 +123,9 @@ const styles = StyleSheet.create({
 	    backgroundColor: '#6771a6',
 	    marginLeft: 10,
 	    marginRight: 10,
-	    marginBottom: 10,
+		marginBottom: 10,
+		color: '#f2e9e3',
+
     },
     rowContainer: {
 	    backgroundColor: '#6771a6',
@@ -133,6 +135,7 @@ const styles = StyleSheet.create({
 		width: width / 2,
 		alignItems: 'center',
 		justifyContent: 'space-between',
+		color: '#f2e9e3',
     },
     buttons: {
 		backgroundColor: '#6771a6',
@@ -147,10 +150,12 @@ const styles = StyleSheet.create({
 		fontFamily: 'HindSiliguri_400Regular',
     },
     text: {
-         fontWeight: '500',
+        fontWeight: '500',
 	    fontSize: 18,
 	    fontFamily: 'HindSiliguri_400Regular',
-         marginVertical: 20,
+		marginVertical: 20,
+		color: '#f2e9e3',
+
     },
     circle: {
 	    width: 30,
@@ -172,7 +177,7 @@ const styles = StyleSheet.create({
          textDecorationLine: 'line-through',
     },
     unstrikeText: {
-         color: '#29323c',
+		color: '#f2e9e3',
     },
     input: {
 	marginVertical: 15,
