@@ -17,7 +17,6 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
-  // TODO: Find a way to remove the header
   return (
     <BottomTab.Navigator
       initialRouteName="Calendar"
@@ -66,7 +65,7 @@ const CalendarStack = createStackNavigator<CalendarParamList>();
 
 function CalendarNavigator() {
   return (
-    <CalendarStack.Navigator>
+    <CalendarStack.Navigator screenOptions={{ headerShown: false }}>
       <CalendarStack.Screen
         name="CalendarScreen"
         component={CalendarScreen}
@@ -79,7 +78,7 @@ const EditStack = createStackNavigator<EditParamList>();
 
 function EditNavigator() {
   return (
-    <EditStack.Navigator>
+    <EditStack.Navigator screenOptions={{ headerShown: false }}>
       <EditStack.Screen
         name="EditScreen"
         component={EditScreen}
@@ -92,7 +91,7 @@ const StatsStack = createStackNavigator<StatsParamList>();
 
 function StatsNavigator() {
   return (
-    <StatsStack.Navigator>
+    <StatsStack.Navigator screenOptions={{ headerShown: false }}>
       <StatsStack.Screen
         name="StatsScreen"
         component={StatsScreen}
@@ -106,7 +105,7 @@ const SettingsStack = createStackNavigator<SettingsParamList>();
 
 function SettingsNavigator() {
   return (
-    <SettingsStack.Navigator>
+    <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
       <SettingsStack.Screen
         name="SettingsScreen"
         component={SettingsScreen}
