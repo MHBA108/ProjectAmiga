@@ -222,5 +222,5 @@ const styles = StyleSheet.create({
 	},
 	listContainer: {
 		alignItems: 'center',
-	}co
+	},
 });
