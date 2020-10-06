@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 
 export default function SplashScreen() {
   const isLoggedIn = false // temporary
@@ -20,12 +20,12 @@ export default function SplashScreen() {
   }
 
   // skip playing animation for android!!!
-  if(Platform.OS === 'android') {
+  if (Platform.OS === 'android') {
     load()
-    return(
+    return (
       <View style={styles.animationContainer}></View>
     );
-  } 
+  }
 
   // animation
   useEffect(() => {
@@ -38,19 +38,19 @@ export default function SplashScreen() {
 
   return (
     <View style={styles.animationContainer}>
-    <LottieView
-      ref={animation => {
-        this.animation = animation;
-      }}
-      style={{
-        width: 200,
-        height: 200,
-        backgroundColor: '#6699CC',
-      }}
-      loop={true}
-      source={require('../assets/images/splash.json')}
-    />
-  </View>
+      <LottieView
+        ref={animation => {
+          this.animation = animation;
+        }}
+        style={{
+          width: 200,
+          height: 200,
+          backgroundColor: '#6699CC',
+        }}
+        loop={true}
+        source={require('../assets/images/splash.json')}
+      />
+    </View>
   );
 
 }

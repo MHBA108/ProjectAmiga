@@ -17,6 +17,7 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  // TODO: Find a way to remove the header
   return (
     <BottomTab.Navigator
       initialRouteName="Calendar"
@@ -49,7 +50,7 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <Feather name="settings" size={24} color={color} />,
         }}
       />
-    </BottomTab.Navigator>
+    </BottomTab.Navigator >
   );
 }
 
