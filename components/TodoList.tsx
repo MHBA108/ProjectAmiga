@@ -33,7 +33,6 @@ export default class TodoList extends React.Component<{}> {
 		this.setState({
 			newTodoItem: textValue,
 		});
-		console.log(textValue);
 	}
 
 	componentDidMount(){
@@ -58,7 +57,6 @@ export default class TodoList extends React.Component<{}> {
 	addTodo = () =>{
 		const { newTodoItem } = this.state;
 		if(newTodoItem != ''){
-			console.log("Here");
 			this.setState(prevState => {
 				const ID = uuidv1();
 				const newToDoObject = {
@@ -224,5 +222,5 @@ const styles = StyleSheet.create({
 	},
 	listContainer: {
 		alignItems: 'center',
-	}
+	}co
 });
