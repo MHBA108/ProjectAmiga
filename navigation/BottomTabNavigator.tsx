@@ -5,10 +5,10 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import CalendarScreen from '../screens/CalendarScreen';
-import EditScreen from '../screens/EditScreen';
+import ResourceScreen from '../screens/ResourcesScreen';
 import StatsScreen from '../screens/StatsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import { BottomTabParamList, CalendarParamList, EditParamList, StatsParamList, SettingsParamList } from '../types';
+import MoreScreen from '../screens/MoreScreen';
+import { BottomTabParamList, HomeParamList, StatsParamList, ResourcesParamList, MoreParamList } from '../types';
 import CalendarIcon from '../components/icons/CalendarIcon';
 import StatsIcon from '../components/icons/StatsIcon';
 import SettingsIcon from '../components/icons/SettingsIcon';
@@ -22,32 +22,32 @@ export default function BottomTabNavigator() {
   // TODO: Find a way to remove the header
   return (
     <BottomTab.Navigator
-      initialRouteName="Calendar"
+      initialRouteName="Home"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
-        name="Calendar"
-        component={CalendarNavigator}
+        name="Home"
+        component={HomeNavigator}
         options={{
           tabBarIcon: ({ color }) => <CalendarIcon/>,
-        }}
-      />
-      <BottomTab.Screen
-        name="Edit"
-        component={EditNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <HomePencilIcon/>,
         }}
       />
       <BottomTab.Screen
         name="Stats"
         component={StatsNavigator}
         options={{
+          tabBarIcon: ({ color }) => <HomePencilIcon/>,
+        }}
+      />
+      <BottomTab.Screen
+        name="Resources"
+        component={ResourcesNavigator}
+        options={{
           tabBarIcon: ({ color }) => <StatsIcon/>,
         }}
       />
       <BottomTab.Screen
-        name="Settings"
-        component={SettingsNavigator}
+        name="More"
+        component={MoreNavigator}
         options={{
           tabBarIcon: ({ color }) => <SettingsIcon/>,
         }}
@@ -58,29 +58,16 @@ export default function BottomTabNavigator() {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const CalendarStack = createStackNavigator<CalendarParamList>();
+const CalendarStack = createStackNavigator<HomeParamList>();
 
-function CalendarNavigator() {
+function HomeNavigator() {
   return (
     <CalendarStack.Navigator>
       <CalendarStack.Screen
-        name="CalendarScreen"
+        name="HomeScreen"
         component={CalendarScreen}
       />
     </CalendarStack.Navigator>
-  );
-}
-
-const EditStack = createStackNavigator<EditParamList>();
-
-function EditNavigator() {
-  return (
-    <EditStack.Navigator>
-      <EditStack.Screen
-        name="EditScreen"
-        component={EditScreen}
-      />
-    </EditStack.Navigator>
   );
 }
 
@@ -92,22 +79,33 @@ function StatsNavigator() {
       <StatsStack.Screen
         name="StatsScreen"
         component={StatsScreen}
-        options={{ headerTitle: 'Tab Three Title' }}
       />
     </StatsStack.Navigator>
   );
 }
 
-const SettingsStack = createStackNavigator<SettingsParamList>();
+const ResourcesStack = createStackNavigator<ResourcesParamList>();
 
-function SettingsNavigator() {
+function ResourcesNavigator() {
   return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{ headerTitle: 'Tab Four Title' }}
+    <ResourcesStack.Navigator>
+      <ResourcesStack.Screen
+        name="ResourcesScreen"
+        component={ResourceScreen}
       />
-    </SettingsStack.Navigator>
+    </ResourcesStack.Navigator>
+  );
+}
+
+const MoreStack = createStackNavigator<MoreParamList>();
+
+function MoreNavigator() {
+  return (
+    <MoreStack.Navigator>
+      <MoreStack.Screen
+        name="MoreScreen"
+        component={MoreScreen}
+      />
+    </MoreStack.Navigator>
   );
 }

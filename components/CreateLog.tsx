@@ -5,6 +5,14 @@ import {
 } from "react-native";
 import Slider from '@react-native-community/slider';
 import LogModal from '../components/LogModal';
+import {
+  useFonts,
+  HindSiliguri_700Bold,
+  HindSiliguri_400Regular,
+  HindSiliguri_300Light,
+  HindSiliguri_600SemiBold,
+  HindSiliguri_500Medium
+} from '@expo-google-fonts/hind-siliguri';
 
 export default class CreateLog extends Component<{}, { value: string, expanded: boolean, modalVisible: boolean, height: any, sliderValue: any, noteText: any}>{
   onChangeText = (text: any) => {

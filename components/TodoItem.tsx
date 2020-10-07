@@ -6,6 +6,14 @@ import PropTypes from 'prop-types';
 import PencilIcon from './icons/PencilIcon';
 import CheckIcon from './icons/CheckIcon';
 import DeleteIcon from './icons/DeleteIcon';
+import {
+	useFonts,
+	HindSiliguri_700Bold,
+	HindSiliguri_400Regular,
+	HindSiliguri_300Light,
+	HindSiliguri_600SemiBold,
+	HindSiliguri_500Medium
+   } from '@expo-google-fonts/hind-siliguri';
  
 const {height, width} = Dimensions.get('window');
 
@@ -144,6 +152,7 @@ const styles = StyleSheet.create({
 	   	marginLeft: 10,
 	    	marginRight: 10,
 		marginBottom: 10,
+		fontFamily: 'HindSiliguri_400Regular',
 		color: '#f2e9e3',
 
     },

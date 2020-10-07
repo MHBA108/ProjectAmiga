@@ -6,24 +6,24 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  Calendar: undefined;
-  Edit: undefined;
+  Home: undefined;
   Stats: undefined;
-  Settings: undefined;
+  Resources: undefined;
+  More: undefined;
 };
 
-export type CalendarParamList = {
-  CalendarScreen: undefined;
-};
-
-export type EditParamList = {
-  EditScreen: undefined;
+export type HomeParamList = {
+  HomeScreen: undefined;
 };
 
 export type StatsParamList = {
   StatsScreen: undefined;
 };
 
-export type SettingsParamList = {
-  SettingsScreen: undefined;
+export type ResourcesParamList = {
+  ResourcesScreen: undefined;
+};
+
+export type MoreParamList = {
+  MoreScreen: undefined;
 };

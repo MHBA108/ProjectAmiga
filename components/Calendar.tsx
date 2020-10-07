@@ -1,6 +1,14 @@
 import React, {Component} from "react";
 import {View, Text, StyleSheet} from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
+import {
+  useFonts,
+  HindSiliguri_700Bold,
+  HindSiliguri_400Regular,
+  HindSiliguri_300Light,
+  HindSiliguri_600SemiBold,
+  HindSiliguri_500Medium
+} from '@expo-google-fonts/hind-siliguri';
 import moment from "moment";
 
 export default class Calendar extends Component <{}, {selectedStartDate: Date | null}>{

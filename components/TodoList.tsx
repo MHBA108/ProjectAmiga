@@ -7,6 +7,14 @@ import { AppLoading } from 'expo';
 import 'react-native-get-random-values';
 import {v1 as uuidv1} from 'uuid';
 import {AsyncStorage} from 'react-native';
+import {
+	useFonts,
+	HindSiliguri_700Bold,
+	HindSiliguri_400Regular,
+	HindSiliguri_300Light,
+	HindSiliguri_600SemiBold,
+	HindSiliguri_500Medium
+   } from '@expo-google-fonts/hind-siliguri';
 
 const { height, width } = Dimensions.get('window');
 
@@ -199,6 +207,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+		fontFamily: 'HindSiliguri_400Regular',
 	},
 	card: {
 		backgroundColor: '#464d77',
