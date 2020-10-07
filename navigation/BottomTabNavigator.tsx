@@ -1,5 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
@@ -11,6 +9,10 @@ import EditScreen from '../screens/EditScreen';
 import StatsScreen from '../screens/StatsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { BottomTabParamList, CalendarParamList, EditParamList, StatsParamList, SettingsParamList } from '../types';
+import CalendarIcon from '../components/icons/CalendarIcon';
+import StatsIcon from '../components/icons/StatsIcon';
+import SettingsIcon from '../components/icons/SettingsIcon';
+import HomePencilIcon from '../components/icons/HomePencilIcon';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -26,38 +28,32 @@ export default function BottomTabNavigator() {
         name="Calendar"
         component={CalendarNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="calendar" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <CalendarIcon/>,
         }}
       />
       <BottomTab.Screen
         name="Edit"
         component={EditNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="edit" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <HomePencilIcon/>,
         }}
       />
       <BottomTab.Screen
         name="Stats"
         component={StatsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="bar-chart" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <StatsIcon/>,
         }}
       />
       <BottomTab.Screen
         name="Settings"
         component={SettingsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="settings" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <SettingsIcon/>,
         }}
       />
     </BottomTab.Navigator >
   );
-}
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: { name: string; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:

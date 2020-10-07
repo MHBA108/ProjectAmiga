@@ -184,14 +184,11 @@ const styles = StyleSheet.create({
 	container: {
 		marginTop: 20,
 		flex: 1,
-		backgroundColor: '#f2e9e3',
 		alignItems: 'center',
 		justifyContent: 'center',
-		fontFamily: 'HindSiliguri_400Regular',
 	},
 	card: {
 		backgroundColor: '#464d77',
-		fontFamily: 'HindSiliguri_400Regular',
 		flex: 1,
 		width: width - 25,
 		borderTopLeftRadius: 10,
@@ -214,7 +211,6 @@ const styles = StyleSheet.create({
 		})
 	},
 	input: {
-		fontFamily: 'HindSiliguri_400Regular',
 		padding: 20,
 		fontSize: 24,
 		color: '#f2e9e3',

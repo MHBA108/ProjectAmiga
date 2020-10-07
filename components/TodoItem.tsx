@@ -3,7 +3,9 @@ import { StyleSheet,TouchableOpacity, Dimensions } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { View, Text } from './Themed';
 import PropTypes from 'prop-types';
-import { Ionicons, AntDesign, FontAwesome } from '@expo/vector-icons';
+import PencilIcon from './icons/PencilIcon';
+import CheckIcon from './icons/CheckIcon';
+import DeleteIcon from './icons/DeleteIcon';
  
 const {height, width} = Dimensions.get('window');
  
@@ -59,7 +61,7 @@ class TodoItem extends Component<{}> {
 		    CompleteTodo(id);
 	    }
     };
- 
+
     render() {
 	    const {isEditing, todoValue} = this.state;
 	    const {textValue, id, deleteTodo, isCompleted} = this.props;
@@ -67,8 +69,9 @@ class TodoItem extends Component<{}> {
               <View style={styles.container}>
 				<View style={styles.rowContainer}>
 				<TouchableOpacity onPress={this.toggleItem}>
-						 <View style={[styles.circle, isCompleted ? styles.completeCircle : styles.incompleteCircle]}>
-							 <AntDesign name="check" size={24} color="#6699cc" />
+						 <View style={[(styles.circle, isCompleted ? styles.completeCircle : styles.incompleteCircle)]}>
+							{/* <Text style={styles.buttonText}> */}
+								<CheckIcon/>
 						 </View>
 				</TouchableOpacity>
 					{ isEditing ? (
@@ -94,7 +97,7 @@ class TodoItem extends Component<{}> {
 						    <TouchableOpacity onPressOut={this.finishEditing}>
 							    <View style={styles.buttonContainer}>
 								 <Text style={styles.buttonText}>
-									 <AntDesign name="check" size={24} color="#6699cc"/>
+									 <CheckIcon/>
 								 </Text>
 							    </View>
 						    </TouchableOpacity>
@@ -104,14 +107,14 @@ class TodoItem extends Component<{}> {
 							<TouchableOpacity onPressOut={this.startEditing}>
 								<View style={styles.buttonContainer}>
 									 <Text style={styles.buttonText}>
-										 <FontAwesome name="pencil" size={24} color="#6699cc"/>
+									 	<PencilIcon/>
 									 </Text>
 								</View>
 							</TouchableOpacity>
 							<TouchableOpacity onPressOut={() => deleteTodo(id)}>
 								<View style={styles.buttonContainer}>
 									 <Text style={styles.buttonText}>
-										 <Ionicons name="ios-trash" size={24} color="#6699cc" />
+										 <DeleteIcon/>
 									 </Text>
 								</View>
 							</TouchableOpacity>
@@ -124,14 +127,14 @@ class TodoItem extends Component<{}> {
  
 const styles = StyleSheet.create({
     container: {
-         width: width - 50,
-         flexDirection: 'row',
-	    alignItems: 'center',
-	    justifyContent: 'space-between',
-	    borderRadius: 10,
+         	width: width - 50,
+         	flexDirection: 'row',
+	    	alignItems: 'center',
+		justifyContent: 'space-between',
+	   	borderRadius: 10,
 		backgroundColor: '#4986c2',
-	    marginLeft: 10,
-	    marginRight: 10,
+	   	marginLeft: 10,
+	    	marginRight: 10,
 		marginBottom: 10,
 		color: '#f2e9e3',
 
@@ -149,42 +152,59 @@ const styles = StyleSheet.create({
     buttons: {
 		backgroundColor: '#4986c2',
 		flexDirection: 'row',
+		borderTopRightRadius: 10,
+		borderBottomRightRadius: 10,
     },
     buttonContainer: {
 		backgroundColor: '#4986c2',
+		borderTopRightRadius: 10,
+		borderBottomRightRadius: 10,
 		marginVertical: 10,
 		marginHorizontal: 10,
+		textAlign: 'center',
     },
     buttonText: {
-		fontFamily: 'HindSiliguri_400Regular',
+		borderTopRightRadius: 10,
+		paddingBottom: 15,
+		borderBottomRightRadius: 10,
+		marginBottom: 1,
+		alignContent: 'center',
     },
     text: {
-        fontWeight: '500',
-	    fontSize: 18,
-	    fontFamily: 'HindSiliguri_400Regular',
+     	fontWeight: '500',
+		fontSize: 18,
 		marginVertical: 20,
 		color: '#f2e9e3',
-
     },
     circle: {
-	    width: 30,
-	    backgroundColor: '#6699cc',
-        height: 30,
-        borderRadius: 5,
+		width: 32,
+		backgroundColor: '#6699cc',
+     	height: 32,
+     	borderRadius: 5,
 		borderWidth: 3,
-	    marginRight: 20,
-	    marginLeft:10,
+		marginRight: 20,
+		marginLeft:10,
+		    
     },
     completeCircle: {
 		borderColor: '#8cb2d9',
-		backgroundColor: '#8cb2d9'
+		backgroundColor: '#4986c2',
+		borderRadius: 5,
+		marginVertical: 10,
+		marginHorizontal: 10,
+		textAlign: 'center',
     },
     incompleteCircle: {
-        borderColor: '#6699cc',
+		borderColor: '#6699cc',
+		backgroundColor: '#6699cc',
+		borderRadius: 5,
+		marginVertical: 10,
+		marginHorizontal: 10,
+		textAlign: 'center',
     },
     strikeText: {
-        color:'#6699cc',
-        textDecorationLine: 'line-through',
+        	color:'#6699cc',
+		textDecorationLine: 'line-through',
     },
     unstrikeText: {
 		color: '#f2e9e3',
