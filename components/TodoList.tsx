@@ -10,7 +10,18 @@ import {AsyncStorage} from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
-export default class TodoList extends React.Component<{}> {
+interface IProps {
+}
+
+interface IState {
+	newTodoItem?: any;
+	dataIsReady?: any;
+	todos?: any;
+}
+
+export default class TodoList extends React.Component<IProps, IState> {
+	newTodoItem: any;
+
 	constructor(props: any) {
 		super(props);
 		this.state = {
@@ -29,7 +40,7 @@ export default class TodoList extends React.Component<{}> {
 		this.saveTodos = this.saveTodos.bind(this);
 	   }
 
-	newTodoItemController(textValue: any){
+	newTodoItemController(textValue: String){
 		this.setState({
 			newTodoItem: textValue,
 		});
@@ -41,9 +52,11 @@ export default class TodoList extends React.Component<{}> {
 
 	loadTodos = async () => {
 		try {
-			const getTodos = await AsyncStorage.getItem('todos');
-			const parsedTodos = JSON.parse(getTodos);
-			this.setState({dataIsReady: true, todos:parsedTodos || {}});
+			if(await AsyncStorage.getItem('todos') != null){
+				const getTodos: string | null = await AsyncStorage.getItem('todos');
+				const parsedTodos = getTodos ? JSON.parse(getTodos): "";
+				this.setState({dataIsReady: true, todos:parsedTodos || {}});
+			}
 		}
 		catch (err) {
 			console.log(err);
@@ -165,9 +178,9 @@ export default class TodoList extends React.Component<{}> {
 						onSubmitEditing={this.addTodo}
 						/>
 					<ScrollView contentContainerStyle={styles.listContainer}>
-						{Object.values(todos).map(todo => <TodoItem 
-														key={todo.id} 
-														{...todo} 
+						{Object.values(todos).map((item: any) => <TodoItem 
+														key={item.id} 
+														{...item} 
 														deleteTodo={this.deleteTodo}
 														inCompleteTodo={this.inCompleteTodo}
 														CompleteTodo={this.CompleteTodo}

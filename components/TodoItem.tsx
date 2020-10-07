@@ -8,8 +8,16 @@ import CheckIcon from './icons/CheckIcon';
 import DeleteIcon from './icons/DeleteIcon';
  
 const {height, width} = Dimensions.get('window');
+
+interface IProps {
+}
+
+interface IState {
+	todoValue?: any;
+	isEditing?: boolean;
+}
  
-class TodoItem extends Component<{}> {
+class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTodo: Function, CompleteTodo: Function, updateTodo: Function, textValue?: String, isCompleted?: boolean, id?: String,}, IState> {
 
 	static propTypes = {
 		textValue: PropTypes.string.isRequired,
@@ -20,7 +28,7 @@ class TodoItem extends Component<{}> {
 		CompleteTodo: PropTypes.func.isRequired,
 		updateTodo: PropTypes.func.isRequired,
 	}
-	
+
 	constructor(props: any) {
 		super(props);
 		this.state = {
@@ -49,7 +57,7 @@ class TodoItem extends Component<{}> {
 		});
 	};
 
-	controlInput(textValue){
+	controlInput(textValue: String){
 		this.setState({todoValue: textValue});
 	};
 
@@ -94,7 +102,7 @@ class TodoItem extends Component<{}> {
 				</View>
 				{isEditing ? (
 						<View style={styles.buttons}>
-						    <TouchableOpacity onPressOut={this.finishEditing}>
+						    <TouchableOpacity onPress={this.finishEditing}>
 							    <View style={styles.buttonContainer}>
 								 <Text style={styles.buttonText}>
 									 <CheckIcon/>
@@ -104,14 +112,14 @@ class TodoItem extends Component<{}> {
 					    </View>
 				    ) : (
 						<View style={styles.buttons}>
-							<TouchableOpacity onPressOut={this.startEditing}>
+							<TouchableOpacity onPress={this.startEditing}>
 								<View style={styles.buttonContainer}>
 									 <Text style={styles.buttonText}>
 									 	<PencilIcon/>
 									 </Text>
 								</View>
 							</TouchableOpacity>
-							<TouchableOpacity onPressOut={() => deleteTodo(id)}>
+							<TouchableOpacity onPress={() => deleteTodo(id)}>
 								<View style={styles.buttonContainer}>
 									 <Text style={styles.buttonText}>
 										 <DeleteIcon/>
