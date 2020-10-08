@@ -1,52 +1,79 @@
 import React, { Component, useState } from "react";
 import {
-  View, Text, StyleSheet, TextInput, LayoutAnimation, Platform,
-  UIManager, TouchableOpacity, Modal, Button, Alert, Image
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+  TouchableHighlight,
+  Dimensions,
+  Alert,
 } from "react-native";
-import Slider from '@react-native-community/slider';
-import LogModal from '../components/LogModal';
+import Slider from "@react-native-community/slider";
+import LogModal from "../components/LogModal";
 
-export default class CreateLog extends Component<{}, { value: string, expanded: boolean, modalVisible: boolean, height: any, sliderValue: any, noteText: any}>{
-  onChangeText = (text: any) => {
-    this.setState({ value: text })
+import {
+  SliderHuePicker,
+  SliderSaturationPicker,
+  SliderValuePicker,
+} from "react-native-slider-color-picker";
+
+const { width } = Dimensions.get("window");
+
+export default class CreateLog extends Component<
+  {},
+  {
+    value: string;
+    expanded: boolean;
+    modalVisible: boolean;
+    height: any;
+    sliderValue: any;
+    noteText: any;
   }
+> {
+  onChangeText = (text: any) => {
+    this.setState({ value: text });
+  };
 
   triggerModal = () => this.setState({ modalVisible: true });
 
   constructor(props: any) {
     super(props);
     this.state = {
-      value: '',
+      value: "",
       modalVisible: false,
       expanded: false,
       height: 0,
       sliderValue: 50,
-      noteText: ''
-    }
+      noteText: "",
+    };
 
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
   }
 
   perc2color(perc: any) {
-    var r, g, b = 0;
+    var r,
+      g,
+      b = 0;
     if (perc < 50) {
       r = 255;
       g = Math.round(5.1 * perc);
-    }
-    else {
+    } else {
       g = 255;
-      r = Math.round(510 - 5.10 * perc);
+      r = Math.round(510 - 5.1 * perc);
     }
     var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return '#' + ('000000' + h.toString(16)).slice(-6);
+    return "#" + ("000000" + h.toString(16)).slice(-6);
   }
 
   changeLayout = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded });
-  }
+  };
 
   render() {
     const { modalVisible } = this.state;
@@ -62,14 +89,33 @@ export default class CreateLog extends Component<{}, { value: string, expanded: 
           value={50}
           minimumValue={0}
           maximumValue={100}
-          trackImage={require('../assets/images/RYG-slider-image.png')}
+          trackImage={require("../assets/images/RYG-slider-image.png")}
           thumbTintColor="#F2E9E3"
-          onSlidingComplete={value =>{
-            console.log(this.perc2color(value), value)
-            {this.setState({sliderValue: value})}
-          }
-          }
-        />
+          onSlidingComplete={(value) => {
+            console.log(this.perc2color(value), value);
+            {
+              this.setState({ sliderValue: value });
+            }
+          }}
+        /> 
+        {/* This is for the slider which is still being worked on, theres two implementations so i'm keeping both until its resolved */}
+        {/* <View
+          style={{ backgroundColor: "#6699CC", alignItems: 'center' }}
+        >
+          <SliderHuePicker
+            //ref={view => {sliderHuePicker = view;}}
+            trackImage={require("../assets/images/RYG-slider-image.png")}
+            trackStyle={{ width: width - 96, justifyContent: "center", }}
+            thumbStyle={styles.thumb}
+            useNativeDriver={true}
+            style={{
+              height: 40,
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+            onColorChange={console.log()}
+          />
+        </View> */}
         <View style={styles.textCon}>
           <Text style={styles.textStyle}>Poor</Text>
           <Text style={styles.textStyle}>Neutral</Text>
@@ -78,24 +124,29 @@ export default class CreateLog extends Component<{}, { value: string, expanded: 
         <TextInput
           placeholder="Write note here ..."
           style={[styles.note, { height: this.state.height }]}
-          onChangeText={text => this.onChangeText(text)}
+          onChangeText={(text) => this.onChangeText(text)}
           onContentSizeChange={(event) => {
-            this.setState({ height: (event.nativeEvent.contentSize.height + 20)})
+            this.setState({
+              height: event.nativeEvent.contentSize.height + 20,
+            });
           }}
           value={this.state.value}
           placeholderTextColor="#F2E9E3"
           multiline={true}
         />
-        <View style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
           <View style={styles.buttonStyle}>
-            <Button
-              title="Save your thoughts"
-              onPress={() => Alert.alert('Save button pressed')}
-              color="#F2E9E3"
-            />
+            <TouchableHighlight
+              underlayColor="none"
+              onPress={() => Alert.alert("Save button pressed")}
+            >
+              <Text style={styles.textStylePurple}>Save thoughts</Text>
+            </TouchableHighlight>
           </View>
           <View style={styles.buttonStyle}>
             <LogModal
@@ -109,36 +160,35 @@ export default class CreateLog extends Component<{}, { value: string, expanded: 
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#6699CC",
     margin: 10,
     borderRadius: 20,
-    padding: 10
+    padding: 10,
   },
 
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
 
   textCon: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     backgroundColor: "#6699CC",
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
 
   note: {
     height: 40,
-    color: '#F2E9E3',
+    color: "#F2E9E3",
     fontSize: 20,
     marginTop: 10,
     marginBottom: 10,
@@ -146,25 +196,30 @@ const styles = StyleSheet.create({
   },
 
   todayStyle: {
-    color: '#464D77',
+    color: "#464D77",
     fontSize: 75,
-    fontWeight: 'bold',
-    fontFamily: 'HindSiliguri_700Bold',
-    marginLeft: 10
+    fontWeight: "bold",
+    fontFamily: "HindSiliguri_700Bold",
+    marginLeft: 10,
   },
 
   textStyle: {
-    color: '#F2E9E3',
+    color: "#F2E9E3",
     backgroundColor: "#6699CC",
     fontSize: 20,
   },
 
+  textStylePurple: {
+    color: "#F2E9E3",
+    fontSize: 20,
+  },
+
   questionStyle: {
-    color: '#F2E9E3',
+    color: "#F2E9E3",
     fontSize: 20,
     marginLeft: 10,
     marginRight: 10,
-    textAlign: 'center'
+    textAlign: "center",
   },
 
   modalView: {
@@ -177,11 +232,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
 
   openButton: {
@@ -195,8 +250,26 @@ const styles = StyleSheet.create({
 
   buttonStyle: {
     backgroundColor: "#464D77",
+    justifyContent: "center",
     borderRadius: 20,
-    padding: 5
-  }
+    padding: 5,
+    color: "#F2E9E3",
+    fontSize: 20,
+  },
 
+  thumb: {
+    width: 20,
+    height: 20,
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 10,
+    shadowColor: 'black',
+    shadowOffset: {
+        width: 0,
+        height: 2
+    },
+    backgroundColor: "white",
+    shadowRadius: 2,
+    shadowOpacity: 0.35,
+  },
 });

@@ -6,6 +6,8 @@ import Clock from "../components/Clock";
 import Calendar from "../components/Calendar";
 import Slider from '@react-native-community/slider';
 import CreateLog from '../components/CreateLog';
+import TodoList from '../components/TodoList';
+
 
 export default function CalendarScreen() {
 
@@ -17,6 +19,7 @@ export default function CalendarScreen() {
       <Clock/>
       <CreateLog/>
       <Calendar/>
+      <TodoList/>
     </ScrollView>
   );
 }
