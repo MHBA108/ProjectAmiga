@@ -28,18 +28,18 @@ export default class CreateLog extends Component<
     value: string;
     expanded: boolean;
     modalVisible: boolean;
-    height: any;
-    sliderValue: any;
-    noteText: any;
+    height: number;
+    sliderValue: number;
+    noteText: string;
   }
 > {
-  onChangeText = (text: any) => {
+  onChangeText = (text: string) => {
     this.setState({ value: text });
   };
 
   triggerModal = () => this.setState({ modalVisible: true });
 
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       value: "",
@@ -55,7 +55,7 @@ export default class CreateLog extends Component<
     }
   }
 
-  perc2color(perc: any) {
+  perc2color(perc: number) {
     var r,
       g,
       b = 0;

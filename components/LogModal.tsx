@@ -20,25 +20,29 @@ import {
 } from "react-native-slider-color-picker";
 
 const { width } = Dimensions.get("window");
+interface LogModalProps {
+  sliderValue: number; 
+  noteText: string 
+}
 
 export default class LogModal extends Component<
-  { sliderValue: any; noteText: any },
+  LogModalProps,
   {
-    value: any;
+    value: string;
     expanded: boolean;
     modalVisible: boolean;
-    height: any;
+    height: number;
     selected: boolean;
   }
 > {
-  onChangeText = (text: any) => {
+  onChangeText = (text: string) => {
     this.setState({ value: text });
   };
 
-  constructor(props: any) {
+  constructor(props: LogModalProps) {
     super(props);
     this.state = {
-      value: undefined,
+      value: '',
       modalVisible: false,
       expanded: false,
       height: 0,
@@ -46,7 +50,7 @@ export default class LogModal extends Component<
     };
   }
 
-  perc2color(perc: any) {
+  perc2color(perc: number) {
     var r,
       g,
       b = 0;
@@ -146,8 +150,8 @@ export default class LogModal extends Component<
               <View style={styles.moodContainer}>
                 <SelectableChips
                   initialChips={[
-                    "positive",
                     "excited",
+                    "positive",
                     "energetic",
                     "happy",
                     "stressed",
