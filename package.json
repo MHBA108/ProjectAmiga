@@ -52,6 +52,7 @@
     "@types/react-native": "~0.63.2",
     "babel-preset-expo": "^8.3.0",
     "jest-expo": "^39.0.0",
+    "prettier": "^2.1.2",
     "typescript": "~3.9.2"
   },
   "private": true

@@ -97,7 +97,7 @@ export default class CreateLog extends Component<
               this.setState({ sliderValue: value });
             }
           }}
-        /> 
+        />
         {/* This is for the slider which is still being worked on, theres two implementations so i'm keeping both until its resolved */}
         {/* <View
           style={{ backgroundColor: "#6699CC", alignItems: 'center' }}
@@ -260,13 +260,13 @@ const styles = StyleSheet.create({
   thumb: {
     width: 20,
     height: 20,
-    borderColor: 'white',
+    borderColor: "white",
     borderWidth: 1,
     borderRadius: 10,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2,
     },
     backgroundColor: "white",
     shadowRadius: 2,
