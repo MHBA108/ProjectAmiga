@@ -1,16 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { StyleSheet} from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import CalendarScreen from '../screens/CalendarScreen';
-import EditScreen from '../screens/EditScreen';
+import HomeScreen from '../screens/HomeScreen';
 import StatsScreen from '../screens/StatsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import { BottomTabParamList, CalendarParamList, EditParamList, StatsParamList, SettingsParamList } from '../types';
+import ResourcesScreen from '../screens/ResourcesScreen';
+import MoreScreen from '../screens/MoreScreen';
+import { BottomTabParamList, HomeParamList, StatsParamList, ResourcesParamList, MoreParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -19,34 +20,34 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Calendar"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      initialRouteName="Home"
+      tabBarOptions={{ activeTintColor: '#FFFFFF', inactiveTintColor: '#464D77',tabStyle: styles.tabBar}}>
       <BottomTab.Screen
-        name="Calendar"
-        component={CalendarNavigator}
+        name="Home"
+        component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="calendar" size={24} color={color} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Edit"
-        component={EditNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <Feather name="edit" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Feather name="home" size={24} color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Stats"
         component={StatsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="bar-chart" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="trending-up" size={24} color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="Settings"
-        component={SettingsNavigator}
+        name="Resources"
+        component={ResourcesNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="settings" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="lightbulb-on" size={24} color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="More"
+        component={MoreNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="dots-horizontal" size={24} color={color} />,
         }}
       />
     </BottomTab.Navigator >
@@ -61,29 +62,16 @@ function TabBarIcon(props: { name: string; color: string }) {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const CalendarStack = createStackNavigator<CalendarParamList>();
+const HomeStack = createStackNavigator<HomeParamList>();
 
-function CalendarNavigator() {
+function HomeNavigator() {
   return (
-    <CalendarStack.Navigator screenOptions={{ headerShown: false }}>
-      <CalendarStack.Screen
-        name="CalendarScreen"
-        component={CalendarScreen}
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
       />
-    </CalendarStack.Navigator>
-  );
-}
-
-const EditStack = createStackNavigator<EditParamList>();
-
-function EditNavigator() {
-  return (
-    <EditStack.Navigator screenOptions={{ headerShown: false }}>
-      <EditStack.Screen
-        name="EditScreen"
-        component={EditScreen}
-      />
-    </EditStack.Navigator>
+    </HomeStack.Navigator>
   );
 }
 
@@ -95,22 +83,39 @@ function StatsNavigator() {
       <StatsStack.Screen
         name="StatsScreen"
         component={StatsScreen}
-        options={{ headerTitle: 'Tab Three Title' }}
       />
     </StatsStack.Navigator>
   );
 }
 
-const SettingsStack = createStackNavigator<SettingsParamList>();
+const ResourcesStack = createStackNavigator<ResourcesParamList>();
 
-function SettingsNavigator() {
+function ResourcesNavigator() {
   return (
-    <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
-      <SettingsStack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{ headerTitle: 'Tab Four Title' }}
+    <ResourcesStack.Navigator screenOptions={{ headerShown: false }}>
+      <ResourcesStack.Screen
+        name="ResourcesScreen"
+        component={ResourcesScreen}
       />
-    </SettingsStack.Navigator>
+    </ResourcesStack.Navigator>
   );
 }
+
+const MoreStack = createStackNavigator<MoreParamList>();
+
+function MoreNavigator() {
+  return (
+    <MoreStack.Navigator screenOptions={{ headerShown: false }}>
+      <MoreStack.Screen
+        name="MoreScreen"
+        component={MoreScreen}
+      />
+    </MoreStack.Navigator>
+  );
+}
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: '#6699CC',
+  }
+});

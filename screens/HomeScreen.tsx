@@ -9,11 +9,12 @@ import CreateLog from '../components/CreateLog';
 import TodoList from '../components/TodoList';
 
 
-export default function CalendarScreen() {
+export default function HomeScreen() {
 
   const [value, onChangeText] = React.useState('Write note here ...');
 
   return (
+    <View style={styles.container}>
     <ScrollView>
       <Text style={styles.todayStyle}>Welcome</Text>
       <Clock/>
@@ -21,6 +22,7 @@ export default function CalendarScreen() {
       <Calendar/>
       <TodoList/>
     </ScrollView>
+    </View>
   );
 }
 
@@ -29,6 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#F2E9E3'
   },
   title: {
     fontSize: 20,
