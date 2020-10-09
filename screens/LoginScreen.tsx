@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform, Image } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import { AuthContext } from "../navigation/context"
 
@@ -27,10 +27,12 @@ export default function LoginScreen() {
 
   // added temporary login for IOS button
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>AMIGA</Text>
+   <View style={styles.container}>
+      <Image style={styles.logo} source={require('../assets/images/splash.png')}/>
       <TouchableOpacity style={styles.loginBtn} onPress={signInWithGoogle}>
-        <Text style={styles.loginText} >LOGIN WITH GOOGLE</Text>
+          <Text style={styles.loginText} >
+                  <Image style={styles.google} source={require('../assets/images/googleIcon.png')} />
+                  {"    "}LOGIN WITH GOOGLE</Text>
       </TouchableOpacity>
     </View>
   );
@@ -40,15 +42,17 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#464D77',
+    backgroundColor: '#6699CC',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+   },
+   google: {
+        width: 13,
+        height: 13
+    },
   logo: {
-    fontWeight: "bold",
-    fontSize: 50,
-    color: "#F9A2A2",
-    marginBottom: 40
+    width: 400,
+    height: 400
   },
   inputView: {
     width: "80%",
@@ -69,15 +73,14 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     width: "80%",
-    backgroundColor: "#F9A2A2",
+    backgroundColor: "white",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 10
+    marginBottom: 50
   },
   loginText: {
-    color: "white"
+  color: "#6699CC"
   }
 });
