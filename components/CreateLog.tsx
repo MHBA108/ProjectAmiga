@@ -11,26 +11,26 @@ import {
   Dimensions,
   Alert,
 } from "react-native";
-import Slider from "@react-native-community/slider";
+
 import LogModal from "../components/LogModal";
+import Slider from "react-native-slider";
+import { LinearGradient } from "expo-linear-gradient";
 
-import {
-  SliderHuePicker,
-  SliderSaturationPicker,
-  SliderValuePicker,
-} from "react-native-slider-color-picker";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const { width } = Dimensions.get("window");
+interface CreateLogProps {
+  sliderValue: number;
+  noteText: string;
+}
 
 export default class CreateLog extends Component<
-  {},
+  CreateLogProps,
   {
     value: string;
     expanded: boolean;
     modalVisible: boolean;
     height: number;
     sliderValue: number;
-    noteText: string;
   }
 > {
   onChangeText = (text: string) => {
@@ -39,7 +39,7 @@ export default class CreateLog extends Component<
 
   triggerModal = () => this.setState({ modalVisible: true });
 
-  constructor(props: {}) {
+  constructor(props: CreateLogProps) {
     super(props);
     this.state = {
       value: "",
@@ -47,12 +47,7 @@ export default class CreateLog extends Component<
       expanded: false,
       height: 0,
       sliderValue: 50,
-      noteText: "",
     };
-
-    if (Platform.OS === "android") {
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
   }
 
   perc2color(perc: number) {
@@ -80,46 +75,42 @@ export default class CreateLog extends Component<
     return (
       <View style={styles.container}>
         <Text style={styles.questionStyle}>How are you feeling today?</Text>
-        <Slider
-          style={{
-            height: 40,
-            marginLeft: 30,
-            marginRight: 30,
-          }}
-          value={50}
-          minimumValue={0}
-          maximumValue={100}
-          trackImage={require("../assets/images/RYG-slider-image.png")}
-          thumbTintColor="#F2E9E3"
-          onSlidingComplete={(value) => {
-            console.log(this.perc2color(value), value);
-            {
-              this.setState({ sliderValue: value });
-            }
-          }}
-        />
-        {/* This is for the slider which is still being worked on, theres two implementations so i'm keeping both until its resolved */}
-        {/* <View
-          style={{ backgroundColor: "#6699CC", alignItems: 'center' }}
-        >
-          <SliderHuePicker
-            //ref={view => {sliderHuePicker = view;}}
-            trackImage={require("../assets/images/RYG-slider-image.png")}
-            trackStyle={{ width: width - 96, justifyContent: "center", }}
-            thumbStyle={styles.thumb}
-            useNativeDriver={true}
+        <View style={{ borderRadius: 50, overflow: "hidden" }}>
+          <View
             style={{
-              height: 40,
-              marginLeft: 10,
-              marginRight: 10,
+              flexDirection: "row",
+              position: "absolute",
             }}
-            onColorChange={console.log()}
+          >
+            <View style={styles.sliderDummy}>
+              <LinearGradient
+                start={[0, 1]}
+                end={[1, 0]}
+                colors={["#ff0000", "#ffff00", "#00ff00"]}
+                style={styles.linearGradient}
+              ></LinearGradient>
+            </View>
+          </View>
+          <Slider
+            style={{ height: 20, borderRadius: 50 }}
+            thumbStyle={styles.thumb}
+            value={50}
+            minimumValue={0}
+            maximumValue={100}
+            onSlidingComplete={(value: number) => {
+              console.log(this.perc2color(value), value);
+              {
+                this.setState({ sliderValue: value });
+              }
+            }}
+            maximumTrackTintColor="transparent"
+            minimumTrackTintColor="transparent"
           />
-        </View> */}
+        </View>
         <View style={styles.textCon}>
-          <Text style={styles.textStyle}>Poor</Text>
-          <Text style={styles.textStyle}>Neutral</Text>
-          <Text style={styles.textStyle}>Good</Text>
+          <Text style={styles.textStyle}>Terrible</Text>
+          <Text style={styles.textStyle}>Okay</Text>
+          <Text style={styles.textStyle}>Great</Text>
         </View>
         <TextInput
           placeholder="Write note here ..."
@@ -145,7 +136,18 @@ export default class CreateLog extends Component<
               underlayColor="none"
               onPress={() => Alert.alert("Save button pressed")}
             >
-              <Text style={styles.textStylePurple}>Save thoughts</Text>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  alignItems: "stretch",
+                  alignSelf: "stretch",
+                }}
+              >
+                <MaterialIcons name="save" size={24} color="#F2E9E3" />
+                <Text style={styles.textStylePurple}> Save entry</Text>
+              </View>
             </TouchableHighlight>
           </View>
           <View style={styles.buttonStyle}>
@@ -162,12 +164,42 @@ export default class CreateLog extends Component<
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#6699CC",
-    margin: 10,
-    borderRadius: 20,
+    backgroundColor: "#464D77",
+    borderRadius: 10,
     padding: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 7,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
-
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginTop: 6,
+    marginVertical: 16,
+  },
+  sliderDummy: {
+    backgroundColor: "transparent",
+    width: 400,
+    height: 30,
+    position: "absolute",
+  },
+  thumb: {
+    width: 16,
+    height: 16,
+    borderRadius: 15,
+    backgroundColor: "#464D77",
+    borderColor: "white",
+    borderWidth: 1,
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",
@@ -177,15 +209,14 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
-
   textCon: {
+    marginTop: 5,
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#6699CC",
+    backgroundColor: "#464D77",
     marginLeft: 10,
     marginRight: 10,
   },
-
   note: {
     height: 40,
     color: "#F2E9E3",
@@ -194,7 +225,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
   },
-
   todayStyle: {
     color: "#464D77",
     fontSize: 75,
@@ -202,26 +232,22 @@ const styles = StyleSheet.create({
     fontFamily: "HindSiliguri_700Bold",
     marginLeft: 10,
   },
-
   textStyle: {
     color: "#F2E9E3",
-    backgroundColor: "#6699CC",
-    fontSize: 20,
+    fontSize: 16,
   },
-
   textStylePurple: {
     color: "#F2E9E3",
     fontSize: 20,
   },
-
   questionStyle: {
+    marginBottom: 10,
     color: "#F2E9E3",
     fontSize: 20,
     marginLeft: 10,
     marginRight: 10,
     textAlign: "center",
   },
-
   modalView: {
     margin: 20,
     marginTop: 40,
@@ -238,7 +264,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-
   openButton: {
     backgroundColor: "#6699CC",
     borderRadius: 20,
@@ -247,29 +272,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-
   buttonStyle: {
-    backgroundColor: "#464D77",
+    backgroundColor: "#6699CC",
     justifyContent: "center",
     borderRadius: 20,
     padding: 5,
     color: "#F2E9E3",
     fontSize: 20,
-  },
-
-  thumb: {
-    width: 20,
-    height: 20,
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 10,
-    shadowColor: "black",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    backgroundColor: "white",
-    shadowRadius: 2,
-    shadowOpacity: 0.35,
   },
 });

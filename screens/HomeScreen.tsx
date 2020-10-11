@@ -14,9 +14,9 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text style={styles.todayStyle}>Welcome</Text>
+        <Text style={styles.todayStyle}>Welcome user_name!</Text>
         <Clock />
-        <CreateLog />
+        <CreateLog sliderValue={50} noteText="" />
         <Calendar />
         <TodoList />
       </ScrollView>
@@ -58,10 +58,11 @@ const styles = StyleSheet.create({
 
   todayStyle: {
     color: "#464D77",
-    fontSize: 75,
+    fontSize: 34,
     fontWeight: "bold",
     fontFamily: "HindSiliguri_700Bold",
     marginLeft: 10,
+    marginTop: 20,
   },
 
   textStyle: {

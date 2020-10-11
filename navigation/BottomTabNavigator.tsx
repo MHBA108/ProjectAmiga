@@ -28,6 +28,9 @@ export default function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
+        labelStyle: {
+          fontSize: 12,
+        },
         activeTintColor: "#FFFFFF",
         inactiveTintColor: "#464D77",
         tabStyle: styles.tabBar,

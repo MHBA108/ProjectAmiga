@@ -9,14 +9,14 @@ const styles = StyleSheet.create({
   },
   timeText: {
     color: "#464D77",
-    fontSize: 50,
+    fontSize: 24,
     fontFamily: "HindSiliguri_400Regular",
     marginLeft: 10,
   },
 
   dateText: {
     color: "#464D77",
-    fontSize: 30,
+    fontSize: 24,
     fontFamily: "HindSiliguri_400Regular",
     marginLeft: 10,
   },

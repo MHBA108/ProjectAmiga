@@ -4,22 +4,18 @@ import {
   View,
   Button,
   ScrollView,
-  Modal,
   StyleSheet,
   TextInput,
   TouchableHighlight,
   Dimensions,
 } from "react-native";
-import Slider from "@react-native-community/slider";
+import Slider from "react-native-slider";
+import Modal from "react-native-modal";
+import { LinearGradient } from "expo-linear-gradient";
 import SelectableChips from "react-native-chip/SelectableChips";
 
-import {
-  SliderHuePicker,
-  SliderSaturationPicker,
-  SliderValuePicker,
-} from "react-native-slider-color-picker";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const { width } = Dimensions.get("window");
 interface LogModalProps {
   sliderValue: number;
   noteText: string;
@@ -79,51 +75,56 @@ export default class LogModal extends Component<
     return (
       <View style={styles.container}>
         <Modal
-          visible={this.state.modalVisible}
-          animationType={"slide"}
-          onRequestClose={() => this.closeModal()}
+          hasBackdrop={true}
+          isVisible={this.state.modalVisible}
+          backdropColor="#464D77"
+          backdropOpacity={0.5}
+          animationIn="zoomInDown"
+          animationOut="zoomOutDown"
+          animationInTiming={300}
+          animationOutTiming={300}
+          backdropTransitionInTiming={300}
+          backdropTransitionOutTiming={300}
         >
           <View style={styles.modalContainer}>
             <ScrollView style={styles.innerContainer}>
+              //TO-DO future implementation here for a username input.
               <Text style={styles.questionStyle}>
-                How are you feeling today, Alex?
+                How are you feeling today?
               </Text>
-              <Slider
-                style={{
-                  height: 40,
-                  margin: 20,
-                  marginBottom: 10,
-                }}
-                value={this.props.sliderValue}
-                minimumValue={0}
-                maximumValue={100}
-                trackImage={require("../assets/images/RYG-slider-image.png")}
-                thumbTintColor="#F2E9E3"
-                onSlidingComplete={(value) =>
-                  console.log(this.perc2color(value))
-                }
-              />
-              {/* <View
-                style={{ backgroundColor: "#464D77", alignItems: "center" }}
-              >
-                <SliderHuePicker
-                  //ref={view => {sliderHuePicker = view;}}
-
-                  trackImage={require("../assets/images/RYG-slider-image.png")}
-                  trackStyle={{ width: width - 108, justifyContent: "center" }}
-                  thumbStyle={styles.thumb}
-                  useNativeDriver={true}
+              <View style={{ borderRadius: 50, overflow: "hidden" }}>
+                <View
                   style={{
-                    height: 40,
-                    marginLeft: 10,
-                    marginRight: 10,
+                    flexDirection: "row",
+                    position: "absolute",
                   }}
+                >
+                  <View style={styles.sliderDummy}>
+                    <LinearGradient
+                      start={[0, 1]}
+                      end={[1, 0]}
+                      colors={["#ff0000", "#ffff00", "#00ff00"]}
+                      style={styles.linearGradient}
+                    ></LinearGradient>
+                  </View>
+                </View>
+                <Slider
+                  style={{ height: 20, borderRadius: 50 }}
+                  thumbStyle={styles.thumb}
+                  value={this.props.sliderValue}
+                  minimumValue={0}
+                  maximumValue={100}
+                  onSlidingComplete={(value: number) =>
+                    console.log(this.perc2color(value))
+                  }
+                  maximumTrackTintColor="transparent"
+                  minimumTrackTintColor="transparent"
                 />
-              </View> */}
+              </View>
               <View style={styles.textCon}>
-                <Text style={styles.textStyle}>Poor</Text>
-                <Text style={styles.textStyle}>Neutral</Text>
-                <Text style={styles.textStyle}>Good</Text>
+                <Text style={styles.textStyle}>Terrible</Text>
+                <Text style={styles.textStyle}>Okay</Text>
+                <Text style={styles.textStyle}>Great</Text>
               </View>
               <TextInput
                 // placeholder="Write note here ..."
@@ -167,7 +168,7 @@ export default class LogModal extends Component<
                     "negative",
                     "mad",
                   ]}
-                  onChangeChips={(chips) => console.log(chips)}
+                  onChangeChips={(chips: SelectableChips) => console.log(chips)}
                   alertRequired={false}
                   chipStyleSelected={styles.chipSelectedStyle}
                   chipStyle={styles.chipStyle}
@@ -216,7 +217,20 @@ export default class LogModal extends Component<
             onPress={() => this.openModal()}
             underlayColor="none"
           >
-            <Text style={styles.buttonStyle}>Add more thoughts</Text>
+            <View
+              style={{
+                flex: 2,
+                justifyContent: "center",
+                flexDirection: "row",
+                alignItems: "stretch",
+                alignSelf: "stretch",
+              }}
+            >
+              <View style={styles.buttonStyle}>
+                <MaterialIcons name="add-circle" size={24} color="#F2E9E3" />
+              </View>
+              <Text style={styles.buttonStyle}>Add more</Text>
+            </View>
           </TouchableHighlight>
         </View>
       </View>
@@ -228,36 +242,56 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
   modalContainer: {
-    margin: 20,
+    margin: -10,
     marginTop: 50,
     flex: 1,
     backgroundColor: "#464D77",
     borderRadius: 20,
     padding: 10,
-    shadowColor: "#000",
+    shadowColor: "#464D77",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.8,
+    shadowRadius: 7,
     elevation: 5,
   },
-
-  innerContainer: {
-    // marginTop: 50,
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    //borderRadius: 5,
+    marginTop: 6,
+    marginVertical: 16,
   },
-
+  sliderDummy: {
+    backgroundColor: "transparent",
+    width: 400,
+    height: 30,
+    borderRadius: 50,
+    position: "absolute",
+  },
+  thumb: {
+    width: 16,
+    height: 16,
+    borderRadius: 15,
+    backgroundColor: "#464D77",
+    borderColor: "white",
+    borderWidth: 1,
+  },
+  innerContainer: {
+    marginTop: 10,
+  },
   textCon: {
+    marginTop: 5,
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: "#464D77",
     marginLeft: 10,
     marginRight: 10,
   },
-
   buttonStyle: {
     justifyContent: "center",
     borderRadius: 20,
@@ -265,7 +299,6 @@ const styles = StyleSheet.create({
     color: "#F2E9E3",
     fontSize: 20,
   },
-
   note: {
     height: 40,
     color: "#F2E9E3",
@@ -276,33 +309,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#4F5D85",
     borderRadius: 20,
   },
-
   textStyle: {
     color: "#F2E9E3",
     backgroundColor: "#464D77",
-    fontSize: 20,
+    fontSize: 16,
   },
-
   saveTextStyle: {
     color: "#464D77",
     fontSize: 20,
     borderRadius: 10,
     padding: 10,
   },
-
   questionStyle: {
+    marginBottom: 10,
     color: "#F2E9E3",
-    fontSize: 30,
+    fontSize: 20,
     marginLeft: 10,
     marginRight: 10,
     textAlign: "center",
   },
-
   moodContainer: {
     backgroundColor: "#4F5D85",
     borderRadius: 20,
   },
-
   saveButton: {
     backgroundColor: "#F9A2A2",
     borderRadius: 20,
@@ -325,20 +354,5 @@ const styles = StyleSheet.create({
   chipStyle: {
     backgroundColor: "#6699CC",
     borderColor: "#6699CC",
-  },
-  thumb: {
-    width: 20,
-    height: 20,
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 10,
-    shadowColor: "black",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    backgroundColor: "white",
-    shadowRadius: 2,
-    shadowOpacity: 0.35,
   },
 });
