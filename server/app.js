@@ -1,12 +1,12 @@
 const createError = require("http-errors");
 const express = require("express");
 const logger = require("morgan");
-const connectDB = require('./db')
+const connectDB = require("./db");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
-connectDB()
+connectDB();
 const app = express();
 
 app.use(logger("dev"));
