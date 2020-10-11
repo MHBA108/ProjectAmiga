@@ -88,7 +88,7 @@ export default class LogModal extends Component<
         >
           <View style={styles.modalContainer}>
             <ScrollView style={styles.innerContainer}>
-              //TO-DO future implementation here for a username input.
+              {/* TODO future implementation here for a username input. */}
               <Text style={styles.questionStyle}>
                 How are you feeling today?
               </Text>
