@@ -1,5 +1,12 @@
 import * as React from "react";
-import { StyleSheet, SafeAreaView, ScrollView, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Dimensions,
+  TouchableHighlight,
+  Alert,
+} from "react-native";
 import { Avatar } from "react-native-elements";
 
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -48,6 +55,55 @@ export default function StatsScreen() {
               <Text style={{ color: "#464D77" }}> Longest Log Streak: 23</Text>
             </View>
           </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: windowWidth * 0.95,
+              backgroundColor: "#464D77",
+              paddingHorizontal: 15,
+              paddingVertical: 10,
+              margin: 10,
+              borderRadius: 10,
+            }}
+          >
+            <View style={{ backgroundColor: "#464D77" }}>
+              <Text
+                style={{
+                  color: "white",
+                  backgroundColor: "#464D77",
+                  fontSize: 25,
+                }}
+              >
+                Mood Chart
+              </Text>
+            </View>
+            <View
+              style={{ flexDirection: "row", borderRadius: 10, padding: 3 }}
+            >
+              <TouchableHighlight
+                underlayColor="none"
+                onPress={() => Alert.alert("Week pressed")}
+                style={styles.graphRangeStyle}
+              >
+                <Text style={{ color: "white" }}>W</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                underlayColor="none"
+                onPress={() => Alert.alert("Month pressed")}
+                style={styles.graphRangeStyle}
+              >
+                <Text style={{ color: "white" }}>M</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                underlayColor="none"
+                onPress={() => Alert.alert("Year pressed")}
+                style={styles.graphRangeStyle}
+              >
+                <Text style={{ color: "white" }}>Y</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
         </SafeAreaView>
       </View>
     </ScrollView>
@@ -65,5 +121,13 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.45,
     borderRadius: 10,
     padding: 10,
+  },
+
+  graphRangeStyle: {
+    marginHorizontal: 2,
+    paddingHorizontal: 7,
+    paddingVertical: 5,
+    borderRadius: 10,
+    backgroundColor: "#464D77",
   },
 });
