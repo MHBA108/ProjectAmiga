@@ -4,7 +4,6 @@ import moment from "moment";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
   },
   timeText: {
     color: "#464D77",

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, ScrollView, TextInput } from "react-native";
+import { StyleSheet, ScrollView, SafeAreaView} from "react-native";
 
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
@@ -12,15 +12,15 @@ export default function HomeScreen() {
   const [value, onChangeText] = React.useState("Write note here ...");
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Text style={styles.todayStyle}>Welcome user_name!</Text>
-        <Clock showDate={true} showTime={true}/>
-        <CreateLog sliderValue={50} noteText="" />
-        <Calendar />
-        <TodoList />
-      </ScrollView>
-    </View>
+      <SafeAreaView style={styles.container} >
+        <ScrollView>
+          <Text style={styles.todayStyle}>Welcome user_name!</Text>
+          <Clock showDate={true} showTime={true} />
+          <CreateLog sliderValue={50} noteText="" />
+          <Calendar />
+          <TodoList />
+        </ScrollView>
+      </SafeAreaView>
   );
 }
 
@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "HindSiliguri_700Bold",
     marginLeft: 10,
-    marginTop: 20,
   },
 
   textStyle: {
