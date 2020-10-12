@@ -15,7 +15,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.todayStyle}>Welcome user_name!</Text>
-        <Clock />
+        <Clock showDate={true} showTime={true}/>
         <CreateLog sliderValue={50} noteText="" />
         <Calendar />
         <TodoList />
