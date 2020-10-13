@@ -1,17 +1,18 @@
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
-  NavigationContainer,
-  DefaultTheme,
   DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
-
-import { AuthContext } from "./context";
+import CloseContactsScreen from "../screens/CloseContactsScreen";
+import FeedScreen from "../screens/FeedScreen";
 import LoginScreen from "../screens/LoginScreen";
-import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
+import { AuthContext } from "./context";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -56,15 +57,23 @@ function RootNavigator({ isSignedIn }: { isSignedIn: boolean }) {
       </RootStack.Navigator>
     );
   } else {
-    return (
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        <RootStack.Screen name="Root" component={BottomTabNavigator} />
-        <RootStack.Screen
-          name="NotFound"
-          component={NotFoundScreen}
-          options={{ title: "Oops!" }}
-        />
-      </RootStack.Navigator>
-    );
+    return <HamburgerDrawer />;
   }
+}
+
+const Drawer = createDrawerNavigator();
+
+function HamburgerDrawer() {
+  return (
+    <Drawer.Navigator
+      drawerStyle={{
+        backgroundColor: "#c6cbef",
+        width: 240,
+      }}
+    >
+      <Drawer.Screen name="Home" component={BottomTabNavigator} />
+      <Drawer.Screen name="Feed" component={FeedScreen} />
+      <Drawer.Screen name="Close Contacts" component={CloseContactsScreen} />
+    </Drawer.Navigator>
+  );
 }

@@ -19,12 +19,20 @@ import {
   MoreParamList,
 } from "../types";
 
+import { createAppContainer } from 'react-navigation';
+import CloseContactsScreen from '../screens/CloseContactsScreen';
+import FeedScreen from '../screens/FeedScreen';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
-  return (
+      return (
+
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{

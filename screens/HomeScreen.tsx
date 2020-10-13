@@ -7,22 +7,28 @@ import Calendar from "../components/Calendar";
 import Slider from "@react-native-community/slider";
 import CreateLog from "../components/CreateLog";
 import TodoList from "../components/TodoList";
+import MyHeader from '../components/MyHeader'
 
-export default function HomeScreen() {
-  const [value, onChangeText] = React.useState("Write note here ...");
 
-  return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Text style={styles.todayStyle}>Welcome user_name!</Text>
-        <Clock />
-        <CreateLog sliderValue={50} noteText="" />
-        <Calendar />
-        <TodoList />
-      </ScrollView>
-    </View>
-  );
+
+const HomeScreen = (props: { navigation: any; }) => {
+    const [value, onChangeText] = React.useState("Write note here ...");
+    return (
+        <View style={styles.container}>
+            <MyHeader navigation={props.navigation}/>
+            <ScrollView>
+                <Text style={styles.todayStyle}>Welcome user_name!</Text>
+                <Clock />
+                <CreateLog sliderValue={50} noteText="" />
+                <Calendar />
+                <TodoList />
+            </ScrollView>
+        </View>
+    )
 }
+
+export default HomeScreen
+
 
 const styles = StyleSheet.create({
   container: {
@@ -62,7 +68,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "HindSiliguri_700Bold",
     marginLeft: 10,
-    marginTop: 20,
   },
 
   textStyle: {
