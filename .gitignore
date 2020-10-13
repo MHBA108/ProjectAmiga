@@ -112,3 +112,5 @@ dist
 
 # Don't worry about it
 .idea/
+
+.vs/

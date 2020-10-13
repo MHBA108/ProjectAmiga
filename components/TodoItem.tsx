@@ -3,9 +3,7 @@ import { StyleSheet,TouchableOpacity, Dimensions } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { View, Text } from './Themed';
 import PropTypes from 'prop-types';
-import PencilIcon from './icons/PencilIcon';
-import CheckIcon from './icons/CheckIcon';
-import DeleteIcon from './icons/DeleteIcon';
+import CustomIcon from './icons/CustomIcon';
 import {
 	useFonts,
 	HindSiliguri_700Bold,
@@ -80,83 +78,81 @@ class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTo
 
     render() {
 	    const {isEditing, todoValue} = this.state;
-	    const {textValue, id, deleteTodo, isCompleted} = this.props;
-         return(
-              <View style={styles.container}>
-				<View style={styles.rowContainer}>
-				<TouchableOpacity onPress={this.toggleItem}>
-						 <View style={[(styles.circle, isCompleted ? styles.completeCircle : styles.incompleteCircle)]}>
-							{/* <Text style={styles.buttonText}> */}
-								<CheckIcon/>
-						 </View>
-				</TouchableOpacity>
-					{ isEditing ? (
-						    <TextInput
-								value={todoValue}
-								style={[
-									styles.text,
-									styles.input,
-									isCompleted ? styles.strikeText : styles.unstrikeText
-								]}
-								multiline={true}
-								onChangeText={this.controlInput}
-								returnKeyType={'done'}
-								onBlur={this.finishEditing}
-							/>
-					) : (
-                   			<Text style={[styles.text, isCompleted ? styles.strikeText : styles.unstrikeText]}>{textValue}</Text>
-					)
-					}
-				</View>
-				{isEditing ? (
-						<View style={styles.buttons}>
-						    <TouchableOpacity onPress={this.finishEditing}>
-							    <View style={styles.buttonContainer}>
-								 <Text style={styles.buttonText}>
-									 <CheckIcon/>
-								 </Text>
-							    </View>
-						    </TouchableOpacity>
-					    </View>
-				    ) : (
-						<View style={styles.buttons}>
-							<TouchableOpacity onPress={this.startEditing}>
-								<View style={styles.buttonContainer}>
-									 <Text style={styles.buttonText}>
-									 	<PencilIcon/>
-									 </Text>
-								</View>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => deleteTodo(id)}>
-								<View style={styles.buttonContainer}>
-									 <Text style={styles.buttonText}>
-										 <DeleteIcon/>
-									 </Text>
-								</View>
-							</TouchableOpacity>
-						</View>
-				    )}
+      const {textValue, id, deleteTodo, isCompleted} = this.props;
+      return(
+      <View style={styles.container}>
+        <View style={styles.rowContainer}>
+          <TouchableOpacity onPress={this.toggleItem}>
+            <View style={[(styles.circle, isCompleted ? styles.completeCircle : styles.incompleteCircle)]}>
+              {/* <Text style={styles.buttonText}> */}
+              <CheckIcon/>
+            </View>
+          </TouchableOpacity>
+          { isEditing ? (
+            <TextInput
+              value={todoValue}
+              style={[
+                styles.text,
+                styles.input,
+                isCompleted ? styles.strikeText : styles.unstrikeText
+              ]}
+              multiline={true}
+              onChangeText={this.controlInput}
+              returnKeyType={'done'}
+              onBlur={this.finishEditing}
+              />
+          ) : (
+            <Text style={[styles.text, isCompleted ? styles.strikeText : styles.unstrikeText]}>{textValue}</Text>
+          )}
+        </View>
+        {isEditing ? (
+          <View style={styles.buttons}>
+            <TouchableOpacity onPress={this.finishEditing}>
+              <View style={styles.buttonContainer}>
+                <Text style={styles.buttonText}>
+                <CustomIcon iconPath={'../../assets/images/2x/round_done_blue_18dp.png'}/>
+                </Text>
               </View>
-         )
-    }
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.buttons}>
+            <TouchableOpacity onPress={this.startEditing}>
+              <View style={styles.buttonContainer}>
+                <Text style={styles.buttonText}>
+                  <CustomIcon iconPath={'../../assets/images/2x/round_create_blue_18dp.png'}/>
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => deleteTodo(id)}>
+              <View style={styles.buttonContainer}>
+                <Text style={styles.buttonText}>
+                  <CustomIcon iconPath={'../../assets/images/2x/round_delete_blue_18dp.png'}/>
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    )
+  }
 };
  
 const styles = StyleSheet.create({
-    container: {
-         	width: width - 50,
-         	flexDirection: 'row',
-	    	alignItems: 'center',
+  container: {
+    width: width - 50,
+    flexDirection: 'row',
+	  alignItems: 'center',
 		justifyContent: 'space-between',
-	   	borderRadius: 10,
+	  borderRadius: 10,
 		backgroundColor: '#4986c2',
-	   	marginLeft: 10,
-	    	marginRight: 10,
+	  marginLeft: 10,
+	  marginRight: 10,
 		marginBottom: 10,
 		fontFamily: 'HindSiliguri_400Regular',
 		color: '#f2e9e3',
-
-    },
-    rowContainer: {
+  },
+  rowContainer: {
 		backgroundColor: '#4986c2',
 		flexDirection: 'row',
 		borderTopLeftRadius: 10,
@@ -165,72 +161,71 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		color: '#f2e9e3',
-    },
-    buttons: {
+  },
+  buttons: {
 		backgroundColor: '#4986c2',
 		flexDirection: 'row',
 		borderTopRightRadius: 10,
 		borderBottomRightRadius: 10,
-    },
-    buttonContainer: {
+  },
+  buttonContainer: {
 		backgroundColor: '#4986c2',
 		borderTopRightRadius: 10,
 		borderBottomRightRadius: 10,
 		marginVertical: 10,
 		marginHorizontal: 10,
 		textAlign: 'center',
-    },
-    buttonText: {
+  },
+  buttonText: {
 		borderTopRightRadius: 10,
 		paddingBottom: 15,
 		borderBottomRightRadius: 10,
 		marginBottom: 1,
 		alignContent: 'center',
-    },
-    text: {
-     	fontWeight: '500',
+  },
+  text: {
+   	fontWeight: '500',
 		fontSize: 18,
 		marginVertical: 20,
 		color: '#f2e9e3',
-    },
-    circle: {
+  },
+  circle: {
 		width: 32,
 		backgroundColor: '#6699cc',
-     	height: 32,
-     	borderRadius: 5,
+   	height: 32,
+   	borderRadius: 5,
 		borderWidth: 3,
 		marginRight: 20,
-		marginLeft:10,
-		    
-    },
-    completeCircle: {
+		marginLeft:10,    
+  },
+  completeCircle: {
 		borderColor: '#8cb2d9',
 		backgroundColor: '#4986c2',
 		borderRadius: 5,
 		marginVertical: 10,
 		marginHorizontal: 10,
 		textAlign: 'center',
-    },
-    incompleteCircle: {
+  },
+  incompleteCircle: {
 		borderColor: '#6699cc',
 		backgroundColor: '#6699cc',
 		borderRadius: 5,
 		marginVertical: 10,
 		marginHorizontal: 10,
 		textAlign: 'center',
-    },
-    strikeText: {
-        	color:'#6699cc',
+  },
+  strikeText: {
+    color:'#6699cc',
 		textDecorationLine: 'line-through',
-    },
-    unstrikeText: {
+  },
+  unstrikeText: {
 		color: '#f2e9e3',
-    },
-    input: {
+  },
+  input: {
 		marginVertical: 15,
 		width: width / 2,
 		paddingBottom: 5,
-    },
+  },
 });
  
 export default TodoItem;

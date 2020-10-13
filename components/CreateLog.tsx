@@ -1,109 +1,154 @@
 import React, { Component, useState } from "react";
 import {
-  View, Text, StyleSheet, TextInput, LayoutAnimation, Platform,
-  UIManager, TouchableOpacity, Modal, Button, Alert, Image
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+  TouchableHighlight,
+  Dimensions,
+  Alert,
 } from "react-native";
-import Slider from '@react-native-community/slider';
-import LogModal from '../components/LogModal';
-import {
-  useFonts,
-  HindSiliguri_700Bold,
-  HindSiliguri_400Regular,
-  HindSiliguri_300Light,
-  HindSiliguri_600SemiBold,
-  HindSiliguri_500Medium
-} from '@expo-google-fonts/hind-siliguri';
 
-export default class CreateLog extends Component<{}, { value: string, expanded: boolean, modalVisible: boolean, height: any, sliderValue: any, noteText: any}>{
-  onChangeText = (text: any) => {
-    this.setState({ value: text })
+import LogModal from "../components/LogModal";
+import Slider from "react-native-slider";
+import { LinearGradient } from "expo-linear-gradient";
+
+import { MaterialIcons } from "@expo/vector-icons";
+
+interface CreateLogProps {
+  sliderValue: number;
+  noteText: string;
+}
+
+export default class CreateLog extends Component<
+  CreateLogProps,
+  {
+    value: string;
+    expanded: boolean;
+    modalVisible: boolean;
+    height: number;
+    sliderValue: number;
   }
+> {
+  onChangeText = (text: string) => {
+    this.setState({ value: text });
+  };
 
   triggerModal = () => this.setState({ modalVisible: true });
 
-  constructor(props: any) {
+  constructor(props: CreateLogProps) {
     super(props);
     this.state = {
-      value: '',
+      value: "",
       modalVisible: false,
       expanded: false,
       height: 0,
       sliderValue: 50,
-      noteText: ''
-    }
-
-    if (Platform.OS === 'android') {
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
+    };
   }
 
-  perc2color(perc: any) {
-    var r, g, b = 0;
+  perc2color(perc: number) {
+    var r,
+      g,
+      b = 0;
     if (perc < 50) {
       r = 255;
       g = Math.round(5.1 * perc);
-    }
-    else {
+    } else {
       g = 255;
-      r = Math.round(510 - 5.10 * perc);
+      r = Math.round(510 - 5.1 * perc);
     }
     var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return '#' + ('000000' + h.toString(16)).slice(-6);
+    return "#" + ("000000" + h.toString(16)).slice(-6);
   }
 
   changeLayout = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded });
-  }
+  };
 
   render() {
     const { modalVisible } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.questionStyle}>How are you feeling today?</Text>
-        <Slider
-          style={{
-            height: 40,
-            marginLeft: 30,
-            marginRight: 30,
-          }}
-          value={50}
-          minimumValue={0}
-          maximumValue={100}
-          trackImage={require('../assets/images/RYG-slider-image.png')}
-          thumbTintColor="#F2E9E3"
-          onSlidingComplete={value =>{
-            console.log(this.perc2color(value), value)
-            {this.setState({sliderValue: value})}
-          }
-          }
-        />
+        <View style={{ borderRadius: 50, overflow: "hidden" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              position: "absolute",
+            }}
+          >
+            <View style={styles.sliderDummy}>
+              <LinearGradient
+                start={[0, 1]}
+                end={[1, 0]}
+                colors={["#ff0000", "#ffff00", "#00ff00"]}
+                style={styles.linearGradient}
+              ></LinearGradient>
+            </View>
+          </View>
+          <Slider
+            style={{ height: 20, borderRadius: 50 }}
+            thumbStyle={styles.thumb}
+            value={50}
+            minimumValue={0}
+            maximumValue={100}
+            onSlidingComplete={(value: number) => {
+              console.log(this.perc2color(value), value);
+              {
+                this.setState({ sliderValue: value });
+              }
+            }}
+            maximumTrackTintColor="transparent"
+            minimumTrackTintColor="transparent"
+          />
+        </View>
         <View style={styles.textCon}>
-          <Text style={styles.textStyle}>Poor</Text>
-          <Text style={styles.textStyle}>Neutral</Text>
-          <Text style={styles.textStyle}>Good</Text>
+          <Text style={styles.textStyle}>Terrible</Text>
+          <Text style={styles.textStyle}>Okay</Text>
+          <Text style={styles.textStyle}>Great</Text>
         </View>
         <TextInput
           placeholder="Write note here ..."
           style={[styles.note, { height: this.state.height }]}
-          onChangeText={text => this.onChangeText(text)}
+          onChangeText={(text) => this.onChangeText(text)}
           onContentSizeChange={(event) => {
-            this.setState({ height: (event.nativeEvent.contentSize.height + 20)})
+            this.setState({
+              height: event.nativeEvent.contentSize.height + 20,
+            });
           }}
           value={this.state.value}
           placeholderTextColor="#F2E9E3"
           multiline={true}
         />
-        <View style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
           <View style={styles.buttonStyle}>
-            <Button
-              title="Save your thoughts"
-              onPress={() => Alert.alert('Save button pressed')}
-              color="#F2E9E3"
-            />
+            <TouchableHighlight
+              underlayColor="none"
+              onPress={() => Alert.alert("Save button pressed")}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  alignItems: "stretch",
+                  alignSelf: "stretch",
+                }}
+              >
+                <MaterialIcons name="save" size={24} color="#F2E9E3" />
+                <Text style={styles.textStylePurple}> Save entry</Text>
+              </View>
+            </TouchableHighlight>
           </View>
           <View style={styles.buttonStyle}>
             <LogModal
@@ -117,64 +162,92 @@ export default class CreateLog extends Component<{}, { value: string, expanded: 
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#6699CC",
-    margin: 10,
-    borderRadius: 20,
-    padding: 10
+    backgroundColor: "#464D77",
+    borderRadius: 10,
+    padding: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 7,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
-
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginTop: 6,
+    marginVertical: 16,
+  },
+  sliderDummy: {
+    backgroundColor: "transparent",
+    width: 400,
+    height: 30,
+    position: "absolute",
+  },
+  thumb: {
+    width: 16,
+    height: 16,
+    borderRadius: 15,
+    backgroundColor: "#464D77",
+    borderColor: "white",
+    borderWidth: 1,
+  },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
-
   textCon: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: "#6699CC",
+    marginTop: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#464D77",
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
-
   note: {
     height: 40,
-    color: '#F2E9E3',
+    color: "#F2E9E3",
     fontSize: 20,
     marginTop: 10,
     marginBottom: 10,
     padding: 10,
   },
-
   todayStyle: {
-    color: '#464D77',
+    color: "#464D77",
     fontSize: 75,
-    fontWeight: 'bold',
-    fontFamily: 'HindSiliguri_700Bold',
-    marginLeft: 10
+    fontWeight: "bold",
+    fontFamily: "HindSiliguri_700Bold",
+    marginLeft: 10,
   },
-
   textStyle: {
-    color: '#F2E9E3',
-    backgroundColor: "#6699CC",
+    color: "#F2E9E3",
+    fontSize: 16,
+  },
+  textStylePurple: {
+    color: "#F2E9E3",
     fontSize: 20,
   },
-
   questionStyle: {
-    color: '#F2E9E3',
+    marginBottom: 10,
+    color: "#F2E9E3",
     fontSize: 20,
     marginLeft: 10,
     marginRight: 10,
-    textAlign: 'center'
+    textAlign: "center",
   },
-
   modalView: {
     margin: 20,
     marginTop: 40,
@@ -185,13 +258,12 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
-
   openButton: {
     backgroundColor: "#6699CC",
     borderRadius: 20,
@@ -200,11 +272,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-
   buttonStyle: {
-    backgroundColor: "#464D77",
+    backgroundColor: "#6699CC",
+    justifyContent: "center",
     borderRadius: 20,
-    padding: 5
-  }
-
+    padding: 5,
+    color: "#F2E9E3",
+    fontSize: 20,
+  },
 });
