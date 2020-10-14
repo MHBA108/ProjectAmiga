@@ -24,7 +24,8 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
-  return (
+      return (
+
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
