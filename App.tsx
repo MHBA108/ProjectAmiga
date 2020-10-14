@@ -13,10 +13,17 @@ import {
   HindSiliguri_500Medium,
 } from "@expo-google-fonts/hind-siliguri";
 import { AppLoading } from "expo";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { Dimensions } from "react-native";
 
 // TODO: Pressing back in the root tab crashes the app! I am not sure the arrow
 // should even be there.
 export default function App() {
+  const entireScreenWidth = Dimensions.get("window").width;
+  EStyleSheet.build({
+    $rem: entireScreenWidth / 380,
+  });
+
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 

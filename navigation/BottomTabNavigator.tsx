@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -10,13 +10,13 @@ import useColorScheme from "../hooks/useColorScheme";
 import HomeScreen from "../screens/HomeScreen";
 import StatsScreen from "../screens/StatsScreen";
 import ResourcesScreen from "../screens/ResourcesScreen";
-import MoreScreen from "../screens/MoreScreen";
+import UserProfileScreen from "../screens/UserProfileScreen";
 import {
   BottomTabParamList,
   HomeParamList,
   StatsParamList,
   ResourcesParamList,
-  MoreParamList,
+  UserProfileParamList,
 } from "../types";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -73,15 +73,11 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="More"
-        component={MoreNavigator}
+        name="You"
+        component={UserProfileNavigator}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="dots-horizontal"
-              size={24}
-              color={color}
-            />
+            <MaterialIcons name="person-outline" size={24} color={color} />
           ),
         }}
       />
@@ -130,13 +126,16 @@ function ResourcesNavigator() {
   );
 }
 
-const MoreStack = createStackNavigator<MoreParamList>();
+const UserProfileStack = createStackNavigator<UserProfileParamList>();
 
-function MoreNavigator() {
+function UserProfileNavigator() {
   return (
-    <MoreStack.Navigator screenOptions={{ headerShown: false }}>
-      <MoreStack.Screen name="MoreScreen" component={MoreScreen} />
-    </MoreStack.Navigator>
+    <UserProfileStack.Navigator screenOptions={{ headerShown: false }}>
+      <UserProfileStack.Screen
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+      />
+    </UserProfileStack.Navigator>
   );
 }
 

@@ -9,7 +9,7 @@ export type BottomTabParamList = {
   Home: undefined;
   Stats: undefined;
   Resources: undefined;
-  More: undefined;
+  You: undefined;
 };
 
 export type HomeParamList = {
@@ -24,6 +24,6 @@ export type ResourcesParamList = {
   ResourcesScreen: undefined;
 };
 
-export type MoreParamList = {
-  MoreScreen: undefined;
+export type UserProfileParamList = {
+  UserProfileScreen: undefined;
 };

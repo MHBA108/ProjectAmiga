@@ -1,34 +1,30 @@
 import * as React from "react";
-import { StyleSheet, ScrollView, TextInput } from "react-native";
+import { StyleSheet, ScrollView, SafeAreaView } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
 import Calendar from "../components/Calendar";
-import Slider from "@react-native-community/slider";
 import CreateLog from "../components/CreateLog";
 import TodoList from "../components/TodoList";
-import MyHeader from '../components/MyHeader'
+import MyHeader from "../components/MyHeader";
 
+const HomeScreen = (props: { navigation: any }) => {
+  const [value, onChangeText] = React.useState("Write note here ...");
+  return (
+    <SafeAreaView style={styles.container}>
+      <MyHeader navigation={props.navigation} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.todayStyle}>Welcome user_name!</Text>
+        <Clock />
+        <CreateLog sliderValue={50} noteText="" />
+        <Calendar />
+        <TodoList />
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
-
-const HomeScreen = (props: { navigation: any; }) => {
-    const [value, onChangeText] = React.useState("Write note here ...");
-    return (
-        <View style={styles.container}>
-            <MyHeader navigation={props.navigation}/>
-            <ScrollView>
-                <Text style={styles.todayStyle}>Welcome user_name!</Text>
-                <Clock />
-                <CreateLog sliderValue={50} noteText="" />
-                <Calendar />
-                <TodoList />
-            </ScrollView>
-        </View>
-    )
-}
-
-export default HomeScreen
-
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
