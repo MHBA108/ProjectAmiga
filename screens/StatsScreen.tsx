@@ -13,21 +13,27 @@ import { LineChart } from "react-native-chart-kit";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
+import { Picker } from "@react-native-community/picker";
+import Calendar from "../components/Calendar";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function StatsScreen() {
+export default function StatsScreen(this: string) {
+  const [language] = React.useState({
+    language: "java",
+  });
   return (
-    <ScrollView>
-      <View>
+    <ScrollView style={{ backgroundColor: "#F2E9E3" }}>
+      <View style={{ backgroundColor: "#F2E9E3" }}>
         <SafeAreaView style={styles.container}>
           <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              width: windowWidth * 0.9,
+              width: "90%",
               marginBottom: windowHeight * 0.01,
+              backgroundColor: "#F2E9E3",
             }}
           >
             <Avatar
@@ -46,7 +52,8 @@ export default function StatsScreen() {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              width: windowWidth * 0.95,
+              width: "95%",
+              backgroundColor: "#F2E9E3",
             }}
           >
             <View style={styles.statsStyle}>
@@ -69,6 +76,16 @@ export default function StatsScreen() {
                   Mood Chart
                 </Text>
               </View>
+              {/* <Picker
+                selectedValue={this.state.language}
+                style={{ height: 50, width: 100 }}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({ language: itemValue })
+                }
+              >
+                <Picker.Item label="Java" value="java" />
+                <Picker.Item label="JavaScript" value="js" />
+              </Picker> */}
               <View
                 style={{ flexDirection: "row", borderRadius: 10, padding: 3 }}
               >
@@ -95,8 +112,13 @@ export default function StatsScreen() {
                 </TouchableHighlight>
               </View>
             </View>
-            <View style={{justifyContent: "center", alignItems: "center"}}>
-              <Text>Bezier Line Chart</Text>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#464D77",
+              }}
+            >
               <LineChart
                 data={{
                   labels: [
@@ -120,15 +142,15 @@ export default function StatsScreen() {
                     },
                   ],
                 }}
-                width={Dimensions.get("window").width * .85} // from react-native
+                width={Dimensions.get("window").width * 0.85} // from react-native
                 height={220}
-                yAxisLabel="$"
-                yAxisSuffix="k"
+                // yAxisLabel="$"
+                // yAxisSuffix="k"
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
-                  backgroundColor: "#e26a00",
-                  backgroundGradientFrom: "#fb8c00",
-                  backgroundGradientTo: "#ffa726",
+                  backgroundColor: "blue",
+                  backgroundGradientFrom: "#464D77",
+                  backgroundGradientTo: "#464D77",
                   decimalPlaces: 2, // optional, defaults to 2dp
                   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                   labelColor: (opacity = 1) =>
@@ -139,7 +161,7 @@ export default function StatsScreen() {
                   propsForDots: {
                     r: "6",
                     strokeWidth: "2",
-                    stroke: "#ffa726",
+                    stroke: "#464D77",
                   },
                 }}
                 bezier
@@ -150,6 +172,10 @@ export default function StatsScreen() {
               />
             </View>
           </View>
+          <View style={styles.calendarStyle}>
+            <Calendar />
+          </View>
+
         </SafeAreaView>
       </View>
     </ScrollView>
@@ -160,11 +186,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: "#F2E9E3",
   },
 
   statsStyle: {
     backgroundColor: "#FBD1A2",
-    width: windowWidth * 0.45,
+    width: "45%",
     borderRadius: 10,
     padding: 10,
   },
@@ -179,7 +206,7 @@ const styles = StyleSheet.create({
 
   graphContainer: {
     justifyContent: "space-between",
-    width: windowWidth * 0.95,
+    width: "95%",
     backgroundColor: "#464D77",
     paddingHorizontal: 15,
     paddingVertical: 10,
@@ -190,11 +217,17 @@ const styles = StyleSheet.create({
   graphHeaderStyle: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: windowWidth * 0.88,
+    width: "88%",
     backgroundColor: "#464D77",
     // paddingHorizontal: 15,
     // paddingVertical: 10,
     marginVertical: 10,
     borderRadius: 10,
+  },
+
+  calendarStyle: {
+    justifyContent: "center",
+    width: "95%",
+    backgroundColor: "#F2E9E3",
   },
 });
