@@ -12,27 +12,18 @@ const CloseContacts = (props: { navigation: any; }) => {
     return (
         <View>
             <MyHeader navigation={props.navigation}/>
-            <Text>Close Contacts</Text>
+            <View
+                lightColor="#eee"
+                darkColor="rgba(255,255,255,0.1)"
+            />
+            <EditScreenInfo path="/screens/CloseContactsScreen.tsx" />
         </View>
     )
 }
 
 export default CloseContacts
 
-export function CloseContactsScreen() {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>CloseContactsScreen</Text>
-            <View
-                style={styles.separator}
-                lightColor="#eee"
-                darkColor="rgba(255,255,255,0.1)"
-            />
-            <EditScreenInfo path="/screens/CloseContactsScreen.tsx" />
-        </View>
-    );
-}
-
+        
 const styles = StyleSheet.create({
     container: {
         flex: 1,

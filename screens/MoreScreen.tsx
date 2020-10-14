@@ -13,7 +13,7 @@ export default function SettingsScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="/screens/SettingsScreen.tsx" />
+      <EditScreenInfo path="/screens/MoreScreen.tsx" />
     </View>
   );
 }

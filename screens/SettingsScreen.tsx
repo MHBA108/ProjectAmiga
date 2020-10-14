@@ -1,27 +1,27 @@
 import * as React from "react";
-import { StyleSheet, Image } from "react-native";
-
-
-import { Text, View } from "../components/Themed";
+import { StyleSheet } from "react-native";
 
 import MyHeader from '../components/MyHeader'
 
+import EditScreenInfo from "../components/EditScreenInfo";
+import { Text, View } from "../components/Themed";
 
 
 
-const Feed = (props: { navigation: any; }) => {
+const SettingsScreen = (props: { navigation: any; }) => {
     return (
         <View>
             <MyHeader navigation={props.navigation} />
-            <Image
-                source={require('../assets/images/FeedPlaceHolder.png')}
-                style={{
-                    width: 375, height: 750}} />
+            <View
+                lightColor="#eee"
+                darkColor="rgba(255,255,255,0.1)"
+            />
+            <EditScreenInfo path="/screens/SettingsScreen.tsx" />
         </View>
     )
 }
 
-export default Feed
+export default SettingsScreen
 
 
 const styles = StyleSheet.create({
