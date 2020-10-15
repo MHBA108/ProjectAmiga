@@ -4,7 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { View } from "react-native";
+import { View, LogBox } from "react-native";
 import {
   useFonts,
   HindSiliguri_700Bold,
@@ -14,6 +14,10 @@ import {
   HindSiliguri_500Medium,
 } from "@expo-google-fonts/hind-siliguri";
 import { AppLoading } from "expo";
+
+// import {  }​​​​​​​​​ from "react-native";
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 // TODO: Pressing back in the root tab crashes the app! I am not sure the arrow
 // should even be there.
