@@ -3,6 +3,7 @@ export type RootStackParamList = {
   NotFound: undefined;
   LoginScreen: undefined;
   SplashScreen: undefined;
+  SignUpScreen: undefined;
 };
 
 export type BottomTabParamList = {

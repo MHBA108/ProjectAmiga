@@ -45,7 +45,6 @@ export default function SplashScreen() {
         }}
         loop={true}
         source={require("../assets/images/splash.json")}
-      />
     </View>
   );
 }
