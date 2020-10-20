@@ -4,6 +4,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { View, Text } from "./Themed";
 import PropTypes from "prop-types";
 import { Ionicons, AntDesign, FontAwesome } from "@expo/vector-icons";
+import { COLORS } from "../assets/COLORS";
 
 const { height, width } = Dimensions.get("window");
 
@@ -72,7 +73,7 @@ class TodoItem extends Component<{}> {
                 isCompleted ? styles.completeCircle : styles.incompleteCircle,
               ]}
             >
-              <AntDesign name="check" size={24} color="#6699cc" />
+              <AntDesign name="check" size={24} color={COLORS.lightBlue} />
             </View>
           </TouchableOpacity>
           {isEditing ? (
@@ -104,7 +105,7 @@ class TodoItem extends Component<{}> {
             <TouchableOpacity onPressOut={this.finishEditing}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>
-                  <AntDesign name="check" size={24} color="#6699cc" />
+                  <AntDesign name="check" size={24} color={COLORS.lightBlue} />
                 </Text>
               </View>
             </TouchableOpacity>
@@ -114,14 +115,22 @@ class TodoItem extends Component<{}> {
             <TouchableOpacity onPressOut={this.startEditing}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>
-                  <FontAwesome name="pencil" size={24} color="#6699cc" />
+                  <FontAwesome
+                    name="pencil"
+                    size={24}
+                    color={COLORS.lightBlue}
+                  />
                 </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPressOut={() => deleteTodo(id)}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>
-                  <Ionicons name="ios-trash" size={24} color="#6699cc" />
+                  <Ionicons
+                    name="ios-trash"
+                    size={24}
+                    color={COLORS.lightBlue}
+                  />
                 </Text>
               </View>
             </TouchableOpacity>
@@ -143,7 +152,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 10,
-    color: "#f2e9e3",
+    color: COLORS.beige,
   },
   rowContainer: {
     backgroundColor: "#4986c2",
@@ -153,7 +162,7 @@ const styles = StyleSheet.create({
     width: width / 2,
     alignItems: "center",
     justifyContent: "space-between",
-    color: "#f2e9e3",
+    color: COLORS.beige,
   },
   buttons: {
     backgroundColor: "#4986c2",
@@ -172,11 +181,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "HindSiliguri_400Regular",
     marginVertical: 20,
-    color: "#f2e9e3",
+    color: COLORS.beige,
   },
   circle: {
     width: 30,
-    backgroundColor: "#6699cc",
+    backgroundColor: COLORS.lightBlue,
     height: 30,
     borderRadius: 5,
     borderWidth: 3,
@@ -188,14 +197,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#8cb2d9",
   },
   incompleteCircle: {
-    borderColor: "#6699cc",
+    borderColor: COLORS.lightBlue,
   },
   strikeText: {
-    color: "#6699cc",
+    color: COLORS.lightBlue,
     textDecorationLine: "line-through",
   },
   unstrikeText: {
-    color: "#f2e9e3",
+    color: COLORS.beige,
   },
   input: {
     marginVertical: 15,

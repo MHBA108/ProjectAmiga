@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import {View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import CalendarStrip from "react-native-calendar-strip";
+import { COLORS } from "../assets/COLORS";
 
 export default class Calendar extends Component<
   {},
@@ -32,12 +33,12 @@ export default class Calendar extends Component<
             type: "border",
             duration: 200,
             borderWidth: 2.5,
-            borderHighlightColor: "#F9A2A2",
+            borderHighlightColor: COLORS.pink,
           }}
           calendarHeaderStyle={{
             fontSize: 20,
             marginBottom: 10,
-            color: "#464D77",
+            color: COLORS.darkBlue,
           }}
           style={{ height: 100, paddingTop: 20, paddingBottom: 10 }}
         />
@@ -68,6 +69,6 @@ const styles = StyleSheet.create({
 
   textStyle: {
     fontFamily: "HindSiliguri_400Regular",
-    color: "#464D77",
+    color: COLORS.darkBlue,
   },
 });

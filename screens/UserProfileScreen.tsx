@@ -13,6 +13,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
 import LogList from "../components/LogList";
 import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "../assets/COLORS";
 
 export default function UserProfileScreen() {
   return (
@@ -73,7 +74,7 @@ export default function UserProfileScreen() {
               <Ionicons
                 name="ios-add-circle-outline"
                 size={20}
-                color="#464D77"
+                color={COLORS.darkBlue}
               />
               <Text style={styles.buttonText}> New Entry</Text>
             </TouchableOpacity>
@@ -90,7 +91,7 @@ export default function UserProfileScreen() {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F2E9E3",
+    backgroundColor: COLORS.beige,
     alignItems: "center",
   },
   scrollContainer: {
@@ -105,7 +106,7 @@ const styles = EStyleSheet.create({
   containerLog: {
     width: "100%",
     flexDirection: "column",
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderRadius: 10,
     padding: "10rem",
   },
@@ -135,15 +136,15 @@ const styles = EStyleSheet.create({
     paddingTop: "20rem",
   },
   buttonEditProfile: {
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     justifyContent: "center",
     borderRadius: 20,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: "10rem",
     flexShrink: 1,
   },
   usernameStyle: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "20rem",
   },
@@ -160,7 +161,7 @@ const styles = EStyleSheet.create({
     width: "100rem",
     borderRadius: "50rem",
     backgroundColor: "transparent",
-    borderColor: "#6699CC",
+    borderColor: COLORS.lightBlue,
     borderWidth: "5rem",
     alignSelf: "center",
   },
@@ -176,7 +177,7 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
   },
   buttonText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_600SemiBold",
     fontSize: "10rem",
   },
@@ -188,7 +189,7 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   badgeText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "11rem",
   },
@@ -202,7 +203,7 @@ const styles = EStyleSheet.create({
     padding: "15rem",
   },
   countText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "30rem",
   },

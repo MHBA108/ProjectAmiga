@@ -9,6 +9,7 @@ import CreateLog from "../components/CreateLog";
 import TodoList from "../components/TodoList";
 import firebase from "firebase";
 import MyHeader from "../components/MyHeader";
+import { COLORS } from "../assets/COLORS";
 import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = (props: { navigation: any }) => {
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F2E9E3",
+    backgroundColor: COLORS.beige,
   },
   title: {
     fontSize: 20,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
   textCon: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     marginLeft: 10,
     marginRight: 10,
   },
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
 
   todayStyle: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontSize: 34,
     fontWeight: "bold",
     fontFamily: "HindSiliguri_700Bold",
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
 
   textStyle: {
     color: "white",
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     fontSize: 20,
   },
 

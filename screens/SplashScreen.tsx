@@ -3,6 +3,7 @@ import { StyleSheet, View, Platform } from "react-native";
 import LottieView from "lottie-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
+import { COLORS } from "../assets/COLORS";
 
 export default function SplashScreen() {
   const isLoggedIn = false; // temporary
@@ -41,7 +42,7 @@ export default function SplashScreen() {
         style={{
           width: 200,
           height: 200,
-          backgroundColor: "#6699CC",
+          backgroundColor: COLORS.lightBlue,
         }}
         loop={true}
         source={require("../assets/images/splash.json")}
@@ -50,7 +51,7 @@ export default function SplashScreen() {
 }
 const styles = StyleSheet.create({
   animationContainer: {
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     alignItems: "center",
     justifyContent: "center",
     flex: 1,

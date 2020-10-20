@@ -4,6 +4,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { AntDesign } from "@expo/vector-icons";
 import Slider from "react-native-slider";
 import { LinearGradient } from "expo-linear-gradient";
+import { COLORS } from "../assets/COLORS";
 
 const emotions = ["happy", "excited", "anxious", "enthusiastic"];
 const color = "#67d642";
@@ -92,7 +93,7 @@ export default class LogItem extends Component {
           style={styles.editContainer}
           onPress={() => Alert.alert("Edit button pressed")}
         >
-          <AntDesign name="edit" size={24} color="#F9A2A2" />
+          <AntDesign name="edit" size={24} color={COLORS.pink} />
         </TouchableOpacity>
       </View>
     );
@@ -115,7 +116,7 @@ const styles = EStyleSheet.create({
     aspectRatio: 20 / 1,
   },
   date: {
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: "13rem",
     textAlign: "center",
     fontFamily: "HindSiliguri_400Regular",
@@ -126,7 +127,7 @@ const styles = EStyleSheet.create({
     aspectRatio: 15 / 1,
   },
   moodHeaderText: {
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: "14rem",
     fontFamily: "HindSiliguri_600SemiBold",
     textAlign: "left",
@@ -163,7 +164,7 @@ const styles = EStyleSheet.create({
     padding: "5rem",
   },
   moodText: {
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: "14rem",
     fontFamily: "HindSiliguri_600SemiBold",
     textAlign: "center",
@@ -198,7 +199,7 @@ const styles = EStyleSheet.create({
     width: "14rem",
     height: "14rem",
     borderRadius: "7rem",
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderColor: "white",
     borderWidth: "1rem",
     position: "absolute",
@@ -217,7 +218,7 @@ const styles = EStyleSheet.create({
     borderRadius: 50,
   },
   sliderText: {
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: "15rem",
     fontFamily: "HindSiliguri_700Bold",
   },

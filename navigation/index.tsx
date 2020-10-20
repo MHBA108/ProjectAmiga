@@ -19,6 +19,11 @@ import SignUpScreen from "../screens/SignUpScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import { AuthContext } from "./context";
+import AppsandDevicesScreen from "../screens/Apps&DevicesScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import ContactUsScreen from "../screens/ContactUsScreen";
+import { Feather } from "@expo/vector-icons";
+import { COLORS } from "../assets/COLORS";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -75,14 +80,14 @@ function HamburgerDrawer() {
   return (
     <Drawer.Navigator
       drawerContentOptions={{
-        inactiveTintColor: "#F2E9E3",
-        activeTintColor: "#F2E9E3",
+        inactiveTintColor: COLORS.beige,
+        activeTintColor: COLORS.beige,
         inactiveBackgroundColor: "#555E90",
         activeBackgroundColor: "#8088B5",
         itemStyle: { marginVertical: 5 },
       }}
       drawerStyle={{
-        backgroundColor: "#464D77",
+        backgroundColor: COLORS.darkBlue,
       }}
     >
       <Drawer.Screen
@@ -90,7 +95,7 @@ function HamburgerDrawer() {
         component={BottomTabNavigator}
         options={{
           drawerIcon: ({ color }) => (
-            <Feather name="home" size={24} color={"#F2E9E3"} />
+            <Feather name="home" size={24} color={COLORS.beige} />
           ),
         }}
       />
@@ -99,7 +104,7 @@ function HamburgerDrawer() {
         component={FeedScreen}
         options={{
           drawerIcon: ({ color }) => (
-            <Feather name="list" size={24} color={"#F2E9E3"} />
+            <Feather name="list" size={24} color={COLORS.beige} />
           ),
         }}
       />
@@ -108,7 +113,7 @@ function HamburgerDrawer() {
         component={CloseContactsScreen}
         options={{
           drawerIcon: ({ color }) => (
-            <Feather name="users" size={24} color={"#F2E9E3"} />
+            <Feather name="users" size={24} color={COLORS.beige} />
           ),
         }}
       />
@@ -117,7 +122,7 @@ function HamburgerDrawer() {
         component={AppsandDevicesScreen}
         options={{
           drawerIcon: ({ color }) => (
-            <Feather name="smartphone" size={24} color={"#F2E9E3"} />
+            <Feather name="smartphone" size={24} color={COLORS.beige} />
           ),
         }}
       />
@@ -126,7 +131,7 @@ function HamburgerDrawer() {
         component={SettingsScreen}
         options={{
           drawerIcon: ({ color }) => (
-            <Feather name="settings" size={24} color={"#F2E9E3"} />
+            <Feather name="settings" size={24} color={COLORS.beige} />
           ),
         }}
       />
@@ -135,7 +140,7 @@ function HamburgerDrawer() {
         component={ContactUsScreen}
         options={{
           drawerIcon: ({ color }) => (
-            <Feather name="book-open" size={24} color={"#F2E9E3"} />
+            <Feather name="book-open" size={24} color={COLORS.beige} />
           ),
         }}
       />

@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { StyleSheet } from "react-native";
+import { COLORS } from "../assets/COLORS";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -24,8 +25,7 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
-      return (
-
+  return (
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
@@ -33,7 +33,7 @@ export default function BottomTabNavigator() {
           fontSize: 12,
         },
         activeTintColor: "#FFFFFF",
-        inactiveTintColor: "#464D77",
+        inactiveTintColor: COLORS.darkBlue,
         tabStyle: styles.tabBar,
       }}
     >
@@ -141,6 +141,6 @@ function UserProfileNavigator() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
   },
 });

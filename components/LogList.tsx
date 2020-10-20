@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogItem from "./LogItem";
+import { COLORS } from "../assets/COLORS";
 
 export default class LogList extends Component {
   // TODO get number of logs
@@ -39,7 +40,7 @@ const styles = EStyleSheet.create({
     justifyContent: "space-around",
   },
   text: {
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: "20rem",
     textAlign: "center",
     fontFamily: "HindSiliguri_300Light",

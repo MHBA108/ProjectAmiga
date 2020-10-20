@@ -10,6 +10,7 @@ import {
   Keyboard,
 } from "react-native";
 import { AuthContext } from "../navigation/context";
+import { COLORS } from "../assets/COLORS";
 import "firebase/firestore";
 import firebase from "firebase";
 import { useNavigation } from "@react-navigation/native";
@@ -18,7 +19,6 @@ export default function LoginScreen(props: { navigation: any }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
   const authContext = React.useContext(AuthContext);
   const navigation = useNavigation();
 
@@ -106,7 +106,7 @@ export default function LoginScreen(props: { navigation: any }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -115,8 +115,8 @@ const styles = StyleSheet.create({
     height: 400,
   },
   inputView: {
+    backgroundColor: COLORS.lightBlue,
     width: "69%",
-    backgroundColor: "#FBD1A2",
     borderRadius: 25,
     height: 50,
     marginBottom: 20,
@@ -141,6 +141,6 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   loginText: {
-    color: "#F2E9E3",
+    color: COLORS.lightBlue,
   },
 });
