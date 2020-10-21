@@ -5,21 +5,23 @@ import LogItem from "./LogItem";
 import { LogData } from "../types";
 import { COLORS } from "../assets/COLORS";
 
+var valueToColor = require("../assets/ValueToColor");
+
 // dummy logs
 const log1: LogData = {
   sliderValue: 90,
   emotions: ["happy", "excited", "anxious", "enthusiastic"],
-  color: "#35ff00",
+  color: valueToColor(90),
 };
 const log2: LogData = {
   sliderValue: 12,
   emotions: ["sad", "anxious"],
-  color: "#ff4000",
+  color: valueToColor(12),
 };
 const log3: LogData = {
   sliderValue: 65,
   emotions: ["cheerful", "energetic", "rested"],
-  color: "#afff00",
+  color: valueToColor(65),
 };
 
 export default class LogList extends Component<
@@ -32,7 +34,7 @@ export default class LogList extends Component<
   // TODO get number of logs and log data from backend
   state = {
     logNumber: 3,
-    logs: [log1, log2, log3],
+    logs: [log1, log2, log3, log2, log3, log1],
   };
 
   render() {

@@ -4,6 +4,8 @@ import Slider from "react-native-slider";
 import { LinearGradient } from "expo-linear-gradient";
 import EStyleSheet from "react-native-extended-stylesheet";
 
+var valueToColor = require("../assets/ValueToColor");
+
 export default class MoodSlider extends Component<
   { sliderValue?: number; disabled?: Boolean; parentSync?: Function },
   {
@@ -19,21 +21,6 @@ export default class MoodSlider extends Component<
     this.state = {
       sliderValue: props.sliderValue || 50,
     };
-  }
-
-  perc2color(perc: number) {
-    var r,
-      g,
-      b = 0;
-    if (perc < 50) {
-      r = 255;
-      g = Math.round(5.1 * perc);
-    } else {
-      g = 255;
-      r = Math.round(510 - 5.1 * perc);
-    }
-    var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return "#" + ("000000" + h.toString(16)).slice(-6);
   }
 
   render() {
@@ -56,7 +43,7 @@ export default class MoodSlider extends Component<
             minimumValue={0}
             maximumValue={100}
             onSlidingComplete={(value: number) => {
-              console.log(this.perc2color(value), value);
+              console.log(valueToColor(value), value);
               {
                 this.setState({ sliderValue: value });
                 if (typeof this.props.parentSync !== "undefined") {
