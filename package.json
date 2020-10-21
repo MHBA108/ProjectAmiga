@@ -34,8 +34,6 @@
     "firebase": "^7.23.0",
     "lottie-react-native": "~2.6.1",
     "moment": "^2.29.0",
-    "mongoose": "^5.10.9",
-    "morgan": "^1.10.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.0.tar.gz",

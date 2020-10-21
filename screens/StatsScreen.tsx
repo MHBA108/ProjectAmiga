@@ -46,7 +46,6 @@ const StatsScreen = (props: { navigation: any }) => {
                 size="medium"
                 rounded
                 title="MT"
-                onPress={() => console.log("Works!")}
                 activeOpacity={0.7}
                 avatarStyle={{ borderWidth: 2 }}
                 titleStyle={{ color: "black" }}
@@ -88,6 +87,7 @@ const StatsScreen = (props: { navigation: any }) => {
                     Mood Chart
                   </Text>
                 </View>
+                {/* TODO: change buttons to picker */}
                 {/* <Picker
                 selectedValue={this.state.language}
                 style={{ height: 50, width: 100 }}
@@ -156,9 +156,6 @@ const StatsScreen = (props: { navigation: any }) => {
                   }}
                   width={Dimensions.get("window").width * 0.9} // from react-native
                   height={220}
-                  // yAxisLabel="Mood Rating"
-                  // yAxisSuffix="k"
-                  // yAxisInterval={1} // optional, defaults to 1
                   chartConfig={{
                     backgroundColor: "blue",
                     backgroundGradientFrom: COLORS.darkBlue,
@@ -238,8 +235,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "88%",
     backgroundColor: COLORS.darkBlue,
-    // paddingHorizontal: 15,
-    // paddingVertical: 10,
     marginVertical: 10,
     borderRadius: 10,
   },
