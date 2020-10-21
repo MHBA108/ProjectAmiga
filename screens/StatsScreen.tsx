@@ -14,6 +14,8 @@ import Clock from "../components/Clock";
 import { Picker } from "@react-native-community/picker";
 import Calendar from "../components/Calendar";
 import { COLORS } from "../assets/COLORS";
+import OpenAchievements from "../components/OpenAchievements";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -26,18 +28,18 @@ const StatsScreen = (props: { navigation: any }) => {
   });
 
   return (
-    <View>
+    <SafeAreaView style={{ backgroundColor: COLORS.beige }}>
       <MyHeader navigation={props.navigation} />
-      <ScrollView style={{ backgroundColor: "#F2E9E3" }}>
-        <View style={{ backgroundColor: "#F2E9E3" }}>
-          <SafeAreaView style={styles.container}>
+      <ScrollView style={{ backgroundColor: COLORS.beige }}>
+        <View style={{ backgroundColor: COLORS.beige }}>
+          <View style={styles.container}>
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
                 width: "90%",
                 marginBottom: windowHeight * 0.01,
-                backgroundColor: "#F2E9E3",
+                backgroundColor: COLORS.beige,
               }}
             >
               <Avatar
@@ -57,17 +59,17 @@ const StatsScreen = (props: { navigation: any }) => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 width: "95%",
-                backgroundColor: "#F2E9E3",
+                backgroundColor: COLORS.beige,
               }}
             >
               <View style={styles.statsStyle}>
-                <Text style={{ color: "#464D77" }}>
+                <Text style={{ color: COLORS.darkBlue }}>
                   {" "}
                   Leaderboard Position: 1
                 </Text>
               </View>
               <View style={styles.statsStyle}>
-                <Text style={{ color: "#464D77" }}>
+                <Text style={{ color: COLORS.darkBlue }}>
                   {" "}
                   Longest Log Streak: 23
                 </Text>
@@ -75,11 +77,11 @@ const StatsScreen = (props: { navigation: any }) => {
             </View>
             <View style={styles.graphContainer}>
               <View style={styles.graphHeaderStyle}>
-                <View style={{ backgroundColor: "#464D77" }}>
+                <View style={{ backgroundColor: COLORS.darkBlue }}>
                   <Text
                     style={{
                       color: "white",
-                      backgroundColor: "#464D77",
+                      backgroundColor: COLORS.darkBlue,
                       fontSize: 25,
                     }}
                   >
@@ -126,7 +128,7 @@ const StatsScreen = (props: { navigation: any }) => {
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
-                  backgroundColor: "#464D77",
+                  backgroundColor: COLORS.darkBlue,
                 }}
               >
                 <LineChart
@@ -142,36 +144,37 @@ const StatsScreen = (props: { navigation: any }) => {
                     datasets: [
                       {
                         data: [
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
+                          Math.floor(Math.random() * 100),
+                          Math.floor(Math.random() * 100),
+                          Math.floor(Math.random() * 100),
+                          Math.floor(Math.random() * 100),
+                          Math.floor(Math.random() * 100),
+                          Math.floor(Math.random() * 100),
                         ],
                       },
                     ],
                   }}
-                  width={Dimensions.get("window").width * 0.85} // from react-native
+                  width={Dimensions.get("window").width * 0.9} // from react-native
                   height={220}
-                  // yAxisLabel="$"
+                  // yAxisLabel="Mood Rating"
                   // yAxisSuffix="k"
-                  yAxisInterval={1} // optional, defaults to 1
+                  // yAxisInterval={1} // optional, defaults to 1
                   chartConfig={{
                     backgroundColor: "blue",
-                    backgroundGradientFrom: "#464D77",
-                    backgroundGradientTo: "#464D77",
-                    decimalPlaces: 2, // optional, defaults to 2dp
+                    backgroundGradientFrom: COLORS.darkBlue,
+                    backgroundGradientTo: COLORS.darkBlue,
+                    decimalPlaces: 0, // optional, defaults to 2dp
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     labelColor: (opacity = 1) =>
                       `rgba(255, 255, 255, ${opacity})`,
                     style: {
-                      borderRadius: 16,
+                      // borderRadius: 16,
+                      alignContent: "stretch",
                     },
                     propsForDots: {
                       r: "6",
                       strokeWidth: "2",
-                      stroke: "#464D77",
+                      stroke: COLORS.darkBlue,
                     },
                   }}
                   bezier
@@ -185,10 +188,14 @@ const StatsScreen = (props: { navigation: any }) => {
             <View style={styles.calendarStyle}>
               <Calendar />
             </View>
-          </SafeAreaView>
+            <Text style={styles.badgeText}>Achievements</Text>
+            <View style={styles.badgeContainer1}>
+              <OpenAchievements />
+            </View>
+          </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -217,7 +224,7 @@ const styles = StyleSheet.create({
   },
 
   graphContainer: {
-    justifyContent: "space-between",
+    justifyContent: "center",
     width: "95%",
     backgroundColor: COLORS.darkBlue,
     paddingHorizontal: 15,
@@ -241,5 +248,30 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "95%",
     backgroundColor: COLORS.beige,
+  },
+  badgeText: {
+    color: "#464D77",
+    fontFamily: "HindSiliguri_500Medium",
+    // fontSize: "11rem",
+  },
+  badgeContainer: {
+    flexDirection: "row",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FCD7AE",
+    // aspectRatio: 1 / 1,
+    padding: "15rem",
+  },
+  badgeContainer1: {
+    flexDirection: "row",
+    alignItems: "stretch",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    width: "20%",
+    height: "10%"
+    
+    // aspectRatio: 1 / 4,
+    // padding: "10rem",
   },
 });

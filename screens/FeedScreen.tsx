@@ -12,57 +12,60 @@ import FeedList from "../components/FeedList";
 import MyHeader from "../components/MyHeader";
 import OpenStreaks from "../components/OpenStreaks";
 import { COLORS } from "../assets/COLORS";
+import * as firebase from "firebase";
 
 const FeedScreen = (props: { navigation: any }) => {
+    const [user, setUser] = React.useState(firebase.auth().currentUser);
+
     return (
-        <View style={styles.container}>
-            <MyHeader navigation={props.navigation} />
-            <ScrollView
-                style={styles.scrollContainer}
-                showsVerticalScrollIndicator={false}
-            >
-                <View style={styles.containerTop}>
-                    <View style={styles.containerUpperLeft}>
-                        <Text style={styles.usernameStyle}>@UserName's Feed</Text>
-                        <Text style={styles.badgeText}>Streak</Text>
-                        <View style={styles.containerAchievementsStreaks}>
-                            <View style={styles.lowerTopLeft}>
-                                
-                                <View style={styles.badgeContainer1}>
-                                    <OpenStreaks />
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={styles.containerUpperRight}>
-                        <Image
-                            style={styles.circleContainer}
-                            resizeMode="contain"
-                            source={profilePlaceholder}
-                        />
-                        <View style={styles.circle}></View>
-                        <View style={styles.feedButtons}>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => Alert.alert("Leader board button pressed")}
-                            >
-                                <Text style={styles.buttonText}>Leader board</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => Alert.alert("Friends button pressed")}
-                            >
-            
-                                <Text style={styles.buttonText}> Friends </Text>
-                            </TouchableOpacity>
-                            </View>
-                    </View>
+      <View style={styles.container}>
+        <MyHeader navigation={props.navigation} />
+        <ScrollView
+          style={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.containerTop}>
+            <View style={styles.containerUpperLeft}>
+              <Text style={styles.usernameStyle}>
+                {user?.displayName}'s Feed
+              </Text>
+              <Text style={styles.badgeText}>Streak</Text>
+              <View style={styles.containerAchievementsStreaks}>
+                <View style={styles.lowerTopLeft}>
+                  <View style={styles.badgeContainer1}>
+                    <OpenStreaks />
+                  </View>
                 </View>
-                <View style={styles.containerLog}>
-                    <FeedList />
-                </View>
-            </ScrollView>
-        </View>
+              </View>
+            </View>
+            <View style={styles.containerUpperRight}>
+              <Image
+                style={styles.circleContainer}
+                resizeMode="contain"
+                source={profilePlaceholder}
+              />
+              <View style={styles.circle}></View>
+              <View style={styles.feedButtons}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => Alert.alert("Leader board button pressed")}
+                >
+                  <Text style={styles.buttonText}>Leader board</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => Alert.alert("Friends button pressed")}
+                >
+                  <Text style={styles.buttonText}> Friends </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <View style={styles.containerLog}>
+            <FeedList />
+          </View>
+        </ScrollView>
+      </View>
     );
 }
 export default FeedScreen;
