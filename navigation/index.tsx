@@ -1,20 +1,16 @@
-import { Feather } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
   DarkTheme,
   DefaultTheme,
-  NavigationContainer
+  NavigationContainer,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import firebase from "firebase";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
-import AppsandDevicesScreen from "../screens/Apps&DevicesScreen";
 import CloseContactsScreen from "../screens/CloseContactsScreen";
-import ContactUsScreen from "../screens/ContactUsScreen";
 import FeedScreen from "../screens/FeedScreen";
 import LoginScreen from "../screens/LoginScreen";
-import SettingsScreen from "../screens/SettingsScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
