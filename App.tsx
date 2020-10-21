@@ -44,10 +44,10 @@ export default function App() {
   EStyleSheet.build({
     $rem: entireScreenWidth / 380,
   });
-
+  
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-
+  
   let [fontsLoaded] = useFonts({
     HindSiliguri_700Bold,
     HindSiliguri_400Regular,

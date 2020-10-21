@@ -1,24 +1,24 @@
+import { useNavigation } from "@react-navigation/native";
+import firebase from "firebase";
+import "firebase/firestore";
 import React, { useState } from "react";
 import {
-  StyleSheet,
+  Image,
+  Keyboard, KeyboardAvoidingView,
+  Platform, StyleSheet,
   Text,
-  View,
   TextInput,
   TouchableOpacity,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
+  TouchableWithoutFeedback, View
 } from "react-native";
-import { AuthContext } from "../navigation/context";
 import { COLORS } from "../assets/COLORS";
-import "firebase/firestore";
-import firebase from "firebase";
-import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../navigation/context";
 
 export default function LoginScreen(props: { navigation: any }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
   const authContext = React.useContext(AuthContext);
   const navigation = useNavigation();
 
@@ -50,57 +50,60 @@ export default function LoginScreen(props: { navigation: any }) {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/images/splash.png")}
-        />
-
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Email..."
-            placeholderTextColor={COLORS.darkBlue}
-            onChangeText={(text) => setEmail(text)}
+    <KeyboardAvoidingView
+      style = {styles.container}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <Image
+            style={styles.logo}
+            source={require("../assets/images/splash.png")}
           />
-        </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Email..."
+              placeholderTextColor={COLORS.darkBlue}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
 
-        <View style={styles.inputView}>
-          {/* TODO: Investigate wh  y password doesn't use the same font as email */}
-          <TextInput
-            secureTextEntry //hides test input with *****
-            style={styles.inputText}
-            placeholder="Password..."
-            placeholderTextColor={COLORS.darkBlue}
-            onChangeText={(text) => setPassword(text)}
-          />
-        </View>
+          <View style={styles.inputView}>
+            <TextInput
+              secureTextEntry //hides test input with *****
+              style={styles.inputText}
+              placeholder="Password..."
+              placeholderTextColor={COLORS.darkBlue}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
 
-        <TouchableOpacity
-          style={styles.loginBtn}
-          onPress={() => signInWithEmail()}
-        >
-          <Text style={styles.loginText}>LOGIN WITH EMAIL</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{ marginTop: 10 }}>
-          <Text
-            style={{
-              fontWeight: "200",
-              fontSize: 17,
-              textAlign: "center",
-              color: COLORS.darkBlue,
-            }}
-            onPress={() => {
-              navigation.navigate("SignUpScreen");
-            }}
+          <TouchableOpacity
+            style={styles.loginBtn}
+            onPress={() => signInWithEmail()}
           >
-            Don't have an Account?
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableWithoutFeedback>
+            <Text style={styles.loginText}>LOGIN WITH EMAIL</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ marginTop: 10 }}>
+            <Text
+              style={{
+                fontWeight: "200",
+                fontSize: 17,
+                textAlign: "center",
+                color: COLORS.darkBlue,
+              }}
+              onPress={() => {
+                navigation.navigate("SignUpScreen");
+              }}
+            >
+              Don't have an Account?
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -110,6 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.lightBlue,
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
   logo: {
     width: 400,
@@ -142,6 +146,6 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   loginText: {
-    color: COLORS.lightBlue,
+    color: COLORS.white,
   },
 });

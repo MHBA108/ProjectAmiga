@@ -12,6 +12,7 @@ import "firebase/firestore";
 import firebase from "firebase";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { COLORS } from "../assets/COLORS";
 
 export default function SignUpScreen() {
   const [displayName, setDisplayName] = useState("");
@@ -93,7 +94,7 @@ export default function SignUpScreen() {
 
       <TouchableOpacity style={{ marginTop: 10 }}>
         <Text
-          style={{ fontWeight: "200", fontSize: 17, textAlign: "center" }}
+          style={{ fontWeight: "200", fontSize: 17, textAlign: "center", color: COLORS.darkBlue }}
           onPress={() => {
             navigation.goBack();
           }}
@@ -124,6 +125,6 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: "#464D77",
+    color: COLORS.darkBlue,
   },
 });

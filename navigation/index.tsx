@@ -1,25 +1,25 @@
+import { Feather } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
   DarkTheme,
   DefaultTheme,
-  NavigationContainer,
+  NavigationContainer
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import firebase from "firebase";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
+import { COLORS } from "../assets/COLORS";
+import AppsandDevicesScreen from "../screens/Apps&DevicesScreen";
 import CloseContactsScreen from "../screens/CloseContactsScreen";
+import ContactUsScreen from "../screens/ContactUsScreen";
 import FeedScreen from "../screens/FeedScreen";
 import LoginScreen from "../screens/LoginScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import { AuthContext } from "./context";
-import { Feather } from "@expo/vector-icons";
-import AppsandDevicesScreen from "../screens/Apps&DevicesScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import ContactUsScreen from "../screens/ContactUsScreen";
-import { COLORS } from "../assets/COLORS";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
