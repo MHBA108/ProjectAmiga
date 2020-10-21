@@ -28,3 +28,9 @@ export type ResourcesParamList = {
 export type UserProfileParamList = {
   UserProfileScreen: undefined;
 };
+
+export type LogData = {
+  sliderValue: number;
+  emotions: string[];
+  color: string;
+};

@@ -1,6 +1,5 @@
 import * as React from "react";
-import { StyleSheet, ScrollView, SafeAreaView, Button } from "react-native";
-
+import { ScrollView, SafeAreaView, Button } from "react-native";
 import { AuthContext } from "../navigation/context";
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
@@ -11,6 +10,8 @@ import firebase from "firebase";
 import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
 import { useNavigation } from "@react-navigation/native";
+
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const HomeScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -31,7 +32,10 @@ const HomeScreen = (props: { navigation: any }) => {
   return (
     <View style={styles.container}>
       <MyHeader navigation={props.navigation} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollContainer}
+      >
         <Text style={styles.todayStyle}>{"Welcome"} {user?.displayName}!</Text>
         <Clock />
         <CreateLog sliderValue={50} noteText="" />
@@ -53,12 +57,15 @@ const HomeScreen = (props: { navigation: any }) => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.beige,
+  },
+  scrollContainer: {
+    paddingHorizontal: "8rem",
   },
   title: {
     fontSize: 20,

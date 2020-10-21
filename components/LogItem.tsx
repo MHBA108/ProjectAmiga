@@ -2,43 +2,21 @@ import React, { Component } from "react";
 import { Text, View, ScrollView, Alert, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { AntDesign } from "@expo/vector-icons";
-import Slider from "react-native-slider";
-import { LinearGradient } from "expo-linear-gradient";
+import { LogData } from "../types";
+import MoodSlider from "./MoodSlider";
 import { COLORS } from "../assets/COLORS";
 
-const emotions = ["happy", "excited", "anxious", "enthusiastic"];
-const color = "#67d642";
+export default class LogItem extends Component<LogData, LogData> {
+  constructor(props: LogData) {
+    super(props);
 
-export default class LogItem extends Component {
-  value = 80;
-
-  // TODO: one version of this method to import where needed
-  perc2color(perc: number) {
-    var r,
-      g,
-      b = 0;
-    if (perc < 50) {
-      r = 255;
-      g = Math.round(5.1 * perc);
-    } else {
-      g = 255;
-      r = Math.round(510 - 5.1 * perc);
-    }
-    let h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return "#" + ("000000" + h.toString(16)).slice(-6);
+    this.state = {
+      sliderValue: props.sliderValue,
+      emotions: props.emotions,
+      color: props.color,
+    };
   }
 
-  renderBubble = (emotion: string, color: String) => {
-    return (
-      <View style={styles.moodSpacer}>
-        <View style={[styles.emotionBubble, { backgroundColor: color }]}>
-          <Text style={styles.moodHeaderText}>{emotion}</Text>
-        </View>
-      </View>
-    );
-  };
-
-  // TODO: mapping over emotions array
   render() {
     return (
       <View style={styles.log}>
@@ -50,45 +28,23 @@ export default class LogItem extends Component {
         </View>
         <View style={styles.moodBubbleContainer}>
           <ScrollView horizontal={true}>
-            {this.renderBubble(emotions[0], color)}
-            {this.renderBubble(emotions[1], color)}
-            {this.renderBubble(emotions[2], color)}
+            {this.state.emotions.map((item, key) => (
+              <View style={styles.moodSpacer} key={key}>
+                <View
+                  style={[
+                    styles.emotionBubble,
+                    { backgroundColor: this.state.color },
+                  ]}
+                >
+                  <Text style={styles.moodHeaderText}>{item}</Text>
+                </View>
+              </View>
+            ))}
           </ScrollView>
         </View>
-        <View style={styles.sliderContainer}>
-          <View style={styles.bar}>
-            <View style={styles.sliderDummy}>
-              <LinearGradient
-                start={[0, 1]}
-                end={[1, 0]}
-                colors={["#ff0000", "#ffff00", "#00ff00"]}
-                style={styles.linearGradient}
-              ></LinearGradient>
-            </View>
-            <Slider
-              style={styles.slider}
-              thumbStyle={styles.thumb}
-              value={this.value}
-              minimumValue={0}
-              maximumValue={100}
-              onSlidingComplete={(value: number) => {
-                console.log(this.perc2color(value), value);
-                {
-                  this.setState({ sliderValue: value });
-                }
-              }}
-              maximumTrackTintColor="transparent"
-              minimumTrackTintColor="transparent"
-            />
-          </View>
-          <View style={styles.textCon}>
-            <Text style={styles.sliderText}>terrible</Text>
-            <Text style={[styles.sliderText, { alignSelf: "center" }]}>
-              okay
-            </Text>
-            <Text style={styles.sliderText}>great</Text>
-          </View>
-        </View>
+
+        {<MoodSlider sliderValue={this.state.sliderValue} disabled={true} />}
+
         <TouchableOpacity
           style={styles.editContainer}
           onPress={() => Alert.alert("Edit button pressed")}
@@ -171,55 +127,5 @@ const styles = EStyleSheet.create({
   },
   moodSpacer: {
     paddingRight: "8rem",
-  },
-  textCon: {
-    flex: 1,
-    width: "100%",
-    flexDirection: "row",
-    backgroundColor: "transparent",
-    paddingHorizontal: "5rem",
-    justifyContent: "space-between",
-    alignSelf: "flex-end",
-    alignItems: "center",
-  },
-  linearGradient: {
-    width: "100%",
-    aspectRatio: 50 / 1,
-    position: "absolute",
-    top: 0,
-  },
-  sliderDummy: {
-    backgroundColor: "blue",
-    width: "100%",
-    aspectRatio: 50 / 1,
-    position: "absolute",
-    top: "10rem",
-  },
-  thumb: {
-    width: "14rem",
-    height: "14rem",
-    borderRadius: "7rem",
-    backgroundColor: COLORS.darkBlue,
-    borderColor: "white",
-    borderWidth: "1rem",
-    position: "absolute",
-  },
-  bar: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  slider: {
-    width: "100%",
-    aspectRatio: 50 / 1,
-    position: "absolute",
-    top: "-6rem",
-    borderRadius: 50,
-  },
-  sliderText: {
-    color: COLORS.beige,
-    fontSize: "15rem",
-    fontFamily: "HindSiliguri_700Bold",
   },
 });

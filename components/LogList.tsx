@@ -2,26 +2,62 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogItem from "./LogItem";
+import { LogData } from "../types";
 import { COLORS } from "../assets/COLORS";
 
-export default class LogList extends Component {
-  // TODO get number of logs
+// dummy logs
+const log1: LogData = {
+  sliderValue: 90,
+  emotions: ["happy", "excited", "anxious", "enthusiastic"],
+  color: "#35ff00",
+};
+const log2: LogData = {
+  sliderValue: 12,
+  emotions: ["sad", "anxious"],
+  color: "#ff4000",
+};
+const log3: LogData = {
+  sliderValue: 65,
+  emotions: ["cheerful", "energetic", "rested"],
+  color: "#afff00",
+};
 
-  // if none, display penny for your thoughts
-
-  // otherwise construct list of LogItem
+export default class LogList extends Component<
+  {},
+  {
+    logNumber: number;
+    logs: LogData[];
+  }
+> {
+  // TODO get number of logs and log data from backend
+  state = {
+    logNumber: 3,
+    logs: [log1, log2, log3],
+  };
 
   render() {
-    return (
-      <View>
-        <View style={styles.spacing}></View>
-        <LogItem></LogItem>
-        <View style={styles.spacing}></View>
-        <LogItem></LogItem>
-        <View style={styles.spacing}></View>
-        <LogItem></LogItem>
-      </View>
-    );
+    if (this.state.logNumber == 0) {
+      return (
+        <View style={styles.log}>
+          <Text style={styles.text}>It's quiet... too quiet.</Text>
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          {this.state.logs.map((item, key) => (
+            <View key={key}>
+              <View style={styles.spacing}></View>
+              <LogItem
+                sliderValue={item.sliderValue}
+                emotions={item.emotions}
+                color={item.color}
+              ></LogItem>
+            </View>
+          ))}
+        </View>
+      );
+    }
   }
 }
 

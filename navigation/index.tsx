@@ -15,6 +15,7 @@ import SignUpScreen from "../screens/SignUpScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import { AuthContext } from "./context";
+import { Feather } from "@expo/vector-icons";
 import AppsandDevicesScreen from "../screens/Apps&DevicesScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
