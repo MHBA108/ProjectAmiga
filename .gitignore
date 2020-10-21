@@ -114,3 +114,5 @@ dist
 .idea/
 
 .vs/
+
+.gitattributes

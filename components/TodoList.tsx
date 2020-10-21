@@ -7,6 +7,7 @@ import { AppLoading } from "expo";
 import "react-native-get-random-values";
 import { v1 as uuidv1 } from "uuid";
 import { AsyncStorage } from "react-native";
+import { COLORS } from "../assets/COLORS";
 
 const { height, width } = Dimensions.get("window");
 
@@ -158,7 +159,7 @@ export default class TodoList extends React.Component<{}> {
             placeholder="Add task..."
             value={newTodoItem}
             onChangeText={this.newTodoItemController}
-            placeholderTextColor="#f2e9e3"
+            placeholderTextColor={COLORS.beige}
             returnKeyType={"done"}
             autoCorrect={false}
             onSubmitEditing={this.addTodo}
@@ -185,13 +186,13 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     flex: 1,
-    backgroundColor: "#f2e9e3",
+    backgroundColor: COLORS.beige,
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "HindSiliguri_400Regular",
   },
   card: {
-    backgroundColor: "#464d77",
+    backgroundColor: COLORS.darkBlue,
     fontFamily: "HindSiliguri_400Regular",
     flex: 1,
     width: width - 25,
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindSiliguri_400Regular",
     padding: 20,
     fontSize: 24,
-    color: "#f2e9e3",
+    color: COLORS.beige,
   },
   listContainer: {
     alignItems: "center",

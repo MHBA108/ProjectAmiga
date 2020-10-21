@@ -15,6 +15,7 @@ import {
 import LogModal from "../components/LogModal";
 import Slider from "react-native-slider";
 import { LinearGradient } from "expo-linear-gradient";
+import { COLORS } from "../assets/COLORS";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -122,7 +123,7 @@ export default class CreateLog extends Component<
             });
           }}
           value={this.state.value}
-          placeholderTextColor="#F2E9E3"
+          placeholderTextColor={COLORS.beige}
           multiline={true}
         />
         <View
@@ -145,7 +146,7 @@ export default class CreateLog extends Component<
                   alignSelf: "stretch",
                 }}
               >
-                <MaterialIcons name="save" size={24} color="#F2E9E3" />
+                <MaterialIcons name="save" size={24} color={COLORS.beige} />
                 <Text style={styles.textStylePurple}> Save entry</Text>
               </View>
             </TouchableHighlight>
@@ -164,7 +165,7 @@ export default class CreateLog extends Component<
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderRadius: 10,
     padding: 10,
     ...Platform.select({
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: 15,
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderColor: "white",
     borderWidth: 1,
   },
@@ -213,36 +214,36 @@ const styles = StyleSheet.create({
     marginTop: 5,
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     marginLeft: 10,
     marginRight: 10,
   },
   note: {
     height: 40,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: 20,
     marginTop: 10,
     marginBottom: 10,
     padding: 10,
   },
   todayStyle: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontSize: 75,
     fontWeight: "bold",
     fontFamily: "HindSiliguri_700Bold",
     marginLeft: 10,
   },
   textStyle: {
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: 16,
   },
   textStylePurple: {
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: 20,
   },
   questionStyle: {
     marginBottom: 10,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: 20,
     marginLeft: 10,
     marginRight: 10,
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
     margin: 20,
     marginTop: 40,
     flex: 1,
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     borderRadius: 20,
     padding: 35,
     shadowColor: "#000",
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -273,11 +274,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   buttonStyle: {
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     justifyContent: "center",
     borderRadius: 20,
     padding: 5,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: 20,
   },
 });

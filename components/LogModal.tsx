@@ -13,6 +13,7 @@ import Slider from "react-native-slider";
 import Modal from "react-native-modal";
 import { LinearGradient } from "expo-linear-gradient";
 import SelectableChips from "react-native-chip/SelectableChips";
+import { COLORS } from "../assets/COLORS";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -77,7 +78,7 @@ export default class LogModal extends Component<
         <Modal
           hasBackdrop={true}
           isVisible={this.state.modalVisible}
-          backdropColor="#464D77"
+          backdropColor={COLORS.darkBlue}
           backdropOpacity={0.5}
           animationIn="zoomInDown"
           animationOut="zoomOutDown"
@@ -137,7 +138,7 @@ export default class LogModal extends Component<
                     height: event.nativeEvent.contentSize.height + 20,
                   });
                 }}
-                placeholderTextColor="#F2E9E3"
+                placeholderTextColor={COLORS.beige}
                 multiline={true}
               />
               <Text
@@ -227,7 +228,11 @@ export default class LogModal extends Component<
               }}
             >
               <View style={styles.buttonStyle}>
-                <MaterialIcons name="add-circle" size={24} color="#F2E9E3" />
+                <MaterialIcons
+                  name="add-circle"
+                  size={24}
+                  color={COLORS.beige}
+                />
               </View>
               <Text style={styles.buttonStyle}>Add more</Text>
             </View>
@@ -246,10 +251,10 @@ const styles = StyleSheet.create({
     margin: -10,
     marginTop: 50,
     flex: 1,
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderRadius: 20,
     padding: 10,
-    shadowColor: "#464D77",
+    shadowColor: COLORS.darkBlue,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -277,7 +282,7 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: 15,
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderColor: "white",
     borderWidth: 1,
   },
@@ -288,7 +293,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     marginLeft: 10,
     marginRight: 10,
   },
@@ -296,12 +301,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
     padding: 5,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: 20,
   },
   note: {
     height: 40,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: 20,
     marginTop: 10,
     marginBottom: 10,
@@ -310,19 +315,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textStyle: {
-    color: "#F2E9E3",
-    backgroundColor: "#464D77",
+    color: COLORS.beige,
+    backgroundColor: COLORS.darkBlue,
     fontSize: 16,
   },
   saveTextStyle: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontSize: 20,
     borderRadius: 10,
     padding: 10,
   },
   questionStyle: {
     marginBottom: 10,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: 20,
     marginLeft: 10,
     marginRight: 10,
@@ -333,7 +338,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   saveButton: {
-    backgroundColor: "#F9A2A2",
+    backgroundColor: COLORS.pink,
     borderRadius: 20,
     padding: 5,
     marginTop: 10,
@@ -345,14 +350,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   chipSelectedStyle: {
-    backgroundColor: "#F9A2A2",
-    borderColor: "#F9A2A2",
+    backgroundColor: COLORS.pink,
+    borderColor: COLORS.pink,
   },
   valueStyle: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
   },
   chipStyle: {
-    backgroundColor: "#6699CC",
-    borderColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
+    borderColor: COLORS.lightBlue,
   },
 });

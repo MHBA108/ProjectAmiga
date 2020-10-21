@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import moment from "moment";
+import { useFonts } from "expo-font";
+import { COLORS } from "../assets/COLORS";
 
 const styles = StyleSheet.create({
   container: {
   },
   timeText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontSize: 24,
     fontFamily: "HindSiliguri_400Regular",
     marginLeft: 10,
   },
 
   dateText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontSize: 24,
     fontFamily: "HindSiliguri_400Regular",
     marginLeft: 10,

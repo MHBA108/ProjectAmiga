@@ -1,39 +1,71 @@
 import * as React from "react";
-import { StyleSheet, ScrollView, SafeAreaView} from "react-native";
-
+import { ScrollView, SafeAreaView, Button } from "react-native";
+import { AuthContext } from "../navigation/context";
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
 import Calendar from "../components/Calendar";
-import Slider from "@react-native-community/slider";
 import CreateLog from "../components/CreateLog";
 import TodoList from "../components/TodoList";
-import MyHeader from '../components/MyHeader'
+import firebase from "firebase";
+import MyHeader from "../components/MyHeader";
+import { COLORS } from "../assets/COLORS";
+import { useNavigation } from "@react-navigation/native";
 
-const HomeScreen = (props: { navigation: any; }) => {
-    const [value, onChangeText] = React.useState("Write note here ...");
-    return (
-        <View style={styles.container}>
-            <MyHeader navigation={props.navigation}/>
-            <ScrollView>
-                <Text style={styles.todayStyle}>Welcome user_name!</Text>
-                <Clock showDate={true} showTime={true} />
-                <CreateLog sliderValue={50} noteText="" />
-                <Calendar />
-                <TodoList />
-            </ScrollView>
-        </View>
-    )
-}
+import EStyleSheet from "react-native-extended-stylesheet";
 
-export default HomeScreen
+const HomeScreen = (props: { navigation: any }) => {
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [value, onChangeText] = React.useState("Write note here ...");
+  const authContext = React.useContext(AuthContext);
+  const navigation = useNavigation();
 
+  // TODO: 
+  React.useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        console.log(user.displayName + " has logged in!");
+        setUser(user);
+      }
+    });
+  });
 
-const styles = StyleSheet.create({
+  return (
+    <View style={styles.container}>
+      <MyHeader navigation={props.navigation} />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollContainer}
+      >
+        <Text style={styles.todayStyle}>{"Welcome"} {user?.displayName}!</Text>
+        <Clock showDate={true} showTime={true} />
+        <CreateLog sliderValue={50} noteText="" />
+        <Calendar />
+        <TodoList />
+        <Text style={{ alignContent: "stretch" }}>
+          {user == null ? "" : user.email}
+        </Text>
+        <Button
+          title="Log Off"
+          onPress={() => {
+            authContext.signOut();
+          }}
+        />
+      </ScrollView>
+    </View>
+  );
+};
+
+export default HomeScreen;
+
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F2E9E3",
+    backgroundColor: COLORS.beige,
+  },
+  scrollContainer: {
+    paddingHorizontal: "8rem",
   },
   title: {
     fontSize: 20,
@@ -48,7 +80,7 @@ const styles = StyleSheet.create({
   textCon: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     marginLeft: 10,
     marginRight: 10,
   },
@@ -61,7 +93,7 @@ const styles = StyleSheet.create({
   },
 
   todayStyle: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontSize: 34,
     fontWeight: "bold",
     fontFamily: "HindSiliguri_700Bold",
@@ -70,7 +102,7 @@ const styles = StyleSheet.create({
 
   textStyle: {
     color: "white",
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     fontSize: 20,
   },
 
