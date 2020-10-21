@@ -8,16 +8,17 @@ import {
   StatusBar,
 } from "react-native";
 import { Text, View } from "../components/Themed";
-import LogModal from "../components/LogModal";
 import EStyleSheet from "react-native-extended-stylesheet";
 import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
 import LogList from "../components/LogList";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "../assets/COLORS";
+import MyHeader from "../components/MyHeader";
+import OpenAchievements from "../components/OpenAchievements";
 
-export default function UserProfileScreen() {
+const UserProfileScreen = (props: { navigation: any }) => {
   return (
-    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+      <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -27,24 +28,17 @@ export default function UserProfileScreen() {
             <Text style={styles.usernameStyle}>@UserName's Log</Text>
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
-                <Text style={styles.badgeText}>Achievements</Text>
-                <TouchableOpacity
-                  style={styles.badgeContainer}
-                  onPress={() => Alert.alert("Achievement button pressed")}
-                >
-                  <Text style={styles.countText}> 3</Text>
-                  <Image
-                    source={require("../assets/images/achievement.png")}
-                    style={styles.badge}
-                  />
-                </TouchableOpacity>
+              <Text style={styles.badgeText}>Achievements</Text>
+                <View style={styles.badgeContainer1}>
+                <OpenAchievements/>
+                </View>
               </View>
-              <View style={styles.lowerTopLeft}>
-                <Text style={styles.badgeText}>Streak</Text>
+               <View style={styles.lowerTopLeft}>
+                 <Text style={styles.badgeText}>Streak</Text>
                 <TouchableOpacity
                   style={styles.badgeContainer}
                   onPress={() => Alert.alert("Streak button pressed")}
-                >
+                  >
                   <Text style={styles.countText}> 23</Text>
                   <Image
                     source={require("../assets/images/streak.png")}
@@ -74,7 +68,7 @@ export default function UserProfileScreen() {
               <Ionicons
                 name="ios-add-circle-outline"
                 size={20}
-                color={COLORS.darkBlue}
+                color="#464D77"
               />
               <Text style={styles.buttonText}> New Entry</Text>
             </TouchableOpacity>
@@ -84,14 +78,15 @@ export default function UserProfileScreen() {
           <LogList />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
+export default UserProfileScreen;
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.beige,
+    backgroundColor: "#F2E9E3",
     alignItems: "center",
   },
   scrollContainer: {
@@ -106,7 +101,7 @@ const styles = EStyleSheet.create({
   containerLog: {
     width: "100%",
     flexDirection: "column",
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: "#464D77",
     borderRadius: 10,
     padding: "10rem",
   },
@@ -133,18 +128,18 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: "transparent",
-    paddingTop: "20rem",
+    paddingTop: "10rem",
   },
   buttonEditProfile: {
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: "#464D77",
     justifyContent: "center",
     borderRadius: 20,
-    color: COLORS.beige,
+    color: "#F2E9E3",
     fontSize: "10rem",
     flexShrink: 1,
   },
   usernameStyle: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "20rem",
   },
@@ -156,13 +151,13 @@ const styles = EStyleSheet.create({
   },
   circle: {
     position: "absolute",
-    top: "8rem",
+    top: "6rem",
     height: "100rem",
     width: "100rem",
     borderRadius: "50rem",
     backgroundColor: "transparent",
-    borderColor: COLORS.lightBlue,
-    borderWidth: "5rem",
+    borderColor: "#6699CC",
+    borderWidth: "7rem",
     alignSelf: "center",
   },
   profilePic: {
@@ -177,7 +172,7 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
   },
   buttonText: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_600SemiBold",
     fontSize: "10rem",
   },
@@ -189,7 +184,7 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   badgeText: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "11rem",
   },
@@ -201,9 +196,17 @@ const styles = EStyleSheet.create({
     backgroundColor: "#FCD7AE",
     aspectRatio: 1 / 1,
     padding: "15rem",
-  },
+    },
+    badgeContainer1: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "transparent",
+        aspectRatio: 1 / 1,
+        padding: "10rem",
+    },
   countText: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "30rem",
   },

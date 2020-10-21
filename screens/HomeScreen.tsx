@@ -29,7 +29,7 @@ const HomeScreen = (props: { navigation: any }) => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <MyHeader navigation={props.navigation} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.todayStyle}>{"Welcome"} {user?.displayName}!</Text>
@@ -47,7 +47,7 @@ const HomeScreen = (props: { navigation: any }) => {
           }}
         />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

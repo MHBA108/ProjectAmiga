@@ -3,10 +3,12 @@ import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
+import MyHeader from "../components/MyHeader";
 
-export default function StatsScreen() {
-  return (
-    <View style={styles.container}>
+const StatsScreen = (props: { navigation: any }) => {
+    return (
+      <View>
+      <MyHeader navigation={props.navigation} />
       <Text style={styles.title}>Tab Three</Text>
       <View
         style={styles.separator}
@@ -17,6 +19,8 @@ export default function StatsScreen() {
     </View>
   );
 }
+
+    export default StatsScreen;
 
 const styles = StyleSheet.create({
   container: {

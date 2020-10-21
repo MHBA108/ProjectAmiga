@@ -61,17 +61,18 @@ export default function LoginScreen(props: { navigation: any }) {
           <TextInput
             style={styles.inputText}
             placeholder="Email..."
-            placeholderTextColor="#464D77"
+            placeholderTextColor={COLORS.darkBlue}
             onChangeText={(text) => setEmail(text)}
           />
         </View>
 
         <View style={styles.inputView}>
+          {/* TODO: Investigate wh  y password doesn't use the same font as email */}
           <TextInput
             secureTextEntry //hides test input with *****
             style={styles.inputText}
             placeholder="Password..."
-            placeholderTextColor="#464D77"
+            placeholderTextColor={COLORS.darkBlue}
             onChangeText={(text) => setPassword(text)}
           />
         </View>
@@ -89,7 +90,7 @@ export default function LoginScreen(props: { navigation: any }) {
               fontWeight: "200",
               fontSize: 17,
               textAlign: "center",
-              color: "#464D77",
+              color: COLORS.darkBlue,
             }}
             onPress={() => {
               navigation.navigate("SignUpScreen");
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     height: 400,
   },
   inputView: {
-    backgroundColor: COLORS.lightBlue,
+    backgroundColor: COLORS.yellow,
     width: "69%",
     borderRadius: 25,
     height: 50,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: "#464D77",
+    color: COLORS.darkBlue,
   },
   forgot: {
     color: "white",
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     width: "69%",
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderRadius: 25,
     height: 50,
     alignItems: "center",

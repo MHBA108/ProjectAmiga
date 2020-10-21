@@ -18,7 +18,6 @@ import { AuthContext } from "./context";
 import AppsandDevicesScreen from "../screens/Apps&DevicesScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
-import { Feather } from "@expo/vector-icons";
 import { COLORS } from "../assets/COLORS";
 
 // If you are not familiar with React Navigation, we recommend going through the
@@ -87,11 +86,11 @@ function HamburgerDrawer() {
       }}
     >
       <Drawer.Screen
-        name="Home"
+        name="Back"
         component={BottomTabNavigator}
         options={{
           drawerIcon: ({ color }) => (
-            <Feather name="home" size={24} color={COLORS.beige} />
+            <Feather name="arrow-left" size={24} color={COLORS.beige} />
           ),
         }}
       />
