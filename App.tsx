@@ -37,6 +37,10 @@ const firebaseConfig = {
 
 console.log("application id: " + Application.applicationId);
 
+// import {  }​​​​​​​​​ from "react-native";
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 // TODO: Pressing back in the root tab crashes the app! I am not sure the arrow
 // should even be there.
 export default function App() {

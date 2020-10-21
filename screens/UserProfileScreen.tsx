@@ -14,8 +14,11 @@ import LogList from "../components/LogList";
 import { Ionicons } from "@expo/vector-icons";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
+import * as firebase from "firebase";
 
 const UserProfileScreen = (props: { navigation: any }) => {
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
+
   return (
       <View style={styles.container}>
       <MyHeader navigation={props.navigation} />
@@ -25,7 +28,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
       >
         <View style={styles.containerTop}>
           <View style={styles.containerUpperLeft}>
-            <Text style={styles.usernameStyle}>@UserName's Log</Text>
+            <Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
               <Text style={styles.badgeText}>Achievements</Text>

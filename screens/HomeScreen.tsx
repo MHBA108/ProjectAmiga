@@ -37,7 +37,7 @@ const HomeScreen = (props: { navigation: any }) => {
         style={styles.scrollContainer}
       >
         <Text style={styles.todayStyle}>{"Welcome"} {user?.displayName}!</Text>
-        <Clock />
+        <Clock showDate={true} showTime={true} />
         <CreateLog sliderValue={50} noteText="" />
         <Calendar />
         <TodoList />

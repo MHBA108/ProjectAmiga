@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 });
 
 export default class Clock extends Component<
-  {},
+  { showDate: boolean; showTime: boolean },
   { time: string; date: string }
 > {
   constructor(props: any) {
@@ -34,6 +34,14 @@ export default class Clock extends Component<
       time: moment().format("dddd, MMMM Do"),
       date: moment().format("H:mm A"),
     };
+  }
+
+  dateText() {
+    return (<Text style={styles.dateText}>{this.state.date}</Text>);
+  }
+
+  timeText() {
+    return (<Text style={styles.timeText}>{this.state.time}</Text>);
   }
 
   render() {
@@ -46,8 +54,8 @@ export default class Clock extends Component<
 
     return (
       <View style={styles.container}>
-        <Text style={styles.dateText}>{this.state.date}</Text>
-        <Text style={styles.timeText}>{this.state.time}</Text>
+        {this.props.showDate ? this.dateText() : null}
+        {this.props.showTime ? this.timeText() : null}
       </View>
     );
   }
