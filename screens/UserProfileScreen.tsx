@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
 import * as firebase from "firebase";
+import OpenProfileDetails from "../components/OpenProfileDetails";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -57,24 +58,8 @@ const UserProfileScreen = (props: { navigation: any }) => {
               resizeMode="contain"
               source={profilePlaceholder}
             />
-            <View style={styles.circle}></View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => Alert.alert("Edit profile button pressed")}
-            >
-              <Text style={styles.buttonText}>Edit Profile</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => Alert.alert("New entry button pressed")}
-            >
-              <Ionicons
-                name="ios-add-circle-outline"
-                size={20}
-                color="#464D77"
-              />
-              <Text style={styles.buttonText}> New Entry</Text>
-            </TouchableOpacity>
+           <View style={styles.circle}></View>
+                <OpenProfileDetails />
           </View>
         </View>
         <View style={styles.containerLog}>
@@ -154,7 +139,7 @@ const styles = EStyleSheet.create({
   },
   circle: {
     position: "absolute",
-    top: "6rem",
+    top: "10rem",
     height: "100rem",
     width: "100rem",
     borderRadius: "50rem",
