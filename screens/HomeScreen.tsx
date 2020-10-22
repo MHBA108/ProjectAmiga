@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, SafeAreaView, Button } from "react-native";
+import { ScrollView } from "react-native";
 import { AuthContext } from "../navigation/context";
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
@@ -44,12 +44,6 @@ const HomeScreen = (props: { navigation: any }) => {
         <Text style={{ alignContent: "stretch" }}>
           {user == null ? "" : user.email}
         </Text>
-        <Button
-          title="Log Off"
-          onPress={() => {
-            authContext.signOut();
-          }}
-        />
       </ScrollView>
     </View>
   );

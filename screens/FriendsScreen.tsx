@@ -8,22 +8,22 @@ import { Text, View } from "../components/Themed";
 
 
 
-const AppsandDevicesScreen = (props: { navigation: any; }) => {
+const FriendsScreen= (props: { navigation: any; }) => {
     return (
         <View>
-            <MyHeader navigation={props.navigation} />
+            <MyHeader navigation={props.navigation}/>
             <View
                 lightColor="#eee"
                 darkColor="rgba(255,255,255,0.1)"
             />
-            <EditScreenInfo path="/screens/Apps&DevicesScreen.tsx" />
+            <EditScreenInfo path="/screens/FriendsScreen.tsx" />
         </View>
     )
 }
 
-export default AppsandDevicesScreen
+export default FriendsScreen
 
-
+        
 const styles = StyleSheet.create({
     container: {
         flex: 1,

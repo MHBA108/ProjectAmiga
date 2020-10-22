@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import {
     Text,
     View,
-    Button,
     ScrollView,
-    StyleSheet,
-    TextInput,
     Image,
     TouchableHighlight,
-    Dimensions,
     TouchableOpacity,
     Alert,
 } from "react-native";
@@ -16,7 +12,6 @@ import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Feather, AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../assets/COLORS";
-import * as firebase from "firebase";
 import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
 
 
@@ -26,8 +21,6 @@ export default class ProfileDetailsModal extends Component<
     {
         expanded: boolean;
         modalVisible: boolean;
-        height: number;
-        selected: boolean;
     }
     > {
 
@@ -36,9 +29,8 @@ export default class ProfileDetailsModal extends Component<
         super(props);
         this.state = {
             modalVisible: false,
-            expanded: false,
-            height: 0,
-            selected: false,
+            expanded:false,
+            
         };
     }
 
@@ -97,7 +89,7 @@ export default class ProfileDetailsModal extends Component<
                             <View style={styles.detail}>
                                 <Text style={styles.detailTitle}> Profile Picture: </Text>
                                 <TouchableOpacity
-                                    style={styles.editContainer}
+                                    style={styles.circle}
                                     onPress={() => Alert.alert("Edit button pressed")}
                                 >
                                     <Image
@@ -105,7 +97,6 @@ export default class ProfileDetailsModal extends Component<
                                         resizeMode="contain"
                                         source={profilePlaceholder}
                                     />
-                                    <View style={styles.circle}></View>
                                 </TouchableOpacity>
                             </View>
 
@@ -171,7 +162,8 @@ const styles = EStyleSheet.create({
     },
     circle2: {
         position: "absolute",
-        top: "18rem",
+        left: "-4rem",
+        top: "-3rem",
         height: "105rem",
         width: "105rem",
         borderRadius: "57rem",
@@ -179,7 +171,6 @@ const styles = EStyleSheet.create({
         borderColor: "transparent",
         borderWidth: "14rem",
         alignSelf: "flex-end",
-        right: "9rem",
     },
     detailDescription: {
         color: COLORS.darkBlue,
@@ -259,12 +250,12 @@ const styles = EStyleSheet.create({
         height: "50rem",
     },
     modalContainer: {
-        margin: -10,
-        marginTop: 50,
+        margin: "-10rem",
+        marginTop: "50rem",
         flex: 1,
         backgroundColor: COLORS.yellow,
-        borderRadius: 20,
-        padding: 10,
+        borderRadius: "20rem",
+        padding: "10rem",
         shadowColor: COLORS.darkBlue,
         shadowOffset: {
             width: 0,

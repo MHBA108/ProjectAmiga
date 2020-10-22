@@ -1,16 +1,9 @@
 import React, { Component } from "react";
 import {
     View,
-    Text,
-    StyleSheet,
-    TextInput,
-    Image,
     LayoutAnimation,
     Platform,
-    UIManager,
-    TouchableHighlight,
-    Dimensions,
-    Alert,
+ 
 } from "react-native";
 
 import { COLORS } from "../assets/COLORS";
@@ -23,8 +16,6 @@ export default class OpenProfileDetails extends Component<
     {
         expanded: boolean;
         modalVisible: boolean;
-        height: number;
-        sliderValue: number;
     }
     > {
 
@@ -36,8 +27,6 @@ export default class OpenProfileDetails extends Component<
         this.state = {
             modalVisible: false,
             expanded: false,
-            height: 0,
-            sliderValue: 50,
         };
     }
 
