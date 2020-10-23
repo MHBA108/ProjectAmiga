@@ -14,7 +14,6 @@ import EStyleSheet from "react-native-extended-stylesheet";
 export default class OpenProfileDetails extends Component<
     {},
     {
-        expanded: boolean;
         modalVisible: boolean;
     }
     > {
@@ -26,17 +25,11 @@ export default class OpenProfileDetails extends Component<
         super(props);
         this.state = {
             modalVisible: false,
-            expanded: false,
         };
     }
 
-    changeLayout = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        this.setState({ expanded: !this.state.expanded });
-    };
 
     render() {
-        const { modalVisible } = this.state;
         return (
             <View style={styles.container}>
                 <ProfileDetailsModal />

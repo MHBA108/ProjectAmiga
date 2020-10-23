@@ -9,13 +9,13 @@ export default class FriendList extends Component {
     render() {
         return (
             <View>
-                <View style={styles.spacing}></View>
-                <FriendItem></FriendItem>
-                <View style={styles.spacing}></View>
-                <FriendItem></FriendItem>
-                <View style={styles.spacing}></View>
-                <FriendItem></FriendItem>
-                <View style={styles.spacing}></View>
+                <View style={styles.spacing}/>
+                <FriendItem/>
+                <View style={styles.spacing}/>
+                <FriendItem/>
+                <View style={styles.spacing}/>
+                <FriendItem/>
+                <View style={styles.spacing} />
                 <TouchableOpacity
                     style={styles.friendButton}
                     onPress={() => Alert.alert("Add friend button pressed")}

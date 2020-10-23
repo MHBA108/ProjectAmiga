@@ -53,9 +53,9 @@ export default class FriendItem extends Component {
 
 const styles = EStyleSheet.create({
   achievementContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: "10rem",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: "10rem",
   },
   spacing: {
     padding: "8rem",
@@ -81,9 +81,9 @@ const styles = EStyleSheet.create({
     fontFamily: "HindSiliguri_600SemiBold",
   },
   circleContainer: {
-      height: "120rem",
-      width: "120rem",
-      borderRadius: "60rem",
+    height: "120rem",
+    width: "120rem",
+    borderRadius: "60rem",
     top: "5rem",
     left: "2rem",
   },
@@ -158,7 +158,7 @@ const styles = EStyleSheet.create({
     height: "40rem",
     width: "40rem",
     backgroundColor: "transparent",
-      flexDirection: "row",
+    flexDirection: "row",
     margin: "10rem",
   },
 });
