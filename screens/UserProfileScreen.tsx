@@ -9,13 +9,14 @@ import {
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
+import avatar from "../assets/images/avatars/male.png";
 import LogList from "../components/LogList";
 import { Ionicons } from "@expo/vector-icons";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
 import * as firebase from "firebase";
 import OpenProfileDetails from "../components/OpenProfileDetails";
+import { COLORS } from "../assets/COLORS";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -53,12 +54,12 @@ const UserProfileScreen = (props: { navigation: any }) => {
             </View>
           </View>
           <View style={styles.containerUpperRight}>
+          <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
-              source={profilePlaceholder}
+              source={avatar}
             />
-           <View style={styles.circle}></View>
                 <OpenProfileDetails />
           </View>
         </View>
@@ -143,8 +144,8 @@ const styles = EStyleSheet.create({
     height: "100rem",
     width: "100rem",
     borderRadius: "50rem",
-    backgroundColor: "transparent",
-    borderColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
+    borderColor: COLORS.lightBlue,
     borderWidth: "7rem",
     alignSelf: "center",
   },

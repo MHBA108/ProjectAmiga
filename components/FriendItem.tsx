@@ -4,7 +4,6 @@ import {
   View,
   ScrollView,
   Alert,
-  TouchableOpacity,
   Image,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -12,34 +11,39 @@ import { COLORS } from "../assets/COLORS";
 import avatar from "../assets/images/avatars/female.png";
 
 //TODO: add props
-export default class FeedItem extends Component {
+export default class FriendItem extends Component {
   render() {
     return (
       <View style={styles.feed}>
-        <View style={styles.dateContainer}>
-          <Text style={styles.date}>5/12/2020</Text>
+            <View style={styles.dateContainer}>
+                <Text style={styles.usernameFont}> @Username </Text>
           <View style={styles.spacing}></View>
-          <View style={styles.streakContainer}>
-            <Text style={styles.streakFont}> 23</Text>
+          <View style={styles.streakAndAchievement}>
+            <Text style={styles.streakFont}>23</Text>
             <Image
               source={require("../assets/images/streak.png")}
               style={styles.badge}
-            />
-          </View>
+                    />
+            <View style={ styles.achievementContainer }>
+            <Text style={styles.streakFont}>3</Text>
+            <Image
+              source={require("../assets/images/achievement.png")}
+              style={styles.badge}
+                    />
+            </View>
+           </View>
         </View>
         <View style={styles.HeaderContainer}>
-          <View style={styles.containerUpperRight}>
-            <View style={styles.circle}></View>
+                <View style={styles.containerUpperRight}>
+                    <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
               source={avatar}
             />
-            <Text style={styles.usernameFont}> @Username </Text>
+            
+            
           </View>
-        </View>
-        <View style={styles.logContainer}>
-          <Text style={styles.streakFont}> has logged today!</Text>
         </View>
         <View style={styles.bar}></View>
       </View>
@@ -48,6 +52,11 @@ export default class FeedItem extends Component {
 }
 
 const styles = EStyleSheet.create({
+  achievementContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: "10rem",
+  },
   spacing: {
     padding: "8rem",
     backgroundColor: "transparent",
@@ -64,49 +73,42 @@ const styles = EStyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "transparent",
-    paddingHorizontal: "15rem",
+    paddingHorizontal: "5rem",
     justifyContent: "space-between",
     alignSelf: "center",
     color: COLORS.beige,
-    fontSize: "20rem",
+    fontSize: "30rem",
     fontFamily: "HindSiliguri_600SemiBold",
   },
   circleContainer: {
-    height: "75rem",
-    width: "75rem",
-    borderRadius: "37.5rem",
+      height: "120rem",
+      width: "120rem",
+      borderRadius: "60rem",
     top: "5rem",
     left: "2rem",
   },
   circle: {
     position: "absolute",
-    height: "80rem",
-    width: "80rem",
-    borderRadius: "40rem",
+    height: "125rem",
+    width: "125rem",
+    borderRadius: "62.5rem",
     backgroundColor: COLORS.lightBlue,
     borderColor: COLORS.lightBlue,
     borderWidth: "5rem",
   },
   feed: {
     width: "100%",
-    aspectRatio: 4 / 2,
+    aspectRatio: 5 / 2,
     backgroundColor: "#4E5E85",
     borderRadius: 10,
     flexDirection: "column",
     padding: "5rem",
     justifyContent: "space-around",
   },
-
-  date: {
-    color: COLORS.beige,
-    fontSize: "13rem",
-    textAlign: "center",
-    fontFamily: "HindSiliguri_400Regular",
-  },
   HeaderContainer: {
     width: "100%",
     backgroundColor: "transparent",
-    aspectRatio: 15 / 1,
+    alignSelf: "center",
   },
   logContainer: {
     width: "100%",
@@ -123,9 +125,9 @@ const styles = EStyleSheet.create({
     top: "100rem",
     height: "55rem",
   },
-  streakContainer: {
+  streakAndAchievement: {
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
   },
   dateContainer: {
     position: "absolute",
@@ -134,7 +136,6 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     borderRadius: 10,
     padding: "5rem",
-    right: "5rem",
     top: "5rem",
   },
   textCon: {
@@ -157,6 +158,7 @@ const styles = EStyleSheet.create({
     height: "40rem",
     width: "40rem",
     backgroundColor: "transparent",
-    flexDirection: "row",
+      flexDirection: "row",
+    margin: "10rem",
   },
 });
