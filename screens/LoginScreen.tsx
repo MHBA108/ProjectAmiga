@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
-import "firebase/firestore";
+// import "firebase/firestore";
 import React, { useState } from "react";
 import {
   Image,
@@ -22,8 +22,19 @@ export default function LoginScreen(props: { navigation: any }) {
   const authContext = React.useContext(AuthContext);
   const navigation = useNavigation();
 
-  function onLoginSuccess() {
+  async function onLoginSuccess() {
     console.log("login success");
+    const user = firebase.auth().currentUser;
+    if (user){
+      let document = await firebase.firestore().collection("users").doc(user.uid).get();
+      if (!(document && document.exists)){
+        const data = {
+          avatar: "TODO: add default avatar path", // TODO: add default avatar path
+          streak: 0,
+        };
+        firebase.firestore().collection("users").doc(user.uid).set(data)
+      }
+    }
     authContext.signIn();
   }
 

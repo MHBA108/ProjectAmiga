@@ -13,6 +13,7 @@ import MyHeader from "../components/MyHeader";
 import OpenStreaks from "../components/OpenStreaks";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
+import { useFocusEffect } from "@react-navigation/native";
 
 const FeedScreen = (props: { navigation: any }) => {
     const [user, setUser] = React.useState(firebase.auth().currentUser);

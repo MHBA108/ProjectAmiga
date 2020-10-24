@@ -38,6 +38,10 @@ export default class CreateLog extends Component<
     this.setState({ value: text });
   };
 
+  onChangeMoodPercentile = (sliderValue: number) => {
+    this.setState({ sliderValue });
+  };
+
   triggerModal = () => this.setState({ modalVisible: true });
 
   constructor(props: CreateLogProps) {
@@ -101,7 +105,7 @@ export default class CreateLog extends Component<
             onSlidingComplete={(value: number) => {
               console.log(this.perc2color(value), value);
               {
-                this.setState({ sliderValue: value });
+                this.onChangeMoodPercentile(value);
               }
             }}
             maximumTrackTintColor="transparent"

@@ -15,12 +15,24 @@ import { Ionicons } from "@expo/vector-icons";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
 import * as firebase from "firebase";
+import { useFocusEffect } from "@react-navigation/native";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [streak, setStreak] = React.useState(0);
+  const [avatar, setAvatar] = React.useState("");
+
+  useFocusEffect(() => {
+    let doc = getStreak()
+    async function getStreak() {
+      const doc = await firebase.firestore().collection("users").doc(user?.uid).get();
+      setStreak(doc.get("streak"));
+      setAvatar(doc.get("avatar"));
+    }
+  });
 
   return (
-      <View style={styles.container}>
+    <View style={styles.container}>
       <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
@@ -31,18 +43,18 @@ const UserProfileScreen = (props: { navigation: any }) => {
             <Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
-              <Text style={styles.badgeText}>Achievements</Text>
+                <Text style={styles.badgeText}>Achievements</Text>
                 <View style={styles.badgeContainer1}>
-                <OpenAchievements/>
+                  <OpenAchievements />
                 </View>
               </View>
-               <View style={styles.lowerTopLeft}>
-                 <Text style={styles.badgeText}>Streak</Text>
+              <View style={styles.lowerTopLeft}>
+                <Text style={styles.badgeText}>Streak</Text>
                 <TouchableOpacity
                   style={styles.badgeContainer}
                   onPress={() => Alert.alert("Streak button pressed")}
-                  >
-                  <Text style={styles.countText}> 23</Text>
+                >
+                  <Text style={styles.countText}>{streak}</Text>
                   <Image
                     source={require("../assets/images/streak.png")}
                     style={styles.badge}
@@ -83,7 +95,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
       </ScrollView>
     </View>
   );
-}
+};
 export default UserProfileScreen;
 
 const styles = EStyleSheet.create({
@@ -199,15 +211,15 @@ const styles = EStyleSheet.create({
     backgroundColor: "#FCD7AE",
     aspectRatio: 1 / 1,
     padding: "15rem",
-    },
-    badgeContainer1: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "transparent",
-        aspectRatio: 1 / 1,
-        padding: "10rem",
-    },
+  },
+  badgeContainer1: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    aspectRatio: 1 / 1,
+    padding: "10rem",
+  },
   countText: {
     color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",

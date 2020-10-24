@@ -14,8 +14,12 @@ import Modal from "react-native-modal";
 import { LinearGradient } from "expo-linear-gradient";
 import SelectableChips from "react-native-chip/SelectableChips";
 import { COLORS } from "../assets/COLORS";
+import firebase, { firestore } from "firebase";
+import moment, { Moment } from "moment";
+import {Log} from '../types';
 
 import { MaterialIcons } from "@expo/vector-icons";
+import { ModalSlideFromBottomIOS } from "@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets";
 
 interface LogModalProps {
   sliderValue: number;
@@ -25,26 +29,46 @@ interface LogModalProps {
 export default class LogModal extends Component<
   LogModalProps,
   {
-    value: string;
+    moodPercentile: number,
+    text: string;
+    timestamp: string;
+    moodWords: string[];
     expanded: boolean;
     modalVisible: boolean;
     height: number;
     selected: boolean;
+    user: firebase.User | null;
   }
 > {
-  onChangeText = (text: string) => {
-    this.setState({ value: text });
-  };
 
   constructor(props: LogModalProps) {
     super(props);
+    console.log(props.sliderValue + "hi")
     this.state = {
-      value: "",
+      moodPercentile: this.props.sliderValue,
+      text: props.noteText,
+      timestamp: moment().format(),
+      moodWords: [],
       modalVisible: false,
       expanded: false,
       height: 0,
       selected: false,
+      user: firebase.auth().currentUser,
     };
+  }
+
+  onChangeMoodPercentile = (perc: number) =>{
+    console.log(this.perc2color(perc))
+    this.setState({moodPercentile: perc})
+  }
+
+  onChangeText = (text: string) => {
+    this.setState({ text: text });
+  };
+
+  onChangeMoodWords = (moodWords: string[]) => {
+    console.log(moodWords)
+    this.setState({moodWords: moodWords})
   }
 
   perc2color(perc: number) {
@@ -64,12 +88,28 @@ export default class LogModal extends Component<
 
   openModal() {
     this.setState({ modalVisible: true });
-    this.setState({ value: this.props.noteText });
+    this.setState({ text: this.props.noteText });
+    this.setState({ moodPercentile: this.props.sliderValue});
   }
 
-  closeModal() {
+  async closeModal() {
     this.setState({ modalVisible: false });
-    this.setState({ value: this.props.noteText });
+    this.setState({ text: this.props.noteText });
+    const date = moment().format("MM-DD-YYYY");
+    console.log(date);
+    const log: Log = {
+        moodPercentile: this.state.moodPercentile,
+        text: this.state.text,
+        timestamp: this.state.timestamp,
+        moodWords: this.state.moodWords,
+      }
+    if (this.state.user) {
+      firestore().collection("users").doc(this.state.user.uid).collection("userLogs").doc(date).set(log);
+      const userRef = firestore().collection("users").doc(this.state.user.uid);
+      const res = await userRef.update({streak: firestore.FieldValue.increment(1)});
+      // firestore().collection("users").doc(this.state.user.uid).update({streak: i});
+    }
+    
   }
 
   render() {
@@ -112,11 +152,11 @@ export default class LogModal extends Component<
                 <Slider
                   style={{ height: 20, borderRadius: 50 }}
                   thumbStyle={styles.thumb}
-                  value={this.props.sliderValue}
+                  value={this.state.moodPercentile}
                   minimumValue={0}
                   maximumValue={100}
                   onSlidingComplete={(value: number) =>
-                    console.log(this.perc2color(value))
+                    this.onChangeMoodPercentile(value)
                   }
                   maximumTrackTintColor="transparent"
                   minimumTrackTintColor="transparent"
@@ -131,7 +171,7 @@ export default class LogModal extends Component<
                 // placeholder="Write note here ..."
                 style={[styles.note, { height: this.state.height }]}
                 defaultValue={this.props.noteText}
-                value={this.state.value}
+                value={this.state.text}
                 onChangeText={(text) => this.onChangeText(text)}
                 onContentSizeChange={(event) => {
                   this.setState({
@@ -169,38 +209,13 @@ export default class LogModal extends Component<
                     "negative",
                     "mad",
                   ]}
-                  onChangeChips={(chips: SelectableChips) => console.log(chips)}
+                  onChangeChips={(chips: SelectableChips) => this.onChangeMoodWords(chips)}
                   alertRequired={false}
                   chipStyleSelected={styles.chipSelectedStyle}
                   chipStyle={styles.chipStyle}
                   valueStyle={styles.valueStyle}
                   valueStyleSelected={styles.valueStyle}
                 />
-                {/* <List.Section>
-                  <View style={styles.row}>
-                    <Chip selected={} onPress={() => {}} style={styles.chip}>
-                      <Text style={{color: "#4F5D85"}}>Simple</Text>
-                    </Chip>
-                    <Chip selectedColor='#F9A2A2' onPress={() => {}} style={styles.chip}>
-                      Close button
-                    </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
-                      Icon
-                    </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
-                      Avatar
-                    </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
-                      Avatar (selected)
-                    </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
-                      Icon (disabled)
-                    </Chip>
-                    <Chip onPress={() => {}} style={styles.chip}>
-                      Avatar (disabled)
-                    </Chip>
-                  </View>
-                </List.Section> */}
               </View>
               <View style={styles.saveButton}>
                 <TouchableHighlight

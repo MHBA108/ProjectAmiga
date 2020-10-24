@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
@@ -39,7 +41,7 @@ export type LogData = {
 export type Log = {
   moodPercentile: number;
   text: string;
-  timestamp: Date;
+  timestamp: string;
   moodWords: string[];
 };
 
