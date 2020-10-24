@@ -107,7 +107,6 @@ export default class LogModal extends Component<
       firestore().collection("users").doc(this.state.user.uid).collection("userLogs").doc(date).set(log);
       const userRef = firestore().collection("users").doc(this.state.user.uid);
       const res = await userRef.update({streak: firestore.FieldValue.increment(1)});
-      // firestore().collection("users").doc(this.state.user.uid).update({streak: i});
     }
     
   }

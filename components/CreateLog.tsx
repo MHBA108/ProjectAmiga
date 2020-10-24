@@ -1,23 +1,18 @@
-import React, { Component, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  LayoutAnimation,
-  Platform,
-  UIManager,
-  TouchableHighlight,
-  Dimensions,
-  Alert,
-} from "react-native";
-
-import LogModal from "../components/LogModal";
-import Slider from "react-native-slider";
-import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "../assets/COLORS";
-
 import { MaterialIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { Component } from "react";
+import {
+  Alert, LayoutAnimation,
+  Platform, StyleSheet, Text,
+  TextInput,
+  TouchableHighlight, View
+} from "react-native";
+import Slider from "react-native-slider";
+import { COLORS } from "../assets/COLORS";
+import LogModal from "../components/LogModal";
+import moment, { Moment } from "moment";
+import firebase, { firestore } from "firebase";
+import { Log } from "../types";
 
 interface CreateLogProps {
   sliderValue: number;
@@ -32,6 +27,8 @@ export default class CreateLog extends Component<
     modalVisible: boolean;
     height: number;
     sliderValue: number;
+    user: firebase.User | null;
+    timestamp: string;
   }
 > {
   onChangeText = (text: string) => {
@@ -40,6 +37,30 @@ export default class CreateLog extends Component<
 
   onChangeMoodPercentile = (sliderValue: number) => {
     this.setState({ sliderValue });
+  };
+
+  async onSave(){
+    const date = moment().format("MM-DD-YYYY");
+    console.log(date);
+    const log: Log = {
+      moodPercentile: this.state.sliderValue,
+      text: this.state.value,
+      timestamp: this.state.timestamp,
+      moodWords: [],
+    };
+    if (this.state.user) {
+      firestore()
+        .collection("users")
+        .doc(this.state.user.uid)
+        .collection("userLogs")
+        .doc(date)
+        .set(log);
+      const userRef = firestore().collection("users").doc(this.state.user.uid);
+      const res = await userRef.update({
+        streak: firestore.FieldValue.increment(1),
+      });
+    }
+    Alert.alert("Log saved!")
   };
 
   triggerModal = () => this.setState({ modalVisible: true });
@@ -52,6 +73,8 @@ export default class CreateLog extends Component<
       expanded: false,
       height: 0,
       sliderValue: 50,
+      user: firebase.auth().currentUser,
+      timestamp: moment().format(),
     };
   }
 
@@ -139,7 +162,7 @@ export default class CreateLog extends Component<
           <View style={styles.buttonStyle}>
             <TouchableHighlight
               underlayColor="none"
-              onPress={() => Alert.alert("Save button pressed")}
+              onPress={() => this.onSave()}
             >
               <View
                 style={{
