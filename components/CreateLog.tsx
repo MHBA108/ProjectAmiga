@@ -2,10 +2,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { Component } from "react";
 import {
-  Alert, LayoutAnimation,
-  Platform, StyleSheet, Text,
+  Alert,
+  LayoutAnimation,
+  Platform,
+  StyleSheet,
+  Text,
   TextInput,
-  TouchableHighlight, View
+  TouchableHighlight,
+  View,
 } from "react-native";
 import Slider from "react-native-slider";
 import { COLORS } from "../assets/COLORS";
@@ -39,7 +43,7 @@ export default class CreateLog extends Component<
     this.setState({ sliderValue });
   };
 
-  async onSave(){
+  async onSave() {
     const date = moment().format("MM-DD-YYYY");
     console.log(date);
     const log: Log = {
@@ -60,8 +64,8 @@ export default class CreateLog extends Component<
         streak: firestore.FieldValue.increment(1),
       });
     }
-    Alert.alert("Log saved!")
-  };
+    Alert.alert("Log saved!");
+  }
 
   triggerModal = () => this.setState({ modalVisible: true });
 

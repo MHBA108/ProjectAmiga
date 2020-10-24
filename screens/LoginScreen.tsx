@@ -4,12 +4,15 @@ import firebase from "firebase";
 import React, { useState } from "react";
 import {
   Image,
-  Keyboard, KeyboardAvoidingView,
-  Platform, StyleSheet,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback, View
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import { COLORS } from "../assets/COLORS";
 import { AuthContext } from "../navigation/context";
@@ -25,14 +28,18 @@ export default function LoginScreen(props: { navigation: any }) {
   async function onLoginSuccess() {
     console.log("login success");
     const user = firebase.auth().currentUser;
-    if (user){
-      let document = await firebase.firestore().collection("users").doc(user.uid).get();
-      if (!(document && document.exists)){
+    if (user) {
+      let document = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user.uid)
+        .get();
+      if (!(document && document.exists)) {
         const data = {
           avatar: "TODO: add default avatar path", // TODO: add default avatar path
           streak: 0,
         };
-        firebase.firestore().collection("users").doc(user.uid).set(data)
+        firebase.firestore().collection("users").doc(user.uid).set(data);
       }
     }
     authContext.signIn();
@@ -62,7 +69,7 @@ export default function LoginScreen(props: { navigation: any }) {
 
   return (
     <KeyboardAvoidingView
-      style = {styles.container}
+      style={styles.container}
       behavior={Platform.OS == "ios" ? "padding" : "height"}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

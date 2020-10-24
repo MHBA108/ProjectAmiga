@@ -16,7 +16,7 @@ import SelectableChips from "react-native-chip/SelectableChips";
 import { COLORS } from "../assets/COLORS";
 import firebase, { firestore } from "firebase";
 import moment, { Moment } from "moment";
-import {Log} from '../types';
+import { Log } from "../types";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { ModalSlideFromBottomIOS } from "@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets";
@@ -29,7 +29,7 @@ interface LogModalProps {
 export default class LogModal extends Component<
   LogModalProps,
   {
-    moodPercentile: number,
+    moodPercentile: number;
     text: string;
     timestamp: string;
     moodWords: string[];
@@ -40,10 +40,9 @@ export default class LogModal extends Component<
     user: firebase.User | null;
   }
 > {
-
   constructor(props: LogModalProps) {
     super(props);
-    console.log(props.sliderValue + "hi")
+    console.log(props.sliderValue + "hi");
     this.state = {
       moodPercentile: this.props.sliderValue,
       text: props.noteText,
@@ -57,19 +56,19 @@ export default class LogModal extends Component<
     };
   }
 
-  onChangeMoodPercentile = (perc: number) =>{
-    console.log(this.perc2color(perc))
-    this.setState({moodPercentile: perc})
-  }
+  onChangeMoodPercentile = (perc: number) => {
+    console.log(this.perc2color(perc));
+    this.setState({ moodPercentile: perc });
+  };
 
   onChangeText = (text: string) => {
     this.setState({ text: text });
   };
 
   onChangeMoodWords = (moodWords: string[]) => {
-    console.log(moodWords)
-    this.setState({moodWords: moodWords})
-  }
+    console.log(moodWords);
+    this.setState({ moodWords: moodWords });
+  };
 
   perc2color(perc: number) {
     var r,
@@ -89,7 +88,7 @@ export default class LogModal extends Component<
   openModal() {
     this.setState({ modalVisible: true });
     this.setState({ text: this.props.noteText });
-    this.setState({ moodPercentile: this.props.sliderValue});
+    this.setState({ moodPercentile: this.props.sliderValue });
   }
 
   async closeModal() {
@@ -98,17 +97,23 @@ export default class LogModal extends Component<
     const date = moment().format("MM-DD-YYYY");
     console.log(date);
     const log: Log = {
-        moodPercentile: this.state.moodPercentile,
-        text: this.state.text,
-        timestamp: this.state.timestamp,
-        moodWords: this.state.moodWords,
-      }
+      moodPercentile: this.state.moodPercentile,
+      text: this.state.text,
+      timestamp: this.state.timestamp,
+      moodWords: this.state.moodWords,
+    };
     if (this.state.user) {
-      firestore().collection("users").doc(this.state.user.uid).collection("userLogs").doc(date).set(log);
+      firestore()
+        .collection("users")
+        .doc(this.state.user.uid)
+        .collection("userLogs")
+        .doc(date)
+        .set(log);
       const userRef = firestore().collection("users").doc(this.state.user.uid);
-      const res = await userRef.update({streak: firestore.FieldValue.increment(1)});
+      const res = await userRef.update({
+        streak: firestore.FieldValue.increment(1),
+      });
     }
-    
   }
 
   render() {
@@ -208,7 +213,9 @@ export default class LogModal extends Component<
                     "negative",
                     "mad",
                   ]}
-                  onChangeChips={(chips: SelectableChips) => this.onChangeMoodWords(chips)}
+                  onChangeChips={(chips: SelectableChips) =>
+                    this.onChangeMoodWords(chips)
+                  }
                   alertRequired={false}
                   chipStyleSelected={styles.chipSelectedStyle}
                   chipStyle={styles.chipStyle}

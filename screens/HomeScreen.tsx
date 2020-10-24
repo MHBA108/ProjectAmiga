@@ -19,7 +19,7 @@ const HomeScreen = (props: { navigation: any }) => {
   const authContext = React.useContext(AuthContext);
   const navigation = useNavigation();
 
-  // TODO: 
+  // TODO:
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
@@ -36,7 +36,9 @@ const HomeScreen = (props: { navigation: any }) => {
         showsVerticalScrollIndicator={false}
         style={styles.scrollContainer}
       >
-        <Text style={styles.todayStyle}>{"Welcome"} {user?.displayName}!</Text>
+        <Text style={styles.todayStyle}>
+          {"Welcome"} {user?.displayName}!
+        </Text>
         <Clock showDate={true} showTime={true} />
         <CreateLog sliderValue={50} noteText="" />
         <Calendar />

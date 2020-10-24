@@ -264,8 +264,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "transparent",
     width: "20%",
-    height: "10%"
-    
+    height: "10%",
+
     // aspectRatio: 1 / 4,
     // padding: "10rem",
   },
