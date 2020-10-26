@@ -1,4 +1,5 @@
 import * as React from "react";
+import { StyleSheet } from "react-native";
 import {
     ScrollView,
     Image,
@@ -7,13 +8,17 @@ import {
     SafeAreaView,
     StatusBar,
 } from "react-native";
-import { Text, View } from "../components/Themed";
+
 import EStyleSheet from "react-native-extended-stylesheet";
-import ResourceList from "../components/ResourcesList";
-import MyHeader from "../components/MyHeader";
+import MyHeader from '../components/MyHeader'
+import EditScreenInfo from "../components/EditScreenInfo";
+import { Text, View } from "../components/Themed";
+import SettingsList from "../components/SettingsList";
 import { COLORS } from "../assets/COLORS";
 
-const ResourcesScreen = (props: { navigation: any }) => {
+
+
+const SettingsScreen = (props: { navigation: any; }) => {
     return (
         <View style={styles.container}>
             <MyHeader navigation={props.navigation} />
@@ -22,16 +27,18 @@ const ResourcesScreen = (props: { navigation: any }) => {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.containerTop}>
-                    <Text style={styles.usernameStyle}> Resources </Text>
+                    <Text style={styles.usernameStyle}> Settings </Text>
                 </View>
                 <View style={styles.containerLog}>
-                    <ResourceList />
+                    <SettingsList />
                 </View>
             </ScrollView>
         </View>
-    );
+    )
 }
-export default ResourcesScreen;
+
+export default SettingsScreen
+
 
 const styles = EStyleSheet.create({
     container: {

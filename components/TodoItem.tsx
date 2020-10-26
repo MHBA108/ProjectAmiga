@@ -1,19 +1,12 @@
-import React, { Component } from 'react';
-import { StyleSheet,TouchableOpacity, Dimensions } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import { View, Text } from './Themed';
-import PropTypes from 'prop-types';
-import CustomIcon from './icons/CustomIcon';
-import {
-	useFonts,
-	HindSiliguri_700Bold,
-	HindSiliguri_400Regular,
-	HindSiliguri_300Light,
-	HindSiliguri_600SemiBold,
-	HindSiliguri_500Medium
-   } from '@expo-google-fonts/hind-siliguri';
- 
-const {height, width} = Dimensions.get('window');
+import React, { Component } from "react";
+import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import { View, Text } from "./Themed";
+import PropTypes from "prop-types";
+import { Ionicons, AntDesign, FontAwesome } from "@expo/vector-icons";
+import { COLORS } from "../assets/COLORS";
+
+const { height, width } = Dimensions.get("window");
 
 interface IProps {
 }
@@ -83,9 +76,13 @@ class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTo
       <View style={styles.container}>
         <View style={styles.rowContainer}>
           <TouchableOpacity onPress={this.toggleItem}>
-            <View style={[(styles.circle, isCompleted ? styles.completeCircle : styles.incompleteCircle)]}>
-              {/* <Text style={styles.buttonText}> */}
-              <CheckIcon/>
+            <View
+              style={[
+                styles.circle,
+                isCompleted ? styles.completeCircle : styles.incompleteCircle,
+              ]}
+            >
+              <AntDesign name="check" size={24} color={COLORS.lightBlue} />
             </View>
           </TouchableOpacity>
           { isEditing ? (
@@ -141,26 +138,25 @@ class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTo
 const styles = StyleSheet.create({
   container: {
     width: width - 50,
-    flexDirection: 'row',
-	  alignItems: 'center',
-		justifyContent: 'space-between',
-	  borderRadius: 10,
-		backgroundColor: '#4986c2',
-	  marginLeft: 10,
-	  marginRight: 10,
-		marginBottom: 10,
-		fontFamily: 'HindSiliguri_400Regular',
-		color: '#f2e9e3',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 10,
+    backgroundColor: "#4986c2",
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    color: COLORS.beige,
   },
   rowContainer: {
-		backgroundColor: '#4986c2',
-		flexDirection: 'row',
-		borderTopLeftRadius: 10,
-		borderBottomLeftRadius: 10,
-		width: width / 2,
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		color: '#f2e9e3',
+    backgroundColor: "#4986c2",
+    flexDirection: "row",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    width: width / 2,
+    alignItems: "center",
+    justifyContent: "space-between",
+    color: COLORS.beige,
   },
   buttons: {
 		backgroundColor: '#4986c2',
@@ -184,19 +180,20 @@ const styles = StyleSheet.create({
 		alignContent: 'center',
   },
   text: {
-   	fontWeight: '500',
-		fontSize: 18,
-		marginVertical: 20,
-		color: '#f2e9e3',
+    fontWeight: "500",
+    fontSize: 18,
+    fontFamily: "HindSiliguri_400Regular",
+    marginVertical: 20,
+    color: COLORS.beige,
   },
   circle: {
-		width: 32,
-		backgroundColor: '#6699cc',
-   	height: 32,
-   	borderRadius: 5,
-		borderWidth: 3,
-		marginRight: 20,
-		marginLeft:10,    
+    width: 30,
+    backgroundColor: COLORS.lightBlue,
+    height: 30,
+    borderRadius: 5,
+    borderWidth: 3,
+    marginRight: 20,
+    marginLeft: 10,
   },
   completeCircle: {
 		borderColor: '#8cb2d9',
@@ -207,19 +204,14 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
   },
   incompleteCircle: {
-		borderColor: '#6699cc',
-		backgroundColor: '#6699cc',
-		borderRadius: 5,
-		marginVertical: 10,
-		marginHorizontal: 10,
-		textAlign: 'center',
+    borderColor: COLORS.lightBlue,
   },
   strikeText: {
-    color:'#6699cc',
-		textDecorationLine: 'line-through',
+    color: COLORS.lightBlue,
+    textDecorationLine: "line-through",
   },
   unstrikeText: {
-		color: '#f2e9e3',
+    color: COLORS.beige,
   },
   input: {
 		marginVertical: 15,

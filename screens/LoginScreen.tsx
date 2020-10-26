@@ -1,75 +1,127 @@
-import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import firebase from "firebase";
+import "firebase/firestore";
+import React, { useState } from "react";
 import {
-  StyleSheet,
+  Image,
+  Keyboard, KeyboardAvoidingView,
+  Platform, StyleSheet,
   Text,
-  View,
   TextInput,
   TouchableOpacity,
-  Platform,
-  Image,
+  TouchableWithoutFeedback, View
 } from "react-native";
-import * as Google from "expo-google-app-auth";
+import { COLORS } from "../assets/COLORS";
 import { AuthContext } from "../navigation/context";
 
-export default function LoginScreen() {
+export default function LoginScreen(props: { navigation: any }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const authContext = React.useContext(AuthContext);
-  const config: Google.GoogleLogInConfig = {
-    androidClientId:
-      "778316018433-r6fk17in0n3olu8num4dffoqab2bc82n.apps.googleusercontent.com",
-    iosClientId:
-      "778316018433-g734kgicr0bdmh9iq24r354v3dki37ei.apps.googleusercontent.com",
-    scopes: ["profile"],
-  };
+  const navigation = useNavigation();
 
-  // TODO: Pass the LogInResult to the AuthContext
-  async function signInWithGoogle(): Promise<Google.LogInResult> {
-    const result = await Google.logInAsync(config);
-
-    if (result.type === "success") {
-      console.log(result.user);
-      authContext.signIn();
-    }
-    return result;
+  function onLoginSuccess() {
+    console.log("login success");
+    authContext.signIn();
   }
 
-  // added temporary login for IOS button
+  function onLoginFailure(errorMessage: string) {
+    setErrorMessage(errorMessage);
+    console.log(errorMessage);
+  }
+
+  async function signInWithEmail() {
+    console.log(email + "  " + password);
+    await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(onLoginSuccess)
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (errorCode == "auth/weak-password") {
+          onLoginFailure("Weak Password!");
+        } else {
+          onLoginFailure(errorMessage);
+        }
+      });
+  }
+
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require("../assets/images/splash.png")}
-      />
-      <TouchableOpacity style={styles.loginBtn} onPress={signInWithGoogle}>
-        <Text style={styles.loginText}>
+    <KeyboardAvoidingView
+      style = {styles.container}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
           <Image
-            style={styles.google}
-            source={require("../assets/images/googleIcon.png")}
+            style={styles.logo}
+            source={require("../assets/images/splash.png")}
           />
-          {"    "}LOGIN WITH GOOGLE
-        </Text>
-      </TouchableOpacity>
-    </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Email..."
+              placeholderTextColor={COLORS.darkBlue}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+
+          <View style={styles.inputView}>
+            <TextInput
+              secureTextEntry //hides test input with *****
+              style={styles.inputText}
+              placeholder="Password..."
+              placeholderTextColor={COLORS.darkBlue}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={styles.loginBtn}
+            onPress={() => signInWithEmail()}
+          >
+            <Text style={styles.loginText}>LOGIN WITH EMAIL</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ marginTop: 10 }}>
+            <Text
+              style={{
+                fontWeight: "200",
+                fontSize: 17,
+                textAlign: "center",
+                color: COLORS.darkBlue,
+              }}
+              onPress={() => {
+                navigation.navigate("SignUpScreen");
+              }}
+            >
+              Don't have an Account?
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
     alignItems: "center",
     justifyContent: "center",
-  },
-  google: {
-    width: 13,
-    height: 13,
+    width: "100%",
   },
   logo: {
     width: 400,
     height: 400,
   },
   inputView: {
-    width: "80%",
-    backgroundColor: "#6699CC",
+    backgroundColor: COLORS.yellow,
+    width: "69%",
     borderRadius: 25,
     height: 50,
     marginBottom: 20,
@@ -78,15 +130,15 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: "white",
+    color: COLORS.darkBlue,
   },
   forgot: {
     color: "white",
     fontSize: 11,
   },
   loginBtn: {
-    width: "80%",
-    backgroundColor: "white",
+    width: "69%",
+    backgroundColor: COLORS.darkBlue,
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -94,6 +146,6 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   loginText: {
-    color: "#6699CC",
+    color: COLORS.white,
   },
 });

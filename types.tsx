@@ -3,13 +3,14 @@ export type RootStackParamList = {
   NotFound: undefined;
   LoginScreen: undefined;
   SplashScreen: undefined;
+  SignUpScreen: undefined;
 };
 
 export type BottomTabParamList = {
   Home: undefined;
   Stats: undefined;
   Resources: undefined;
-  More: undefined;
+  You: undefined;
 };
 
 export type HomeParamList = {
@@ -24,6 +25,12 @@ export type ResourcesParamList = {
   ResourcesScreen: undefined;
 };
 
-export type MoreParamList = {
-  MoreScreen: undefined;
+export type UserProfileParamList = {
+  UserProfileScreen: undefined;
+};
+
+export type LogData = {
+  sliderValue: number;
+  emotions: string[];
+  color: string;
 };
