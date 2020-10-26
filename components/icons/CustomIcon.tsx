@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Image } from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { Image, ImageSourcePropType } from "react-native";
+import { ImageSource } from "react-native-vector-icons/Icon";
 
-export default class CustomIcon extends React.Component<{iconPath: String,}> {
-	static propTypes = {
-		iconPath: PropTypes.string.isRequired,
-	};
+export default class CustomIcon extends React.Component<{iconPath: ImageSourcePropType}> {
+
 	render() {
+		const { iconPath } = this.props;
 		return (
 			<Image
-				source={require('iconPath')}
+				source={iconPath}
 				fadeDuration={0}
 				style={{width: 32, height: 32}}
 				/>

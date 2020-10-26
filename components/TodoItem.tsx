@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { View, Text } from "./Themed";
 import PropTypes from "prop-types";
-import { Ionicons, AntDesign, FontAwesome } from "@expo/vector-icons";
+import CustomIcon from "../components/icons/CustomIcon";
 import { COLORS } from "../assets/COLORS";
 
 const { height, width } = Dimensions.get("window");
@@ -82,7 +82,7 @@ class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTo
                 isCompleted ? styles.completeCircle : styles.incompleteCircle,
               ]}
             >
-              <AntDesign name="check" size={24} color={COLORS.lightBlue} />
+              <CustomIcon iconPath={require("../assets/images/2x/round_done_blue_18dp.png")}/>
             </View>
           </TouchableOpacity>
           { isEditing ? (
@@ -107,7 +107,7 @@ class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTo
             <TouchableOpacity onPress={this.finishEditing}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>
-                <CustomIcon iconPath={'../../assets/images/2x/round_done_blue_18dp.png'}/>
+                  <CustomIcon iconPath={require("../assets/images/2x/round_done_blue_18dp.png")}/>
                 </Text>
               </View>
             </TouchableOpacity>
@@ -117,14 +117,14 @@ class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTo
             <TouchableOpacity onPress={this.startEditing}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>
-                  <CustomIcon iconPath={'../../assets/images/2x/round_create_blue_18dp.png'}/>
+                  <CustomIcon iconPath={require("../assets/images/2x/round_create_blue_18dp.png")}/>
                 </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => deleteTodo(id)}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>
-                  <CustomIcon iconPath={'../../assets/images/2x/round_delete_blue_18dp.png'}/>
+                  <CustomIcon iconPath={require("../assets/images/2x/round_delete_blue_18dp.png")}/>
                 </Text>
               </View>
             </TouchableOpacity>
@@ -159,25 +159,25 @@ const styles = StyleSheet.create({
     color: COLORS.beige,
   },
   buttons: {
-		backgroundColor: '#4986c2',
-		flexDirection: 'row',
+		backgroundColor: "#4986c2",
+		flexDirection: "row",
 		borderTopRightRadius: 10,
 		borderBottomRightRadius: 10,
   },
   buttonContainer: {
-		backgroundColor: '#4986c2',
+		backgroundColor: "#4986c2",
 		borderTopRightRadius: 10,
 		borderBottomRightRadius: 10,
 		marginVertical: 10,
 		marginHorizontal: 10,
-		textAlign: 'center',
+		textAlign: "center",
   },
   buttonText: {
 		borderTopRightRadius: 10,
 		paddingBottom: 15,
 		borderBottomRightRadius: 10,
-		marginBottom: 1,
-		alignContent: 'center',
+    marginBottom: 1,
+		alignContent: "center",
   },
   text: {
     fontWeight: "500",
@@ -187,21 +187,16 @@ const styles = StyleSheet.create({
     color: COLORS.beige,
   },
   circle: {
-    width: 30,
+    width: 32,
     backgroundColor: COLORS.lightBlue,
-    height: 30,
+    height: 32,
     borderRadius: 5,
-    borderWidth: 3,
-    marginRight: 20,
-    marginLeft: 10,
+    borderWidth: 1,
+		marginHorizontal: 10,
   },
   completeCircle: {
-		borderColor: '#8cb2d9',
-		backgroundColor: '#4986c2',
-		borderRadius: 5,
-		marginVertical: 10,
-		marginHorizontal: 10,
-		textAlign: 'center',
+		borderColor: "#8cb2d9",
+		backgroundColor: "#4986c2",
   },
   incompleteCircle: {
     borderColor: COLORS.lightBlue,
