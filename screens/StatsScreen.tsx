@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.beige,
   },
   badgeText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     // fontSize: "11rem",
   },
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FCD7AE",
+    backgroundColor: COLORS.yellow,
     // aspectRatio: 1 / 1,
     padding: "15rem",
   },
@@ -264,8 +264,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "transparent",
     width: "20%",
-    height: "10%"
-    
+    height: "10%",
+
     // aspectRatio: 1 / 4,
     // padding: "10rem",
   },

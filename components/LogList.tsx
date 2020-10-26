@@ -71,7 +71,7 @@ const styles = EStyleSheet.create({
   log: {
     width: "100%",
     aspectRatio: 5 / 2,
-    backgroundColor: "#4E5E85",
+    backgroundColor: COLORS.darkBlueAccent,
     borderRadius: 10,
     flexDirection: "column",
     padding: "5rem",

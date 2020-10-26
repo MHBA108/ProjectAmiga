@@ -90,7 +90,7 @@ const styles = EStyleSheet.create({
   feed: {
     width: "100%",
     aspectRatio: 4 / 2,
-    backgroundColor: "#4E5E85",
+    backgroundColor: COLORS.darkBlueAccent,
     borderRadius: 10,
     flexDirection: "column",
     padding: "5rem",
@@ -111,7 +111,7 @@ const styles = EStyleSheet.create({
   logContainer: {
     width: "100%",
     aspectRatio: 7 / 1,
-    backgroundColor: "#6771A6",
+    backgroundColor: COLORS.darkBlueAccent2,
     flexDirection: "row",
     paddingVertical: "5rem",
     alignItems: "center",

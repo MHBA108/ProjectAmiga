@@ -60,7 +60,7 @@ const styles = EStyleSheet.create({
   log: {
     width: "100%",
     aspectRatio: 5 / 2,
-    backgroundColor: "#4E5E85",
+    backgroundColor: COLORS.darkBlueAccent,
     borderRadius: 10,
     flexDirection: "column",
     padding: "5rem",
@@ -106,7 +106,7 @@ const styles = EStyleSheet.create({
   editContainer: {
     position: "absolute",
     alignSelf: "flex-end",
-    backgroundColor: "#555E90",
+    backgroundColor: COLORS.darkBlueAccent2,
     borderRadius: 10,
     padding: "5rem",
     right: "5rem",

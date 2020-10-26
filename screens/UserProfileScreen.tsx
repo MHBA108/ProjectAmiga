@@ -22,7 +22,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
 
   return (
-      <View style={styles.container}>
+    <View style={styles.container}>
       <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
@@ -33,17 +33,17 @@ const UserProfileScreen = (props: { navigation: any }) => {
             <Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
-              <Text style={styles.badgeText}>Achievements</Text>
+                <Text style={styles.badgeText}>Achievements</Text>
                 <View style={styles.badgeContainer1}>
-                <OpenAchievements/>
+                  <OpenAchievements />
                 </View>
               </View>
-               <View style={styles.lowerTopLeft}>
-                 <Text style={styles.badgeText}>Streak</Text>
+              <View style={styles.lowerTopLeft}>
+                <Text style={styles.badgeText}>Streak</Text>
                 <TouchableOpacity
                   style={styles.badgeContainer}
                   onPress={() => Alert.alert("Streak button pressed")}
-                  >
+                >
                   <Text style={styles.countText}> 23</Text>
                   <Image
                     source={require("../assets/images/streak.png")}
@@ -54,13 +54,13 @@ const UserProfileScreen = (props: { navigation: any }) => {
             </View>
           </View>
           <View style={styles.containerUpperRight}>
-          <View style={styles.circle}></View>
+            <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
               source={avatar}
             />
-                <OpenProfileDetails />
+            <OpenProfileDetails />
           </View>
         </View>
         <View style={styles.containerLog}>
@@ -69,13 +69,13 @@ const UserProfileScreen = (props: { navigation: any }) => {
       </ScrollView>
     </View>
   );
-}
+};
 export default UserProfileScreen;
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F2E9E3",
+    backgroundColor: COLORS.beige,
     alignItems: "center",
   },
   scrollContainer: {
@@ -90,7 +90,7 @@ const styles = EStyleSheet.create({
   containerLog: {
     width: "100%",
     flexDirection: "column",
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderRadius: 10,
     padding: "10rem",
   },
@@ -120,15 +120,15 @@ const styles = EStyleSheet.create({
     paddingTop: "10rem",
   },
   buttonEditProfile: {
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     justifyContent: "center",
     borderRadius: 20,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: "10rem",
     flexShrink: 1,
   },
   usernameStyle: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "20rem",
   },
@@ -154,14 +154,14 @@ const styles = EStyleSheet.create({
     height: "100%",
   },
   button: {
-    backgroundColor: "#FCD7AE",
+    backgroundColor: COLORS.yellow,
     padding: "5rem",
     borderRadius: 10,
     alignItems: "center",
     flexDirection: "row",
   },
   buttonText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_600SemiBold",
     fontSize: "10rem",
   },
@@ -173,7 +173,7 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   badgeText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "11rem",
   },
@@ -182,20 +182,20 @@ const styles = EStyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FCD7AE",
+    backgroundColor: COLORS.yellow,
     aspectRatio: 1 / 1,
     padding: "15rem",
-    },
-    badgeContainer1: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "transparent",
-        aspectRatio: 1 / 1,
-        padding: "10rem",
-    },
+  },
+  badgeContainer1: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    aspectRatio: 1 / 1,
+    padding: "10rem",
+  },
   countText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "30rem",
   },
