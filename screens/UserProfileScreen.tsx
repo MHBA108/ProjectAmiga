@@ -9,12 +9,14 @@ import {
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
+import avatar from "../assets/images/avatars/male.png";
 import LogList from "../components/LogList";
 import { Ionicons } from "@expo/vector-icons";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
 import * as firebase from "firebase";
+import OpenProfileDetails from "../components/OpenProfileDetails";
+import { COLORS } from "../assets/COLORS";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -52,29 +54,13 @@ const UserProfileScreen = (props: { navigation: any }) => {
             </View>
           </View>
           <View style={styles.containerUpperRight}>
+          <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
-              source={profilePlaceholder}
+              source={avatar}
             />
-            <View style={styles.circle}></View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => Alert.alert("Edit profile button pressed")}
-            >
-              <Text style={styles.buttonText}>Edit Profile</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => Alert.alert("New entry button pressed")}
-            >
-              <Ionicons
-                name="ios-add-circle-outline"
-                size={20}
-                color="#464D77"
-              />
-              <Text style={styles.buttonText}> New Entry</Text>
-            </TouchableOpacity>
+                <OpenProfileDetails />
           </View>
         </View>
         <View style={styles.containerLog}>
@@ -154,12 +140,12 @@ const styles = EStyleSheet.create({
   },
   circle: {
     position: "absolute",
-    top: "6rem",
+    top: "10rem",
     height: "100rem",
     width: "100rem",
     borderRadius: "50rem",
-    backgroundColor: "transparent",
-    borderColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
+    borderColor: COLORS.lightBlue,
     borderWidth: "7rem",
     alignSelf: "center",
   },

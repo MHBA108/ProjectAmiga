@@ -10,8 +10,7 @@ import firebase from "firebase";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
 import { COLORS } from "../assets/COLORS";
-import AppsandDevicesScreen from "../screens/Apps&DevicesScreen";
-import CloseContactsScreen from "../screens/CloseContactsScreen";
+import FriendsScreen from "../screens/FriendsScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
 import FeedScreen from "../screens/FeedScreen";
 import LoginScreen from "../screens/LoginScreen";
@@ -106,20 +105,11 @@ function HamburgerDrawer() {
         }}
       />
       <Drawer.Screen
-        name="Close Contacts"
-        component={CloseContactsScreen}
+        name="Friends"
+        component={FriendsScreen}
         options={{
           drawerIcon: ({ color }) => (
             <Feather name="users" size={24} color={COLORS.beige} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Apps and Devices"
-        component={AppsandDevicesScreen}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Feather name="smartphone" size={24} color={COLORS.beige} />
           ),
         }}
       />

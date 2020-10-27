@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
-import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
+import avatar from "../assets/images/avatars/female.png";
 
 //TODO: add props
 export default class FeedItem extends Component {
@@ -29,12 +29,12 @@ export default class FeedItem extends Component {
         </View>
         <View style={styles.HeaderContainer}>
           <View style={styles.containerUpperRight}>
+            <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
-              source={profilePlaceholder}
+              source={avatar}
             />
-            <View style={styles.circle}></View>
             <Text style={styles.usernameFont}> @Username </Text>
           </View>
         </View>
@@ -64,7 +64,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "transparent",
-    paddingHorizontal: "5rem",
+    paddingHorizontal: "15rem",
     justifyContent: "space-between",
     alignSelf: "center",
     color: COLORS.beige,
@@ -72,18 +72,18 @@ const styles = EStyleSheet.create({
     fontFamily: "HindSiliguri_600SemiBold",
   },
   circleContainer: {
-    height: "70rem",
-    width: "70rem",
-    borderRadius: "35rem",
+    height: "75rem",
+    width: "75rem",
+    borderRadius: "37.5rem",
     top: "5rem",
-    left: "5rem",
+    left: "2rem",
   },
   circle: {
     position: "absolute",
     height: "80rem",
     width: "80rem",
     borderRadius: "40rem",
-    backgroundColor: "transparent",
+    backgroundColor: COLORS.lightBlue,
     borderColor: COLORS.lightBlue,
     borderWidth: "5rem",
   },

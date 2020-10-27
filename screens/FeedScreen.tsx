@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
+import avatar from "../assets/images/avatars/male.png";
 import FeedList from "../components/FeedList";
 import MyHeader from "../components/MyHeader";
 import OpenStreaks from "../components/OpenStreaks";
@@ -39,12 +39,12 @@ const FeedScreen = (props: { navigation: any }) => {
               </View>
             </View>
             <View style={styles.containerUpperRight}>
-              <Image
+            <View style={styles.circle}></View>
+            <Image
                 style={styles.circleContainer}
                 resizeMode="contain"
-                source={profilePlaceholder}
+                source={avatar}
               />
-              <View style={styles.circle}></View>
               <View style={styles.feedButtons}>
                 <TouchableOpacity
                   style={styles.button}
@@ -137,7 +137,7 @@ const styles = EStyleSheet.create({
         height: "100rem",
         width: "100rem",
         borderRadius: "50rem",
-        backgroundColor: "transparent",
+        backgroundColor: COLORS.lightBlue,
         borderColor: COLORS.lightBlue,
         borderWidth: "7rem",
         alignSelf: "center",
