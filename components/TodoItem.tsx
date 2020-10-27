@@ -103,13 +103,11 @@ class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTo
           )}
         </View>
         {isEditing ? (
-          <View style={styles.buttons}>
-            <TouchableOpacity onPress={this.finishEditing}>
-              <View style={styles.buttonContainer}>
-                <CustomIcon iconPath={require("../assets/images/2x/round_done_blue_18dp.png")}/>
-              </View>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={this.finishEditing}>
+            <View style={styles.buttonContainer}>
+              <CustomIcon iconPath={require("../assets/images/2x/round_done_blue_18dp.png")}/>
+             </View>
+          </TouchableOpacity>
         ) : (
           <View style={styles.buttons}>
             <TouchableOpacity onPress={this.startEditing}>
@@ -122,7 +120,7 @@ class TodoItem extends Component<{todo?: any, deleteTodo: Function, inCompleteTo
                 <CustomIcon iconPath={require("../assets/images/2x/round_delete_blue_18dp.png")}/>
               </View>
             </TouchableOpacity>
-          </View>
+           </View>
         )}
       </View>
     )
@@ -177,7 +175,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 18,
     fontFamily: "HindSiliguri_400Regular",
-    marginVertical: 20,
+    // marginVertical: 20,
     textAlign: "left",
     color: COLORS.beige,
   },
