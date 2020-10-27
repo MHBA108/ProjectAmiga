@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
   input: {
 		marginVertical: 15,
 		width: width / 2,
-		paddingBottom: 5,
   },
 });
  
