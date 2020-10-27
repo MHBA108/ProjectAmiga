@@ -53,8 +53,9 @@ export default class AchievementsList extends Component {
                         <Text style={styles.achievemetTitle}>Gardener</Text>
                         <Text style={styles.achievementDescription}>Earn this award when you log for 25 days in a row</Text>
                         <View style={styles.statusBar}></View>
+                        <View style={styles.loadingStatusBar}></View>
                         <View style={styles.spacing}></View>
-                        <Text style={styles.achievementDescription}>100% Complete</Text>
+                        <Text style={styles.achievementDescription}>90% Complete</Text>
                     </View>
                     <View style={styles.circle2}></View>
                     <View style={styles.circle}></View>
@@ -83,8 +84,15 @@ export default class AchievementsList extends Component {
 }
 
 const styles = EStyleSheet.create({
-    statusBar: {
+    loadingStatusBar: {
         backgroundColor: COLORS.pink,
+        width: "90%",
+        aspectRatio: 40 / 1,
+        position: "absolute",
+        top: "100rem",
+    },
+    statusBar: {
+        backgroundColor: "#F67373",
         width: "100%",
         aspectRatio: 40 / 1,
         position: "absolute",

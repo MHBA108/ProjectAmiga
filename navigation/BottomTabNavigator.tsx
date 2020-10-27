@@ -3,7 +3,7 @@ import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import { COLORS } from "../assets/COLORS";
 
 import Colors from "../constants/Colors";
@@ -19,6 +19,8 @@ import {
   ResourcesParamList,
   UserProfileParamList,
 } from "../types";
+import avatar from "../assets/images/avatars/male.png";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -77,7 +79,11 @@ export default function BottomTabNavigator() {
         component={UserProfileNavigator}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="person-outline" size={24} color={color} />
+                <Image
+                    style={styles.avatarContainer}
+                    resizeMode="contain"
+                    source={avatar}
+                />
           ),
         }}
       />
@@ -139,8 +145,14 @@ function UserProfileNavigator() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   tabBar: {
     backgroundColor: COLORS.lightBlue,
-  },
+    },
+    avatarContainer: {
+        height: "24rem",
+        width: "24rem",
+        alignSelf: "center",
+        top:"2rem",
+    },
 });

@@ -38,10 +38,10 @@ export default function SignUpScreen() {
     await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(function(result){
+      .then(function (result) {
         return result.user?.updateProfile({
           displayName: displayName,
-        })
+        });
       })
       .then(onLoginSuccess)
       .catch((error) => {
@@ -94,7 +94,12 @@ export default function SignUpScreen() {
 
       <TouchableOpacity style={{ marginTop: 10 }}>
         <Text
-          style={{ fontWeight: "200", fontSize: 17, textAlign: "center", color: COLORS.darkBlue }}
+          style={{
+            fontWeight: "200",
+            fontSize: 17,
+            textAlign: "center",
+            color: COLORS.darkBlue,
+          }}
           onPress={() => {
             navigation.goBack();
           }}
