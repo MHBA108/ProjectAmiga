@@ -23,6 +23,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
   const [avatar, setAvatar] = React.useState("");
 
   useFocusEffect(() => {
+    console.log("streak!");
     let doc = getStreak();
     async function getStreak() {
       const doc = await firebase

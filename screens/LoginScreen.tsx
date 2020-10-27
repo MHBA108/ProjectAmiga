@@ -43,6 +43,8 @@ export default function LoginScreen(props: { navigation: any }) {
       }
     }
     authContext.signIn();
+    // TODO: make log in go to home page. if you log out from the new settings page and then log back in, you go to the setting page
+    // and not the home page.
   }
 
   function onLoginFailure(errorMessage: string) {

@@ -2,18 +2,22 @@ import React, { Component } from "react";
 import { Text, View, ScrollView, Alert, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { AntDesign } from "@expo/vector-icons";
-import { LogData } from "../types";
+import { Log } from "../types";
 import MoodSlider from "./MoodSlider";
 import { COLORS } from "../assets/COLORS";
+import moment from "moment";
 
-export default class LogItem extends Component<LogData, LogData> {
-  constructor(props: LogData) {
+var valueToColor = require("../assets/ValueToColor");
+
+export default class LogItem extends Component<Log, Log> {
+  constructor(props: Log) {
     super(props);
 
     this.state = {
-      sliderValue: props.sliderValue,
-      emotions: props.emotions,
-      color: props.color,
+      moodPercentile: this.props.moodPercentile,
+      moodWords: this.props.moodWords,
+      text: this.props.text,
+      timestamp: this.props.timestamp,
     };
   }
 
@@ -21,19 +25,19 @@ export default class LogItem extends Component<LogData, LogData> {
     return (
       <View style={styles.log}>
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>5/12/2020</Text>
+          <Text style={styles.date}>{moment(this.state.timestamp).format("M/D/YYYY")}</Text>
         </View>
         <View style={styles.moodHeaderContainer}>
           <Text style={styles.moodHeaderText}>Mood Descriptions:</Text>
         </View>
         <View style={styles.moodBubbleContainer}>
           <ScrollView horizontal={true}>
-            {this.state.emotions.map((item, key) => (
+            {this.state.moodWords.map((item, key) => (
               <View style={styles.moodSpacer} key={key}>
                 <View
                   style={[
                     styles.emotionBubble,
-                    { backgroundColor: this.state.color },
+                    { backgroundColor: valueToColor(this.state.moodPercentile) },
                   ]}
                 >
                   <Text style={styles.moodHeaderText}>{item}</Text>
@@ -43,7 +47,7 @@ export default class LogItem extends Component<LogData, LogData> {
           </ScrollView>
         </View>
 
-        {<MoodSlider sliderValue={this.state.sliderValue} disabled={true} />}
+        {<MoodSlider sliderValue={this.state.moodPercentile} disabled={true} />}
 
         <TouchableOpacity
           style={styles.editContainer}
@@ -129,3 +133,4 @@ const styles = EStyleSheet.create({
     paddingRight: "8rem",
   },
 });
+
