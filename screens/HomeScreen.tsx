@@ -1,5 +1,11 @@
 import * as React from "react";
-import { ScrollView } from "react-native";
+import { 
+  ScrollView,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform 
+} from "react-native";
 import { AuthContext } from "../navigation/context";
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
@@ -30,22 +36,29 @@ const HomeScreen = (props: { navigation: any }) => {
   });
 
   return (
-    <View style={styles.container}>
-      <MyHeader navigation={props.navigation} />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.scrollContainer}
-      >
-        <Text style={styles.todayStyle}>{"Welcome"} {user?.displayName}!</Text>
-        <Clock showDate={true} showTime={true} />
-        <CreateLog sliderValue={50} noteText="" />
-        <Calendar />
-        <TodoList />
-        <Text style={{ alignContent: "stretch" }}>
-          {user == null ? "" : user.email}
-        </Text>
-      </ScrollView>
-    </View>
+    <KeyboardAvoidingView
+      style = {styles.container}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+    >
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <MyHeader navigation={props.navigation} />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.scrollContainer}
+        >
+          <Text style={styles.todayStyle}>{"Welcome"} {user?.displayName}!</Text>
+          <Clock showDate={true} showTime={true} />
+          <CreateLog sliderValue={50} noteText="" />
+          <Calendar />
+          <TodoList />
+          <Text style={{ alignContent: "stretch" }}>
+            {user == null ? "" : user.email}
+          </Text>
+        </ScrollView>
+      </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
