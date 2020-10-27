@@ -31,13 +31,6 @@ export type UserProfileParamList = {
   UserProfileScreen: undefined;
 };
 
-// TODO: remove LogData in favor of Log
-export type LogData = {
-  sliderValue: number;
-  emotions: string[];
-  color: string;
-};
-
 export type Log = {
   moodPercentile: number;
   text: string;

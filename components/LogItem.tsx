@@ -56,11 +56,13 @@ export default class LogItem extends Component<Log, Log> {
           <AntDesign name="edit" size={24} color={COLORS.pink} />
         </TouchableOpacity>
       </View>
+        
     );
   }
 }
 
 const styles = EStyleSheet.create({
+  
   log: {
     width: "100%",
     aspectRatio: 5 / 2,

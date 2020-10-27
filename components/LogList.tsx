@@ -2,16 +2,15 @@ import React, { Component, useEffect, useState } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogItem from "./LogItem";
-import { LogData, Log } from "../types";
+import { Log } from "../types";
 import { COLORS } from "../assets/COLORS";
 import firebase, { firestore } from "firebase";
 import moment, { Moment } from "moment";
 import { FlatList } from "react-native-gesture-handler";
 import { useFocusEffect } from "@react-navigation/native";
 
-var valueToColor = require("../assets/ValueToColor");
+const valueToColor = require("../assets/ValueToColor");
 let lastDoc = 0;
-// let documentData : firestore.DocumentData;
 
 export default function LogList() {
   const [documentData, setDocumentData] = useState<firestore.DocumentData[]>(
@@ -27,9 +26,7 @@ export default function LogList() {
     async function getData() {
       try {
         // Cloud Firestore: Initial Query
-        // if (this.state.lastVisible == null){
         if (!loading) await retrieveData();
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -108,60 +105,35 @@ export default function LogList() {
     }
   }
 
-  // // Render Header
-  // renderHeader = () => {
-  //   try {
-  //     return <Text style={styles.headerText}>Items</Text>;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // Render Footer
-  function renderFooter() {
-    try {
-      // Check If Loading
-      if (loading) {
-        return <ActivityIndicator />;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return lastDoc == 0 ? (
     <View style={styles.log}>
       <Text style={styles.text}>It's quiet... too quiet.</Text>
     </View>
   ) : (
     <View>
-      {/* {this.state.documentData.map((item, key) => ( */}
-      {/* <View key={key}> */}
       <View style={styles.spacing}></View>
       <FlatList
         data={documentData}
         renderItem={({ item }: { item: firestore.DocumentData }) => (
           console.log("hello?"),
           (
-            <LogItem
-              moodPercentile={item.moodPercentile}
-              moodWords={item.moodWords}
-              text={item.text}
-              timestamp={item.timestamp}
-            ></LogItem>
+            <View>
+              <LogItem
+                moodPercentile={item.moodPercentile}
+                moodWords={item.moodWords}
+                text={item.text}
+                timestamp={item.timestamp}
+              />
+              <View style={styles.spacing} />
+            </View>
           )
         )}
-        // keyExtractor={(item, index) => String(index)}
-        // ListFooterComponent={renderFooter()}
         onEndReached={retrieveMore}
         onEndReachedThreshold={0.5}
         refreshing={refreshing}
-      ></FlatList>
+      />
     </View>
   );
-  //   ))}
-  // </View>
 }
 
 const styles = EStyleSheet.create({
