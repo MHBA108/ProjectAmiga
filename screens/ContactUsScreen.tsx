@@ -40,6 +40,7 @@ const ContactUsScreen = (props: { navigation: any }) => {
           />
         </View>
       </ScrollView>
+      <MyHeader navigation={props.navigation} />
     </View>
   );
 };
@@ -54,6 +55,7 @@ const styles = EStyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: "8rem",
+    paddingTop: "20rem",
   },
   containerLog: {
     width: "100%",
@@ -71,6 +73,7 @@ const styles = EStyleSheet.create({
     width: "100%",
     aspectRatio: 5 / 1,
     flexDirection: "row",
+    justifyContent: "flex-end",
     backgroundColor: "transparent",
   },
   animation: {

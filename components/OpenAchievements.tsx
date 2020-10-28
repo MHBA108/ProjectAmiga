@@ -38,19 +38,7 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.yellow,
+    width: "100%",
     aspectRatio: 1 / 1,
-    flex: 1,
-    borderRadius: 20,
-    ...Platform.select({
-      ios: {
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 7,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
   },
 });

@@ -56,7 +56,6 @@ export default class LogModal extends Component<
     // TODO pass final sliderValue back to CreateLog on close of modal
   }
 
-  // TODO fix spacing between devices (issue noticed on android)
   renderText() {
     if (this.state.value === "") {
       return (

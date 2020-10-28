@@ -58,7 +58,6 @@ const HomeScreen = (props: { navigation: any }) => {
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
-          <MyHeader navigation={props.navigation} />
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={styles.scrollContainer}
@@ -72,6 +71,7 @@ const HomeScreen = (props: { navigation: any }) => {
           </ScrollView>
         </View>
       </TouchableWithoutFeedback>
+      <MyHeader navigation={props.navigation} />
     </KeyboardAvoidingView>
   );
 };
@@ -89,6 +89,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: "15rem",
   },
   textGreeting: {
+    paddingTop: "25rem",
     color: COLORS.darkBlue,
     fontSize: "25rem",
     fontWeight: "bold",

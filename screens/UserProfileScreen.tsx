@@ -6,6 +6,7 @@ import {
   Alert,
   SafeAreaView,
   StatusBar,
+  Platform,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -22,28 +23,27 @@ const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
 
   return (
-      <View style={styles.container}>
-      <MyHeader navigation={props.navigation} />
+    <View style={styles.container}>
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.containerTop}>
           <View style={styles.containerUpperLeft}>
-            <Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>
+            {/*<Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>*/}
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
-              <Text style={styles.badgeText}>Achievements</Text>
-                <View style={styles.badgeContainer1}>
-                <OpenAchievements/>
+                <Text style={styles.badgeText}>Achievements</Text>
+                <View style={styles.badgeContainer}>
+                  <OpenAchievements />
                 </View>
               </View>
-               <View style={styles.lowerTopLeft}>
-                 <Text style={styles.badgeText}>Streak</Text>
+              <View style={styles.lowerTopLeft}>
+                <Text style={styles.badgeText}>Streak</Text>
                 <TouchableOpacity
                   style={styles.badgeContainer}
                   onPress={() => Alert.alert("Streak button pressed")}
-                  >
+                >
                   <Text style={styles.countText}> 23</Text>
                   <Image
                     source={require("../assets/images/streak.png")}
@@ -54,22 +54,27 @@ const UserProfileScreen = (props: { navigation: any }) => {
             </View>
           </View>
           <View style={styles.containerUpperRight}>
-          <View style={styles.circle}></View>
+            <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
               source={avatar}
             />
-                <OpenProfileDetails />
+            <OpenProfileDetails />
           </View>
         </View>
+        <View style={styles.spacing}></View>
         <View style={styles.containerLog}>
           <LogList />
         </View>
+        <View style={styles.spacing}></View>
+        <View style={styles.spacing}></View>
+        <View style={styles.spacing}></View>
       </ScrollView>
+      <MyHeader navigation={props.navigation} />
     </View>
   );
-}
+};
 export default UserProfileScreen;
 
 const styles = EStyleSheet.create({
@@ -79,6 +84,7 @@ const styles = EStyleSheet.create({
     alignItems: "center",
   },
   scrollContainer: {
+    paddingTop: "25rem",
     paddingHorizontal: "8rem",
   },
   containerTop: {
@@ -117,7 +123,7 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: "transparent",
-    paddingTop: "10rem",
+    paddingTop: "40rem",
   },
   buttonEditProfile: {
     backgroundColor: "#464D77",
@@ -182,18 +188,30 @@ const styles = EStyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FCD7AE",
+    backgroundColor: COLORS.yellow,
+    width: "90%",
     aspectRatio: 1 / 1,
     padding: "15rem",
-    },
-    badgeContainer1: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "transparent",
-        aspectRatio: 1 / 1,
-        padding: "10rem",
-    },
+    ...Platform.select({
+      ios: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 7,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  badgeContainer1: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    aspectRatio: 1 / 1,
+    padding: "10rem",
+  },
   countText: {
     color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
