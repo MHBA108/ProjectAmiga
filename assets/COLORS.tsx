@@ -5,4 +5,5 @@ export const COLORS = {
   yellow: "#FBD1A2",
   beige: "#F2E9E3",
   white: "white",
+  darkBlue1: "#555E90",
 };

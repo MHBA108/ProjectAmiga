@@ -2,22 +2,19 @@ import React, { Component, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   TextInput,
   LayoutAnimation,
   Platform,
-  UIManager,
-  TouchableHighlight,
-  Dimensions,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 
 import LogModal from "../components/LogModal";
-import Slider from "react-native-slider";
-import { LinearGradient } from "expo-linear-gradient";
+import MoodSlider from "../components/MoodSlider";
 import { COLORS } from "../assets/COLORS";
 
 import { MaterialIcons } from "@expo/vector-icons";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 interface CreateLogProps {
   sliderValue: number;
@@ -51,21 +48,6 @@ export default class CreateLog extends Component<
     };
   }
 
-  perc2color(perc: number) {
-    var r,
-      g,
-      b = 0;
-    if (perc < 50) {
-      r = 255;
-      g = Math.round(5.1 * perc);
-    } else {
-      g = 255;
-      r = Math.round(510 - 5.1 * perc);
-    }
-    var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return "#" + ("000000" + h.toString(16)).slice(-6);
-  }
-
   changeLayout = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded });
@@ -76,45 +58,12 @@ export default class CreateLog extends Component<
     return (
       <View style={styles.container}>
         <Text style={styles.questionStyle}>How are you feeling today?</Text>
-        <View style={{ borderRadius: 50, overflow: "hidden" }}>
-          <View
-            style={{
-              flexDirection: "row",
-              position: "absolute",
-            }}
-          >
-            <View style={styles.sliderDummy}>
-              <LinearGradient
-                start={[0, 1]}
-                end={[1, 0]}
-                colors={["#ff0000", "#ffff00", "#00ff00"]}
-                style={styles.linearGradient}
-              ></LinearGradient>
-            </View>
-          </View>
-          <Slider
-            style={{ height: 20, borderRadius: 50 }}
-            thumbStyle={styles.thumb}
-            value={50}
-            minimumValue={0}
-            maximumValue={100}
-            onSlidingComplete={(value: number) => {
-              console.log(this.perc2color(value), value);
-              {
-                this.setState({ sliderValue: value });
-              }
-            }}
-            maximumTrackTintColor="transparent"
-            minimumTrackTintColor="transparent"
-          />
-        </View>
-        <View style={styles.textCon}>
-          <Text style={styles.textStyle}>Terrible</Text>
-          <Text style={styles.textStyle}>Okay</Text>
-          <Text style={styles.textStyle}>Great</Text>
+        <View style={styles.sliderContainer}>
+          {/*TODO update this.state.sliderValue based on slider changes*/}
+          <MoodSlider />
         </View>
         <TextInput
-          placeholder="Write note here ..."
+          placeholder="Tap here to write your entry..."
           style={[styles.note, { height: this.state.height }]}
           onChangeText={(text) => this.onChangeText(text)}
           onContentSizeChange={(event) => {
@@ -132,25 +81,13 @@ export default class CreateLog extends Component<
             justifyContent: "space-around",
           }}
         >
-          <View style={styles.buttonStyle}>
-            <TouchableHighlight
-              underlayColor="none"
-              onPress={() => Alert.alert("Save button pressed")}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  flexDirection: "row",
-                  alignItems: "stretch",
-                  alignSelf: "stretch",
-                }}
-              >
-                <MaterialIcons name="save" size={24} color={COLORS.beige} />
-                <Text style={styles.textStylePurple}> Save entry</Text>
-              </View>
-            </TouchableHighlight>
-          </View>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => Alert.alert("Save button pressed")}
+          >
+            <MaterialIcons name="save" size={24} color={COLORS.beige} />
+            <Text style={styles.buttonText}> Save entry</Text>
+          </TouchableOpacity>
           <View style={styles.buttonStyle}>
             <LogModal
               sliderValue={this.state.sliderValue}
@@ -163,11 +100,12 @@ export default class CreateLog extends Component<
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     backgroundColor: COLORS.darkBlue,
     borderRadius: 10,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
     ...Platform.select({
       ios: {
         shadowColor: "black",
@@ -180,105 +118,37 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginTop: 6,
-    marginVertical: 16,
-  },
-  sliderDummy: {
+  sliderContainer: {
+    width: "100%",
+    aspectRatio: 8 / 1,
     backgroundColor: "transparent",
-    width: 400,
-    height: 30,
-    position: "absolute",
-  },
-  thumb: {
-    width: 16,
-    height: 16,
-    borderRadius: 15,
-    backgroundColor: COLORS.darkBlue,
-    borderColor: "white",
-    borderWidth: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-  textCon: {
-    marginTop: 5,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: COLORS.darkBlue,
-    marginLeft: 10,
-    marginRight: 10,
   },
   note: {
     height: 40,
     color: COLORS.beige,
-    fontSize: 20,
+    fontSize: "18rem",
     marginTop: 10,
     marginBottom: 10,
     padding: 10,
   },
-  todayStyle: {
-    color: COLORS.darkBlue,
-    fontSize: 75,
-    fontWeight: "bold",
-    fontFamily: "HindSiliguri_700Bold",
-    marginLeft: 10,
-  },
-  textStyle: {
+  buttonText: {
     color: COLORS.beige,
-    fontSize: 16,
-  },
-  textStylePurple: {
-    color: COLORS.beige,
-    fontSize: 20,
+    fontSize: "14rem",
+    fontFamily: "HindSiliguri_600SemiBold",
   },
   questionStyle: {
-    marginBottom: 10,
     color: COLORS.beige,
-    fontSize: 20,
-    marginLeft: 10,
-    marginRight: 10,
+    fontSize: "18rem",
     textAlign: "center",
-  },
-  modalView: {
-    margin: 20,
-    marginTop: 40,
-    flex: 1,
-    backgroundColor: COLORS.lightBlue,
-    borderRadius: 20,
-    padding: 35,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    backgroundColor: COLORS.lightBlue,
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginLeft: 10,
-    marginRight: 10,
+    fontFamily: "HindSiliguri_600SemiBold",
   },
   buttonStyle: {
-    backgroundColor: COLORS.lightBlue,
+    backgroundColor: COLORS.darkBlue1,
+    width: "40%",
+    aspectRatio: 4 / 1.2,
+    flexDirection: "row",
     justifyContent: "center",
-    borderRadius: 20,
-    padding: 5,
-    color: COLORS.beige,
-    fontSize: 20,
+    alignItems: "center",
+    borderRadius: 10,
   },
 });

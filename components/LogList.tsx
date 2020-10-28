@@ -9,19 +9,23 @@ var valueToColor = require("../assets/ValueToColor");
 
 // dummy logs
 const log1: LogData = {
+  date: new Date(2020, 8, 1),
   sliderValue: 90,
   emotions: ["happy", "excited", "anxious", "enthusiastic"],
-  color: valueToColor(90),
+  written: "It was a great day. I am so happy, I could fly.",
 };
 const log2: LogData = {
+  date: new Date(2020, 8, 2),
   sliderValue: 12,
   emotions: ["sad", "anxious"],
-  color: valueToColor(12),
+  written: "It was a bad day. But I think tomorrow will be better.",
 };
 const log3: LogData = {
+  date: new Date(2020, 8, 3),
   sliderValue: 65,
   emotions: ["cheerful", "energetic", "rested"],
-  color: valueToColor(65),
+  written:
+    "It was middle of the road day. I stubbed my toe on the couch but then took a really nice nap.",
 };
 
 export default class LogList extends Component<
@@ -34,7 +38,7 @@ export default class LogList extends Component<
   // TODO get number of logs and log data from backend
   state = {
     logNumber: 3,
-    logs: [log1, log2, log3, log2, log3, log1],
+    logs: [log1, log2, log3],
   };
 
   render() {
@@ -51,9 +55,10 @@ export default class LogList extends Component<
             <View key={key}>
               <View style={styles.spacing}></View>
               <LogItem
+                date={item.date}
                 sliderValue={item.sliderValue}
                 emotions={item.emotions}
-                color={item.color}
+                written={item.written}
               ></LogItem>
             </View>
           ))}

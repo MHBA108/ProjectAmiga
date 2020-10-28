@@ -30,7 +30,8 @@ export type UserProfileParamList = {
 };
 
 export type LogData = {
+  date: Date;
   sliderValue: number;
   emotions: string[];
-  color: string;
+  written: string;
 };
