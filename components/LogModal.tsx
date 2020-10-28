@@ -42,7 +42,6 @@ export default class LogModal extends Component<
 > {
   constructor(props: LogModalProps) {
     super(props);
-    console.log(props.sliderValue + "hi");
     this.state = {
       moodPercentile: this.props.sliderValue,
       text: props.noteText,

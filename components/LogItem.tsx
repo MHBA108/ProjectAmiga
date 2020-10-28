@@ -10,34 +10,24 @@ import moment from "moment";
 var valueToColor = require("../assets/ValueToColor");
 
 export default class LogItem extends Component<Log, Log> {
-  constructor(props: Log) {
-    super(props);
-
-    this.state = {
-      moodPercentile: this.props.moodPercentile,
-      moodWords: this.props.moodWords,
-      text: this.props.text,
-      timestamp: this.props.timestamp,
-    };
-  }
 
   render() {
     return (
       <View style={styles.log}>
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>{moment(this.state.timestamp).format("M/D/YYYY")}</Text>
+          <Text style={styles.date}>{moment(this.props.timestamp).format("M/D/YYYY")}</Text>
         </View>
         <View style={styles.moodHeaderContainer}>
           <Text style={styles.moodHeaderText}>Mood Descriptions:</Text>
         </View>
         <View style={styles.moodBubbleContainer}>
           <ScrollView horizontal={true}>
-            {this.state.moodWords.map((item, key) => (
+            {this.props.moodWords.map((item, key) => (
               <View style={styles.moodSpacer} key={key}>
                 <View
                   style={[
                     styles.emotionBubble,
-                    { backgroundColor: valueToColor(this.state.moodPercentile) },
+                    { backgroundColor: valueToColor(this.props.moodPercentile) },
                   ]}
                 >
                   <Text style={styles.moodHeaderText}>{item}</Text>
@@ -47,7 +37,7 @@ export default class LogItem extends Component<Log, Log> {
           </ScrollView>
         </View>
 
-        {<MoodSlider sliderValue={this.state.moodPercentile} disabled={true} />}
+        {<MoodSlider sliderValue={this.props.moodPercentile} disabled={true} />}
 
         <TouchableOpacity
           style={styles.editContainer}

@@ -19,7 +19,7 @@ const HomeScreen = (props: { navigation: any }) => {
   const authContext = React.useContext(AuthContext);
   const navigation = useNavigation();
 
-  // TODO:
+  // TODO: reset streak if they didn't log the previous day
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {

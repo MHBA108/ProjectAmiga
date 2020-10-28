@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
-// import "firebase/firestore";
 import React, { useState } from "react";
 import {
   Image,
