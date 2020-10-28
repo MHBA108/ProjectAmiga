@@ -1,42 +1,82 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
+import {
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+  SafeAreaView,
+  StatusBar,
+} from "react-native";
 
-import MyHeader from '../components/MyHeader'
-
+import EStyleSheet from "react-native-extended-stylesheet";
+import MyHeader from "../components/MyHeader";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
+import ContactUsInfo from "../components/ContactUsInfo";
+import { COLORS } from "../assets/COLORS";
+import LottieView from "lottie-react-native";
 
-
-
-const ContactUsScreen = (props: { navigation: any; }) => {
-    return (
-        <View>
-            <MyHeader navigation={props.navigation} />
-            <View
-                lightColor="#eee"
-                darkColor="rgba(255,255,255,0.1)"
-            />
-            <EditScreenInfo path="/screens/ContactUsScreen.tsx" />
+const ContactUsScreen = (props: { navigation: any }) => {
+  return (
+    <View style={styles.container}>
+      <MyHeader navigation={props.navigation} />
+      <ScrollView
+        style={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.containerTop}>
+          <Text style={styles.usernameStyle}> Contact Us </Text>
         </View>
-    )
-}
+        <View style={styles.containerLog}>
+          <ContactUsInfo />
+        </View>
+        <View style={styles.animation}>
+          <LottieView
+            source={require("../assets/images/ContactUs.json")}
+            autoPlay
+            loop
+            style={{ height: 300 }}
+          />
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
 
-export default ContactUsScreen
+export default ContactUsScreen;
 
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: "80%",
-    },
+const styles = EStyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.beige,
+    alignItems: "center",
+  },
+  scrollContainer: {
+    paddingHorizontal: "8rem",
+  },
+  containerLog: {
+    width: "100%",
+    flexDirection: "column",
+    backgroundColor: COLORS.darkBlue,
+    borderRadius: 10,
+    padding: "10rem",
+  },
+  usernameStyle: {
+    color: COLORS.darkBlue,
+    fontFamily: "HindSiliguri_600SemiBold",
+    fontSize: "40rem",
+  },
+  containerTop: {
+    width: "100%",
+    aspectRatio: 5 / 1,
+    flexDirection: "row",
+    backgroundColor: "transparent",
+  },
+  animation: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 15,
+    backgroundColor: COLORS.beige,
+  },
 });
