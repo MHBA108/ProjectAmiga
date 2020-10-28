@@ -2,10 +2,8 @@ import React, { Component, useEffect, useState } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogItem from "./LogItem";
-import { Log } from "../types";
 import { COLORS } from "../assets/COLORS";
 import firebase, { firestore } from "firebase";
-import moment, { Moment } from "moment";
 import { FlatList } from "react-native-gesture-handler";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -115,7 +113,7 @@ export default function LogList() {
       <FlatList
         data={documentData}
         renderItem={({ item }: { item: firestore.DocumentData }) => (
-          console.log("hello?"),
+          console.log("render log: " + item.timestamp),
           (
             <View>
               <LogItem
