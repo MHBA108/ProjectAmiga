@@ -6,35 +6,50 @@ import {
   Alert,
   SafeAreaView,
   StatusBar,
-  Platform,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import avatar from "../assets/images/avatars/male.png";
+import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
 import LogList from "../components/LogList";
 import { Ionicons } from "@expo/vector-icons";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
 import * as firebase from "firebase";
-import OpenProfileDetails from "../components/OpenProfileDetails";
-import { COLORS } from "../assets/COLORS";
+import { useFocusEffect } from "@react-navigation/native";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [streak, setStreak] = React.useState(0);
+  const [avatar, setAvatar] = React.useState("");
+
+  useFocusEffect(() => {
+    console.log("getting the streak right now from firebase in UserProfileScreen.tsx");
+    let doc = getStreak();
+    async function getStreak() {
+      const doc = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .get();
+      setStreak(doc.get("streak"));
+      setAvatar(doc.get("avatar"));
+    }
+  });
 
   return (
     <View style={styles.container}>
+      <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.containerTop}>
           <View style={styles.containerUpperLeft}>
-            {/*<Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>*/}
+            <Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
                 <Text style={styles.badgeText}>Achievements</Text>
-                <View style={styles.badgeContainer}>
+                <View style={styles.badgeContainer1}>
                   <OpenAchievements />
                 </View>
               </View>
@@ -44,7 +59,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
                   style={styles.badgeContainer}
                   onPress={() => Alert.alert("Streak button pressed")}
                 >
-                  <Text style={styles.countText}> 23</Text>
+                  <Text style={styles.countText}>{streak}</Text>
                   <Image
                     source={require("../assets/images/streak.png")}
                     style={styles.badge}
@@ -54,24 +69,35 @@ const UserProfileScreen = (props: { navigation: any }) => {
             </View>
           </View>
           <View style={styles.containerUpperRight}>
-            <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
-              source={avatar}
+              source={profilePlaceholder}
             />
-            <OpenProfileDetails />
+            <View style={styles.circle}></View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => Alert.alert("Edit profile button pressed")}
+            >
+              <Text style={styles.buttonText}>Edit Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => Alert.alert("New entry button pressed")}
+            >
+              <Ionicons
+                name="ios-add-circle-outline"
+                size={20}
+                color="#464D77"
+              />
+              <Text style={styles.buttonText}> New Entry</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.spacing}></View>
         <View style={styles.containerLog}>
           <LogList />
         </View>
-        <View style={styles.spacing}></View>
-        <View style={styles.spacing}></View>
-        <View style={styles.spacing}></View>
       </ScrollView>
-      <MyHeader navigation={props.navigation} />
     </View>
   );
 };
@@ -84,7 +110,6 @@ const styles = EStyleSheet.create({
     alignItems: "center",
   },
   scrollContainer: {
-    paddingTop: "25rem",
     paddingHorizontal: "8rem",
   },
   containerTop: {
@@ -123,7 +148,7 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: "transparent",
-    paddingTop: "40rem",
+    paddingTop: "10rem",
   },
   buttonEditProfile: {
     backgroundColor: "#464D77",
@@ -146,12 +171,12 @@ const styles = EStyleSheet.create({
   },
   circle: {
     position: "absolute",
-    top: "10rem",
+    top: "6rem",
     height: "100rem",
     width: "100rem",
     borderRadius: "50rem",
-    backgroundColor: COLORS.lightBlue,
-    borderColor: COLORS.lightBlue,
+    backgroundColor: "transparent",
+    borderColor: "#6699CC",
     borderWidth: "7rem",
     alignSelf: "center",
   },
@@ -188,21 +213,9 @@ const styles = EStyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS.yellow,
-    width: "90%",
+    backgroundColor: "#FCD7AE",
     aspectRatio: 1 / 1,
     padding: "15rem",
-    ...Platform.select({
-      ios: {
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 7,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
   },
   badgeContainer1: {
     flexDirection: "row",
