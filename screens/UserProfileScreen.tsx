@@ -9,13 +9,13 @@ import {
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import profilePlaceholder from "../assets/images/profilePicPlaceholder.png";
+import avatarPlaceHolder from "../assets/images/avatars/male.png";
 import LogList from "../components/LogList";
-import { Ionicons } from "@expo/vector-icons";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
+import OpenProfileDetails from "../components/OpenProfileDetails";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -71,35 +71,24 @@ const UserProfileScreen = (props: { navigation: any }) => {
             </View>
           </View>
           <View style={styles.containerUpperRight}>
+            <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
-              source={profilePlaceholder}
+              source={avatarPlaceHolder}
             />
-            <View style={styles.circle}></View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => Alert.alert("Edit profile button pressed")}
-            >
-              <Text style={styles.buttonText}>Edit Profile</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => Alert.alert("New entry button pressed")}
-            >
-              <Ionicons
-                name="ios-add-circle-outline"
-                size={20}
-                color="#464D77"
-              />
-              <Text style={styles.buttonText}> New Entry</Text>
-            </TouchableOpacity>
+            <OpenProfileDetails />
           </View>
         </View>
+        <View style={styles.spacing}></View>
         <View style={styles.containerLog}>
           <LogList />
         </View>
+        <View style={styles.spacing}></View>
+        <View style={styles.spacing}></View>
+        <View style={styles.spacing}></View>
       </ScrollView>
+      <MyHeader navigation={props.navigation} />
     </SafeAreaView>
   );
 };
