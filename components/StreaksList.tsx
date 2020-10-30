@@ -10,12 +10,12 @@ export default class StreaksList extends Component {
     return (
       <View>
         <View style={styles.spacing}></View>
-        <View style={styles.streak}>
-          <View style={styles.rewardTitleContainer}>
-            <Text style={styles.rewardTitle}>@JimSmith23</Text>
+        <View style={styles.achievement}>
+          <View style={styles.achievementTitleContainer}>
+            <Text style={styles.achievemetTitle}>@JimSmith23</Text>
             <View style={styles.spacing}></View>
             <View style={styles.streakContainer}>
-              <Text style={styles.rewardDescription}>23</Text>
+              <Text style={styles.achievementDescription}>23</Text>
               <Image
                 source={require("../assets/images/streak.png")}
                 style={styles.badge}
@@ -27,12 +27,12 @@ export default class StreaksList extends Component {
         </View>
 
         <View style={styles.spacing}></View>
-        <View style={styles.streak}>
-          <View style={styles.rewardTitleContainer}>
-            <Text style={styles.rewardTitle}>@SaraFin54</Text>
+        <View style={styles.achievement}>
+          <View style={styles.achievementTitleContainer}>
+            <Text style={styles.achievemetTitle}>@SaraFin54</Text>
             <View style={styles.spacing}></View>
             <View style={styles.streakContainer}>
-              <Text style={styles.rewardDescription}>13</Text>
+              <Text style={styles.achievementDescription}>13</Text>
               <Image
                 source={require("../assets/images/streak.png")}
                 style={styles.badge}
@@ -44,12 +44,12 @@ export default class StreaksList extends Component {
         </View>
 
         <View style={styles.spacing}></View>
-        <View style={styles.streak}>
-          <View style={styles.rewardTitleContainer}>
-            <Text style={styles.rewardTitle}>@DanzelFit</Text>
+        <View style={styles.achievement}>
+          <View style={styles.achievementTitleContainer}>
+            <Text style={styles.achievemetTitle}>@DanzelFit</Text>
             <View style={styles.spacing}></View>
             <View style={styles.streakContainer}>
-              <Text style={styles.rewardDescription}>23</Text>
+              <Text style={styles.achievementDescription}>23</Text>
               <Image
                 source={require("../assets/images/streak.png")}
                 style={styles.badge}
@@ -61,12 +61,12 @@ export default class StreaksList extends Component {
         </View>
 
         <View style={styles.spacing}></View>
-        <View style={styles.streak}>
-          <View style={styles.rewardTitleContainer}>
-            <Text style={styles.rewardTitle}>@MelanieLFrank</Text>
+        <View style={styles.achievement}>
+          <View style={styles.achievementTitleContainer}>
+            <Text style={styles.achievemetTitle}>@MelanieLFrank</Text>
             <View style={styles.spacing}></View>
             <View style={styles.streakContainer}>
-              <Text style={styles.rewardDescription}>1</Text>
+              <Text style={styles.achievementDescription}>1</Text>
               <Image
                 source={require("../assets/images/streak.png")}
                 style={styles.badge}
@@ -78,19 +78,19 @@ export default class StreaksList extends Component {
         </View>
 
         <View style={styles.spacing}></View>
-        <View style={styles.streak}>
+        <View style={styles.achievement}>
           <View style={styles.circle} />
           <Image style={styles.circle2} resizeMode="contain" source={avatar} />
         </View>
 
         <View style={styles.spacing}></View>
-        <View style={styles.streak}>
+        <View style={styles.achievement}>
           <View style={styles.circle} />
           <Image style={styles.circle2} resizeMode="contain" source={avatar} />
         </View>
 
         <View style={styles.spacing}></View>
-        <View style={styles.streak}>
+        <View style={styles.achievement}>
           <View style={styles.circle} />
           <Image style={styles.circle2} resizeMode="contain" source={avatar} />
         </View>
@@ -121,18 +121,18 @@ const styles = EStyleSheet.create({
     position: "absolute",
     top: "100rem",
   },
-  rewardTitleContainer: {
+  achievementTitleContainer: {
     width: "63%",
     backgroundColor: "transparent",
     aspectRatio: 1.5 / 1,
   },
-  rewardTitle: {
+  achievemetTitle: {
     color: COLORS.darkBlue,
     fontSize: "27rem",
     fontFamily: "HindSiliguri_500Medium",
     textAlign: "center",
   },
-  rewardDescription: {
+  achievementDescription: {
     color: COLORS.darkBlue,
     fontSize: "25rem",
     fontFamily: "HindSiliguri_500Medium",
@@ -161,10 +161,10 @@ const styles = EStyleSheet.create({
     alignSelf: "flex-end",
     right: "4rem",
   },
-  streak: {
+  achievement: {
     width: "100%",
     aspectRatio: 5 / 2,
-    backgroundColor: COLORS.yellowAccent,
+    backgroundColor: "#FCDDB9",
     borderRadius: 10,
     flexDirection: "column",
     padding: "5rem",

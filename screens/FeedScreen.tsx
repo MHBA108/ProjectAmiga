@@ -14,7 +14,6 @@ const FeedScreen = (props: { navigation: any }) => {
 
   return (
     <View style={styles.container}>
-      <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -43,7 +42,7 @@ const FeedScreen = (props: { navigation: any }) => {
                 style={styles.button}
                 onPress={() => Alert.alert("Leader board button pressed")}
               >
-                <Text style={styles.buttonText}>Leader board</Text>
+                <Text style={styles.buttonText}>Leaderboard</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
@@ -58,6 +57,7 @@ const FeedScreen = (props: { navigation: any }) => {
           <FeedList />
         </View>
       </ScrollView>
+      <MyHeader navigation={props.navigation} />
     </View>
   );
 };
@@ -75,6 +75,7 @@ const styles = EStyleSheet.create({
     alignItems: "center",
   },
   scrollContainer: {
+    paddingTop: "25rem",
     paddingHorizontal: "8rem",
   },
   containerTop: {
@@ -108,6 +109,8 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   containerUpperLeft: {
+    paddingTop: "35rem",
+    paddingBottom: "10rem",
     flex: 3,
     flexDirection: "column",
     alignItems: "center",
@@ -140,7 +143,7 @@ const styles = EStyleSheet.create({
     height: "100%",
   },
   button: {
-    backgroundColor: COLORS.yellow,
+    backgroundColor: "#FCD7AE",
     padding: "10rem",
     borderRadius: 18,
     alignItems: "center",
@@ -169,6 +172,7 @@ const styles = EStyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     backgroundColor: "transparent",
+    width: "90%",
     aspectRatio: 1 / 1,
     padding: "50rem",
   },

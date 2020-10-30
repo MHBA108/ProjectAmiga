@@ -199,7 +199,7 @@ const styles = EStyleSheet.create({
   editContainer: {
     position: "absolute",
     alignSelf: "flex-end",
-    backgroundColor: COLORS.yellowAccent2,
+    backgroundColor: "#FDE3C5",
     borderRadius: 10,
     padding: "5rem",
     right: "5rem",
@@ -235,7 +235,7 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   badgeText: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "11rem",
   },
@@ -262,7 +262,7 @@ const styles = EStyleSheet.create({
     height: "30rem",
   },
   badge: {
-    backgroundColor: COLORS.yellow,
+    backgroundColor: "#FCD7AE",
     width: "50rem",
     height: "50rem",
   },

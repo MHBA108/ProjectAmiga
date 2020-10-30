@@ -1,10 +1,9 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { View, LogBox } from "react-native";
+import { View, LogBox, StatusBar } from "react-native";
 import {
   useFonts,
   HindSiliguri_700Bold,
@@ -38,8 +37,8 @@ const firebaseConfig = {
 console.log("application id: " + Application.applicationId);
 
 // import {  }​​​​​​​​​ from "react-native";
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notifications
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 // TODO: Pressing back in the root tab crashes the app! I am not sure the arrow
 // should even be there.
@@ -48,10 +47,10 @@ export default function App() {
   EStyleSheet.build({
     $rem: entireScreenWidth / 380,
   });
-  
+
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  
+
   let [fontsLoaded] = useFonts({
     HindSiliguri_700Bold,
     HindSiliguri_400Regular,
@@ -65,6 +64,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
+        <StatusBar barStyle="light-content" />
         <Navigation colorScheme={colorScheme} />
         <StatusBar />
       </SafeAreaProvider>

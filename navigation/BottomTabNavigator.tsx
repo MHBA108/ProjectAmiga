@@ -5,9 +5,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { StyleSheet, Image } from "react-native";
 import { COLORS } from "../assets/COLORS";
-
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
 import HomeScreen from "../screens/HomeScreen";
 import StatsScreen from "../screens/StatsScreen";
 import ResourcesScreen from "../screens/ResourcesScreen";
@@ -25,15 +22,10 @@ import EStyleSheet from "react-native-extended-stylesheet";
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
-        labelStyle: {
-          fontSize: 12,
-        },
         activeTintColor: "#FFFFFF",
         inactiveTintColor: COLORS.darkBlue,
         tabStyle: styles.tabBar,

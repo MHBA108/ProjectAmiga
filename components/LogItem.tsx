@@ -6,34 +6,35 @@ import { LogData } from "../types";
 import MoodSlider from "./MoodSlider";
 import { COLORS } from "../assets/COLORS";
 
-export default class LogItem extends Component<LogData, LogData> {
-  constructor(props: LogData) {
-    super(props);
+var valueToColor = require("../assets/ValueToColor");
 
-    this.state = {
-      sliderValue: props.sliderValue,
-      emotions: props.emotions,
-      color: props.color,
-    };
+export default class LogItem extends Component<LogData> {
+  renderDate() {
+    let month = String(this.props.date.getMonth() + 1);
+    let day = String(this.props.date.getDate());
+    let year = String(this.props.date.getFullYear());
+    return month + "/" + day + "/" + year;
   }
 
   render() {
     return (
       <View style={styles.log}>
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>5/12/2020</Text>
+          <Text style={styles.date}>{this.renderDate()}</Text>
         </View>
         <View style={styles.moodHeaderContainer}>
           <Text style={styles.moodHeaderText}>Mood Descriptions:</Text>
         </View>
         <View style={styles.moodBubbleContainer}>
           <ScrollView horizontal={true}>
-            {this.state.emotions.map((item, key) => (
+            {this.props.emotions.map((item, key) => (
               <View style={styles.moodSpacer} key={key}>
                 <View
                   style={[
                     styles.emotionBubble,
-                    { backgroundColor: this.state.color },
+                    {
+                      backgroundColor: valueToColor(this.props.sliderValue),
+                    },
                   ]}
                 >
                   <Text style={styles.moodHeaderText}>{item}</Text>
@@ -43,7 +44,7 @@ export default class LogItem extends Component<LogData, LogData> {
           </ScrollView>
         </View>
 
-        {<MoodSlider sliderValue={this.state.sliderValue} disabled={true} />}
+        {<MoodSlider sliderValue={this.props.sliderValue} disabled={true} />}
 
         <TouchableOpacity
           style={styles.editContainer}

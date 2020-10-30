@@ -10,17 +10,27 @@ import firebase from "firebase";
 import { Feather } from "@expo/vector-icons";
 
 const SettingsScreen = (props: { navigation: any }) => {
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
   const authContext = React.useContext(AuthContext);
+
+  // TODO:
+  React.useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        console.log(user.displayName + " has logged in!");
+        setUser(user);
+      }
+    });
+  });
 
   return (
     <View style={styles.container}>
-      <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.containerTop}>
-          <Text style={styles.headerStyle}> Settings </Text>
+          <Text style={styles.headText}> Settings </Text>
         </View>
         <View style={styles.containerLog}>
           <View style={styles.spacing}></View>
@@ -47,6 +57,7 @@ const SettingsScreen = (props: { navigation: any }) => {
           <View style={styles.resource}></View>
         </View>
       </ScrollView>
+      <MyHeader navigation={props.navigation} />
     </View>
   );
 };
@@ -57,7 +68,7 @@ const styles = EStyleSheet.create({
   resource: {
     width: "100%",
     aspectRatio: 7 / 2,
-    backgroundColor: COLORS.darkBlueAccent,
+    backgroundColor: "#4E5E85",
     borderRadius: 10,
     flexDirection: "row",
     padding: "5rem",
@@ -67,6 +78,19 @@ const styles = EStyleSheet.create({
   spacing: {
     padding: "5rem",
     backgroundColor: "transparent",
+  },
+  headText: {
+    fontSize: "30rem",
+    color: COLORS.darkBlue,
+    fontFamily: "HindSiliguri_700Bold",
+  },
+  containerTop: {
+    width: "100%",
+    aspectRatio: 4 / 1,
+    flexDirection: "row",
+    backgroundColor: "transparent",
+    justifyContent: "flex-end",
+    paddingTop: "25rem",
   },
   container: {
     flex: 1,
@@ -92,11 +116,5 @@ const styles = EStyleSheet.create({
     color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_600SemiBold",
     fontSize: "40rem",
-  },
-  containerTop: {
-    width: "100%",
-    aspectRatio: 4 / 1,
-    flexDirection: "row",
-    backgroundColor: "transparent",
   },
 });

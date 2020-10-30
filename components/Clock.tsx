@@ -1,61 +1,58 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import moment from "moment";
-import { useFonts } from "expo-font";
 import { COLORS } from "../assets/COLORS";
 
-const styles = StyleSheet.create({
+import EStyleSheet from "react-native-extended-stylesheet";
+
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
   },
-  timeText: {
-    color: COLORS.darkBlue,
-    fontSize: 24,
-    fontFamily: "HindSiliguri_400Regular",
-    marginLeft: 10,
-  },
-
   dateText: {
     color: COLORS.darkBlue,
-    fontSize: 24,
+    fontSize: "16rem",
     fontFamily: "HindSiliguri_400Regular",
-    marginLeft: 10,
+    textAlign: "right",
   },
 });
 
 export default class Clock extends Component<
   { showDate: boolean; showTime: boolean },
-  { time: string; date: string }
+  { date: string; month: string; dayOfWeek: string }
 > {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      time: moment().format("dddd, MMMM Do"),
-      date: moment().format("H:mm A"),
+      date: moment().format("D YYYY"),
+      month: moment().format("MMMM").toUpperCase(),
+      dayOfWeek: moment().format("dddd").toUpperCase(),
     };
   }
 
   dateText() {
-    return (<Text style={styles.dateText}>{this.state.date}</Text>);
-  }
-
-  timeText() {
-    return (<Text style={styles.timeText}>{this.state.time}</Text>);
+    return (
+      <Text style={styles.dateText}>
+        {this.state.dayOfWeek}
+        {this.state.month}
+        {this.state.date}
+      </Text>
+    );
   }
 
   render() {
     setTimeout(() => {
       this.setState({
-        date: moment().format("dddd, MMMM Do"),
-        time: moment().format("h:mm A"),
+        date: moment().format("D YYYY"),
+        month: moment().format("MMMM ").toUpperCase(),
+        dayOfWeek: moment().format("dddd, ").toUpperCase(),
       });
     });
 
     return (
       <View style={styles.container}>
         {this.props.showDate ? this.dateText() : null}
-        {this.props.showTime ? this.timeText() : null}
       </View>
     );
   }

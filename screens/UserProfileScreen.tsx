@@ -6,6 +6,7 @@ import {
   Alert,
   SafeAreaView,
   StatusBar,
+  Platform,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -23,18 +24,17 @@ const UserProfileScreen = (props: { navigation: any }) => {
 
   return (
     <View style={styles.container}>
-      <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.containerTop}>
           <View style={styles.containerUpperLeft}>
-            <Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>
+            {/*<Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>*/}
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
                 <Text style={styles.badgeText}>Achievements</Text>
-                <View style={styles.badgeContainer1}>
+                <View style={styles.badgeContainer}>
                   <OpenAchievements />
                 </View>
               </View>
@@ -63,10 +63,15 @@ const UserProfileScreen = (props: { navigation: any }) => {
             <OpenProfileDetails />
           </View>
         </View>
+        <View style={styles.spacing}></View>
         <View style={styles.containerLog}>
           <LogList />
         </View>
+        <View style={styles.spacing}></View>
+        <View style={styles.spacing}></View>
+        <View style={styles.spacing}></View>
       </ScrollView>
+      <MyHeader navigation={props.navigation} />
     </View>
   );
 };
@@ -75,10 +80,11 @@ export default UserProfileScreen;
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.beige,
+    backgroundColor: "#F2E9E3",
     alignItems: "center",
   },
   scrollContainer: {
+    paddingTop: "25rem",
     paddingHorizontal: "8rem",
   },
   containerTop: {
@@ -90,7 +96,7 @@ const styles = EStyleSheet.create({
   containerLog: {
     width: "100%",
     flexDirection: "column",
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: "#464D77",
     borderRadius: 10,
     padding: "10rem",
   },
@@ -117,18 +123,18 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: "transparent",
-    paddingTop: "10rem",
+    paddingTop: "40rem",
   },
   buttonEditProfile: {
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: "#464D77",
     justifyContent: "center",
     borderRadius: 20,
-    color: COLORS.beige,
+    color: "#F2E9E3",
     fontSize: "10rem",
     flexShrink: 1,
   },
   usernameStyle: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "20rem",
   },
@@ -154,14 +160,14 @@ const styles = EStyleSheet.create({
     height: "100%",
   },
   button: {
-    backgroundColor: COLORS.yellow,
+    backgroundColor: "#FCD7AE",
     padding: "5rem",
     borderRadius: 10,
     alignItems: "center",
     flexDirection: "row",
   },
   buttonText: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_600SemiBold",
     fontSize: "10rem",
   },
@@ -173,7 +179,7 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   badgeText: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "11rem",
   },
@@ -183,8 +189,20 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.yellow,
+    width: "90%",
     aspectRatio: 1 / 1,
     padding: "15rem",
+    ...Platform.select({
+      ios: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 7,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
   badgeContainer1: {
     flexDirection: "row",
@@ -195,7 +213,7 @@ const styles = EStyleSheet.create({
     padding: "10rem",
   },
   countText: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "30rem",
   },

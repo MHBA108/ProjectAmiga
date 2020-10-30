@@ -4,15 +4,18 @@ import "firebase/firestore";
 import React, { useState } from "react";
 import {
   Image,
-  Keyboard, KeyboardAvoidingView,
-  Platform, StyleSheet,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback, View
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import { COLORS } from "../assets/COLORS";
 import { AuthContext } from "../navigation/context";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 export default function LoginScreen(props: { navigation: any }) {
   const [email, setEmail] = useState("");
@@ -51,73 +54,106 @@ export default function LoginScreen(props: { navigation: any }) {
 
   return (
     <KeyboardAvoidingView
-      style = {styles.container}
+      style={styles.container}
       behavior={Platform.OS == "ios" ? "padding" : "height"}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
-          <Image
-            style={styles.logo}
-            source={require("../assets/images/splash.png")}
-          />
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.inputText}
-              placeholder="Email..."
-              placeholderTextColor={COLORS.darkBlue}
-              onChangeText={(text) => setEmail(text)}
+          <View style={styles.topContainer}>
+            <Image
+              style={styles.logo}
+              source={require("../assets/images/splash.png")}
             />
           </View>
+          <View style={styles.bottomContainer}>
+            <View style={styles.inputs}>
+              <View style={styles.inputView}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="Email..."
+                  placeholderTextColor={COLORS.darkBlue}
+                  onChangeText={(text) => setEmail(text)}
+                />
+              </View>
 
-          <View style={styles.inputView}>
-            <TextInput
-              secureTextEntry //hides test input with *****
-              style={styles.inputText}
-              placeholder="Password..."
-              placeholderTextColor={COLORS.darkBlue}
-              onChangeText={(text) => setPassword(text)}
-            />
+              <View style={styles.inputView}>
+                <TextInput
+                  secureTextEntry //hides test input with *****
+                  style={styles.inputText}
+                  placeholder="Password..."
+                  placeholderTextColor={COLORS.darkBlue}
+                  onChangeText={(text) => setPassword(text)}
+                />
+              </View>
+
+              <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={() => signInWithEmail()}
+              >
+                <Text style={styles.loginText}>LOGIN</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.signUpContainer}>
+              <Text
+                style={{
+                  fontWeight: "200",
+                  fontSize: 17,
+                  textAlign: "center",
+                  color: COLORS.darkBlue,
+                }}
+                onPress={() => {
+                  navigation.navigate("SignUpScreen");
+                }}
+              >
+                Don't have an Account?
+              </Text>
+            </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => signInWithEmail()}
-          >
-            <Text style={styles.loginText}>LOGIN WITH EMAIL</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={{ marginTop: 10 }}>
-            <Text
-              style={{
-                fontWeight: "200",
-                fontSize: 17,
-                textAlign: "center",
-                color: COLORS.darkBlue,
-              }}
-              onPress={() => {
-                navigation.navigate("SignUpScreen");
-              }}
-            >
-              Don't have an Account?
-            </Text>
-          </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
     backgroundColor: COLORS.lightBlue,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
   },
+  inputs: {
+    width: "100%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  topContainer: {
+    flex: 1.25,
+    width: "100%",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  bottomContainer: {
+    flex: 1,
+    width: "100%",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  signUpContainer: {
+    backgroundColor: "transparent",
+    paddingBottom: "10rem",
+  },
   logo: {
-    width: 400,
-    height: 400,
+    width: "350rem",
+    height: "350rem",
   },
   inputView: {
     backgroundColor: COLORS.yellow,
@@ -132,10 +168,6 @@ const styles = StyleSheet.create({
     height: 50,
     color: COLORS.darkBlue,
   },
-  forgot: {
-    color: "white",
-    fontSize: 11,
-  },
   loginBtn: {
     width: "69%",
     backgroundColor: COLORS.darkBlue,
@@ -143,7 +175,6 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 50,
   },
   loginText: {
     color: COLORS.white,

@@ -8,10 +8,20 @@ import "react-native-get-random-values";
 import { v1 as uuidv1 } from "uuid";
 import { AsyncStorage } from "react-native";
 import { COLORS } from "../assets/COLORS";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const { height, width } = Dimensions.get("window");
 
-export default class TodoList extends React.Component<{}> {
+interface IProps {}
+
+interface IState {
+  newTodoItem?: any;
+  dataIsReady?: any;
+  todos?: any;
+}
+
+export default class TodoList extends React.Component<IProps, IState> {
+  newTodoItem: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -42,9 +52,11 @@ export default class TodoList extends React.Component<{}> {
 
   loadTodos = async () => {
     try {
-      const getTodos = await AsyncStorage.getItem("todos");
-      const parsedTodos = JSON.parse(getTodos);
-      this.setState({ dataIsReady: true, todos: parsedTodos || {} });
+      if ((await AsyncStorage.getItem("todos")) != null) {
+        const getTodos: string | null = await AsyncStorage.getItem("todos");
+        const parsedTodos = getTodos ? JSON.parse(getTodos) : "";
+        this.setState({ dataIsReady: true, todos: parsedTodos || {} });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -151,51 +163,41 @@ export default class TodoList extends React.Component<{}> {
       // return <AppLoading/>;
     }
     return (
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <View style={styles.card}>
-          <TextInput
-            style={styles.input}
-            placeholder="Add task..."
-            value={newTodoItem}
-            onChangeText={this.newTodoItemController}
-            placeholderTextColor={COLORS.beige}
-            returnKeyType={"done"}
-            autoCorrect={false}
-            onSubmitEditing={this.addTodo}
-          />
-          <ScrollView contentContainerStyle={styles.listContainer}>
-            {Object.values(todos).map((todo) => (
-              <TodoItem
-                key={todo.id}
-                {...todo}
-                deleteTodo={this.deleteTodo}
-                inCompleteTodo={this.inCompleteTodo}
-                CompleteTodo={this.CompleteTodo}
-                updateTodo={this.UpdateTodo}
-              />
-            ))}
-          </ScrollView>
-        </View>
+      <View style={styles.card}>
+        <TextInput
+          style={styles.input}
+          placeholder="Add task..."
+          value={newTodoItem}
+          onChangeText={this.newTodoItemController}
+          placeholderTextColor={COLORS.beige}
+          returnKeyType={"done"}
+          autoCorrect={false}
+          onSubmitEditing={this.addTodo}
+        />
+        <ScrollView contentContainerStyle={styles.listContainer}>
+          {Object.values(todos).map((item: any) => (
+            <TodoItem
+              key={item.id}
+              {...item}
+              deleteTodo={this.deleteTodo}
+              inCompleteTodo={this.inCompleteTodo}
+              CompleteTodo={this.CompleteTodo}
+              updateTodo={this.UpdateTodo}
+            />
+          ))}
+        </ScrollView>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 20,
-    flex: 1,
-    backgroundColor: COLORS.beige,
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "HindSiliguri_400Regular",
-  },
+const styles = EStyleSheet.create({
   card: {
+    marginTop: "25rem",
     backgroundColor: COLORS.darkBlue,
     fontFamily: "HindSiliguri_400Regular",
     flex: 1,
-    width: width - 25,
+    width: "100%",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,

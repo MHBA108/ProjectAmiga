@@ -6,6 +6,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 
 var valueToColor = require("../assets/ValueToColor");
 
+// TODO pass back sliderValue to parent
 export default class MoodSlider extends Component<
   { sliderValue?: number; disabled?: Boolean; parentSync?: Function },
   {

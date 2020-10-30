@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  StyleSheet,
   SafeAreaView,
   ScrollView,
   Dimensions,
@@ -29,10 +28,12 @@ const StatsScreen = (props: { navigation: any }) => {
 
   return (
     <View style={{ backgroundColor: COLORS.beige }}>
-      <MyHeader navigation={props.navigation} />
-      <ScrollView style={{ backgroundColor: COLORS.beige }}>
+      <ScrollView style={styles.scrollContainer}>
         <View style={{ backgroundColor: COLORS.beige }}>
           <View style={styles.container}>
+            <View style={styles.headContainer}>
+              <Text style={styles.headText}>Stats</Text>
+            </View>
             <View
               style={{
                 flexDirection: "row",
@@ -40,6 +41,7 @@ const StatsScreen = (props: { navigation: any }) => {
                 width: "90%",
                 marginBottom: windowHeight * 0.01,
                 backgroundColor: COLORS.beige,
+                paddingTop: 10,
               }}
             >
               <Avatar
@@ -192,26 +194,35 @@ const StatsScreen = (props: { navigation: any }) => {
           </View>
         </View>
       </ScrollView>
+      <MyHeader navigation={props.navigation} />
     </View>
   );
 };
 
 export default StatsScreen;
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     backgroundColor: COLORS.beige,
   },
-
+  scrollContainer: {
+    paddingHorizontal: "15rem",
+  },
   statsStyle: {
     backgroundColor: COLORS.yellow,
     width: "45%",
     borderRadius: 10,
     padding: 10,
   },
-
+  headContainer: {
+    paddingTop: "25rem",
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    backgroundColor: COLORS.beige,
+  },
   graphRangeStyle: {
     marginHorizontal: 2,
     paddingHorizontal: 7,
@@ -219,7 +230,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: COLORS.darkBlue,
   },
-
+  headText: {
+    fontSize: "30rem",
+    color: COLORS.darkBlue,
+    fontFamily: "HindSiliguri_700Bold",
+  },
   graphContainer: {
     justifyContent: "center",
     width: "95%",
@@ -245,7 +260,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.beige,
   },
   badgeText: {
-    color: COLORS.darkBlue,
+    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     // fontSize: "11rem",
   },
@@ -254,7 +269,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS.yellow,
+    backgroundColor: "#FCD7AE",
     // aspectRatio: 1 / 1,
     padding: "15rem",
   },
