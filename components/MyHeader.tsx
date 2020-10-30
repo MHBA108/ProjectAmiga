@@ -19,7 +19,7 @@ const styles = EStyleSheet.create({
     height: "30rem",
     borderRadius: "15rem",
     position: "absolute",
-    top: "30rem",
+    top: "50rem",
     left: "18rem",
     backgroundColor: COLORS.beige,
     justifyContent: "center",

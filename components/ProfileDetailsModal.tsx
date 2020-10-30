@@ -12,158 +12,161 @@ import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Feather, AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../assets/COLORS";
-import avatar from "../assets/images/avatars/male.png";
+import avatarPlaceHolder from "../assets/images/avatars/male.png";
+import { useFocusEffect } from "@react-navigation/native";
+import firebase from "firebase";
 
-export default class ProfileDetailsModal extends Component<
-  {},
-  {
-    expanded: boolean;
-    modalVisible: boolean;
-  }
-> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      modalVisible: false,
-      expanded: false,
-    };
+export default function ProfileDetailsModal() {
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
+  const [height, setHeight] = React.useState(0);
+  const [selected, setSelected] = React.useState(false);
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [streak, setStreak] = React.useState(0);
+  const [avatar, setAvatar] = React.useState("");
+
+  useFocusEffect(() => {
+    let doc = getStreak();
+    async function getStreak() {
+      const doc = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .get();
+      setStreak(doc.get("streak"));
+      setAvatar(doc.get("avatar"));
+    }
+  });
+
+  function openModal() {
+    setModalVisible(true);
   }
 
-  openModal() {
-    this.setState({ modalVisible: true });
+  function closeModal() {
+    setModalVisible(false);
   }
-
-  closeModal() {
-    this.setState({ modalVisible: false });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Modal
-          hasBackdrop={true}
-          isVisible={this.state.modalVisible}
-          backdropColor={COLORS.darkBlue}
-          backdropOpacity={0.5}
-          animationInTiming={300}
-          animationOutTiming={300}
-          backdropTransitionInTiming={300}
-          backdropTransitionOutTiming={300}
-        >
-          <View style={styles.modalContainer}>
-            <ScrollView style={styles.innerContainer}>
-              <View style={styles.achievementsHeader}>
-                <Text style={styles.Header}>Profile Details</Text>
-                <View style={styles.backButton}>
-                  <TouchableHighlight
-                    onPress={() => this.closeModal()}
-                    underlayColor="none"
-                  >
-                    <Feather
-                      name="chevron-up"
-                      size={24}
-                      color={COLORS.darkBlue}
-                    />
-                  </TouchableHighlight>
-                </View>
-              </View>
-              <View style={styles.spacing}></View>
-              <View style={styles.detail}>
-                <Text style={styles.detailTitle}> Name: </Text>
-                <TouchableOpacity
-                  style={styles.editContainer}
-                  onPress={() => Alert.alert("Edit button pressed")}
+  return (
+    <View style={styles.container}>
+      <Modal
+        hasBackdrop={true}
+        isVisible={modalVisible}
+        backdropColor={COLORS.darkBlue}
+        backdropOpacity={0.5}
+        animationInTiming={300}
+        animationOutTiming={300}
+        backdropTransitionInTiming={300}
+        backdropTransitionOutTiming={300}
+      >
+        <View style={styles.modalContainer}>
+          <ScrollView style={styles.innerContainer}>
+            <View style={styles.achievementsHeader}>
+              <Text style={styles.Header}>Profile Details</Text>
+              <View style={styles.backButton}>
+                <TouchableHighlight
+                  onPress={() => closeModal()}
+                  underlayColor="none"
                 >
-                  <AntDesign name="edit" size={24} color={COLORS.pink} />
-                </TouchableOpacity>
-                <View style={styles.spacing}></View>
-                <View style={styles.lighterDetail}>
-                  <Text style={styles.detailDescription}> Jim Smith </Text>
-                </View>
-              </View>
-
-              <View style={styles.spacing}></View>
-              <View style={styles.detail}>
-                <Text style={styles.detailTitle}> Username: </Text>
-                <TouchableOpacity
-                  style={styles.editContainer}
-                  onPress={() => Alert.alert("Edit button pressed")}
-                >
-                  <AntDesign name="edit" size={24} color={COLORS.pink} />
-                </TouchableOpacity>
-                <View style={styles.spacing}></View>
-                <View style={styles.lighterDetail}>
-                  <Text style={styles.detailDescription}> JimSmith23 </Text>
-                </View>
-              </View>
-
-              <View style={styles.spacing} />
-              <View style={styles.detail}>
-                <Text style={styles.detailTitle}> Avatar: </Text>
-                <View style={styles.spacing} />
-                <View style={styles.spacing} />
-                <View style={styles.spacing} />
-                <View style={styles.spacing} />
-                <TouchableOpacity
-                  style={styles.circle}
-                  onPress={() => Alert.alert("Edit button pressed")}
-                >
-                  <Image
-                    style={styles.circle2}
-                    resizeMode="contain"
-                    source={avatar}
+                  <Feather
+                    name="chevron-up"
+                    size={24}
+                    color={COLORS.darkBlue}
                   />
-                </TouchableOpacity>
+                </TouchableHighlight>
               </View>
-
-              <View style={styles.spacing}></View>
-              <View style={styles.detail}>
-                <Text style={styles.detailTitle}> Email: </Text>
-                <TouchableOpacity
-                  style={styles.editContainer}
-                  onPress={() => Alert.alert("Edit button pressed")}
-                >
-                  <AntDesign name="edit" size={24} color={COLORS.pink} />
-                </TouchableOpacity>
-                <View style={styles.spacing}></View>
-                <View style={styles.lighterDetail}>
-                  <Text style={styles.detailDescription}>
-                    {" "}
-                    JimSmith23@gmail.com{" "}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.spacing}></View>
-              <View style={styles.detail}>
-                <Text style={styles.detailTitle}> Date of Birth: </Text>
-                <TouchableOpacity
-                  style={styles.editContainer}
-                  onPress={() => Alert.alert("Edit button pressed")}
-                >
-                  <AntDesign name="edit" size={24} color={COLORS.pink} />
-                </TouchableOpacity>
-                <View style={styles.spacing}></View>
-                <View style={styles.lighterDetail}>
-                  <Text style={styles.detailDescription}> 12/23/1999 </Text>
-                </View>
-              </View>
-            </ScrollView>
-          </View>
-        </Modal>
-        <View>
-          <TouchableHighlight
-            onPress={() => this.openModal()}
-            underlayColor="none"
-          >
-            <View style={styles.badgeContainer}>
-              <Text style={styles.badgeText}>Edit Profile</Text>
             </View>
-          </TouchableHighlight>
+            <View style={styles.spacing}></View>
+            <View style={styles.detail}>
+              <Text style={styles.detailTitle}> Name: </Text>
+              <TouchableOpacity
+                style={styles.editContainer}
+                onPress={() => Alert.alert("Edit button pressed")}
+              >
+                <AntDesign name="edit" size={24} color={COLORS.pink} />
+              </TouchableOpacity>
+              <View style={styles.spacing}></View>
+              <View style={styles.lighterDetail}>
+                <Text style={styles.detailDescription}>
+                  {" "}
+                  {user?.displayName}{" "}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.spacing}></View>
+            <View style={styles.detail}>
+              <Text style={styles.detailTitle}> Username: </Text>
+              <TouchableOpacity
+                style={styles.editContainer}
+                onPress={() => Alert.alert("Edit button pressed")}
+              >
+                <AntDesign name="edit" size={24} color={COLORS.pink} />
+              </TouchableOpacity>
+              <View style={styles.spacing}></View>
+              <View style={styles.lighterDetail}>
+                <Text style={styles.detailDescription}> JimSmith23 </Text>
+              </View>
+            </View>
+
+            <View style={styles.spacing} />
+            <View style={styles.detail}>
+              <Text style={styles.detailTitle}> Avatar: </Text>
+              <View style={styles.spacing} />
+              <View style={styles.spacing} />
+              <View style={styles.spacing} />
+              <View style={styles.spacing} />
+              <TouchableOpacity
+                style={styles.circle}
+                onPress={() => Alert.alert("Edit button pressed")}
+              >
+                <Image
+                  style={styles.circle2}
+                  resizeMode="contain"
+                  source={avatarPlaceHolder}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.spacing}></View>
+            <View style={styles.detail}>
+              <Text style={styles.detailTitle}> Email: </Text>
+              <TouchableOpacity
+                style={styles.editContainer}
+                onPress={() => Alert.alert("Edit button pressed")}
+              >
+                <AntDesign name="edit" size={24} color={COLORS.pink} />
+              </TouchableOpacity>
+              <View style={styles.spacing}></View>
+              <View style={styles.lighterDetail}>
+                <Text style={styles.detailDescription}> {user?.email} </Text>
+              </View>
+            </View>
+
+            <View style={styles.spacing}></View>
+            <View style={styles.detail}>
+              <Text style={styles.detailTitle}> Date of Birth: </Text>
+              <TouchableOpacity
+                style={styles.editContainer}
+                onPress={() => Alert.alert("Edit button pressed")}
+              >
+                <AntDesign name="edit" size={24} color={COLORS.pink} />
+              </TouchableOpacity>
+              <View style={styles.spacing}></View>
+              <View style={styles.lighterDetail}>
+                <Text style={styles.detailDescription}> 12/23/1999 </Text>
+              </View>
+            </View>
+          </ScrollView>
         </View>
+      </Modal>
+      <View>
+        <TouchableHighlight onPress={() => openModal()} underlayColor="none">
+          <View style={styles.badgeContainer}>
+            <Text style={styles.badgeText}>Edit Profile</Text>
+          </View>
+        </TouchableHighlight>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({

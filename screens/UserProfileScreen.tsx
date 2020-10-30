@@ -16,6 +16,7 @@ import OpenAchievements from "../components/OpenAchievements";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import OpenProfileDetails from "../components/OpenProfileDetails";
+import { COLORS } from "../assets/COLORS";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -162,12 +163,12 @@ const styles = EStyleSheet.create({
   },
   circle: {
     position: "absolute",
-    top: "6rem",
+    top: "9rem",
     height: "100rem",
     width: "100rem",
     borderRadius: "50rem",
-    backgroundColor: "transparent",
-    borderColor: "#6699CC",
+    backgroundColor: COLORS.lightBlue,
+    borderColor: COLORS.lightBlue,
     borderWidth: "7rem",
     alignSelf: "center",
   },
