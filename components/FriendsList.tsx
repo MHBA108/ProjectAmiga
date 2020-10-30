@@ -33,7 +33,6 @@ const styles = EStyleSheet.create({
   },
   buttonText: {
     color: COLORS.darkBlue,
-    backgroundColor: COLORS.pinkAccent,
     fontSize: "30rem",
     fontFamily: "HindSiliguri_600SemiBold",
   },
