@@ -27,7 +27,7 @@ const StatsScreen = (props: { navigation: any }) => {
   });
 
   return (
-    <View style={{ backgroundColor: COLORS.beige }}>
+    <SafeAreaView style={{ backgroundColor: COLORS.beige }}>
       <ScrollView style={styles.scrollContainer}>
         <View style={{ backgroundColor: COLORS.beige }}>
           <View style={styles.container}>
@@ -195,7 +195,7 @@ const StatsScreen = (props: { navigation: any }) => {
         </View>
       </ScrollView>
       <MyHeader navigation={props.navigation} />
-    </View>
+    </SafeAreaView>
   );
 };
 

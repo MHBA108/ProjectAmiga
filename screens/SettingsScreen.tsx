@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 
 import { AuthContext } from "../navigation/context";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -24,7 +24,7 @@ const SettingsScreen = (props: { navigation: any }) => {
   });
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -58,7 +58,7 @@ const SettingsScreen = (props: { navigation: any }) => {
         </View>
       </ScrollView>
       <MyHeader navigation={props.navigation} />
-    </View>
+    </SafeAreaView>
   );
 };
 

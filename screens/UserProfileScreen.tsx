@@ -23,7 +23,9 @@ const UserProfileScreen = (props: { navigation: any }) => {
   const [avatar, setAvatar] = React.useState("");
 
   useFocusEffect(() => {
-    console.log("getting the streak right now from firebase in UserProfileScreen.tsx");
+    console.log(
+      "getting the streak right now from firebase in UserProfileScreen.tsx"
+    );
     let doc = getStreak();
     async function getStreak() {
       const doc = await firebase
@@ -37,7 +39,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
   });
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
@@ -98,7 +100,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
           <LogList />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 export default UserProfileScreen;

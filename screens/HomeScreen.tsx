@@ -30,7 +30,7 @@ const HomeScreen = (props: { navigation: any }) => {
   });
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <MyHeader navigation={props.navigation} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -53,7 +53,7 @@ const HomeScreen = (props: { navigation: any }) => {
           }}
         />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -65,9 +65,6 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.beige,
-  },
-  scrollContainer: {
-    paddingHorizontal: "8rem",
   },
   title: {
     fontSize: 20,
