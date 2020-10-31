@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, LayoutAnimation, Platform } from "react-native";
+import { View, Platform } from "react-native";
 
 import { COLORS } from "../assets/COLORS";
 import StreaksModal from "./StreaksModal";

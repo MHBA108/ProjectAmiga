@@ -15,9 +15,9 @@ const MyHeader = (props: { navigation: any }) => {
 
 const styles = EStyleSheet.create({
   circle: {
-    width: "30rem",
-    height: "30rem",
-    borderRadius: "15rem",
+    width: "40rem",
+    height: "40rem",
+    borderRadius: "20rem",
     position: "absolute",
     top: "50rem",
     left: "18rem",

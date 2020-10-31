@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  Button,
   ScrollView,
-  StyleSheet,
-  TextInput,
   Image,
   TouchableHighlight,
-  Dimensions,
 } from "react-native";
 import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";

@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  Button,
   ScrollView,
-  StyleSheet,
   TextInput,
   Image,
+  TouchableOpacity,
   TouchableHighlight,
-  Dimensions,
 } from "react-native";
 import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -16,7 +14,8 @@ import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { User } from "realm";
-import Carousel from "./Carousel";
+import { useState } from "react";
+import DatePicker from "react-native-datepicker";
 
 export default function InitialInfoModal() {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -26,6 +25,14 @@ export default function InitialInfoModal() {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
+
+  const [date, setDate] = useState("09-10-2020");
+
+  const [background, setBackground] = useState("transparent");
+  const onPress = () =>
+    setBackground(
+      background == "transparent" ? COLORS.yellowAccent2 : "transparent"
+    );
 
   useFocusEffect(() => {
     let doc = getStreak();
@@ -66,7 +73,41 @@ export default function InitialInfoModal() {
               <Text style={styles.Header}>CHOOSE YOUR AVATAR</Text>
             </View>
             <View style={styles.spacing}></View>
-            <Carousel />
+            <View style={styles.container}>
+              <ScrollView horizontal={true} indicatorStyle={"white"}>
+                <TouchableOpacity onPress={onPress}>
+                  <Image
+                    source={require("../assets/images/avatars/male.png")}
+                    style={{
+                      height: 150,
+                      width: 150,
+                      backgroundColor: background,
+                    }}
+                  />
+                </TouchableOpacity>
+
+                <Image
+                  source={require("../assets/images/avatars/female.png")}
+                  style={styles.avatar}
+                />
+                <Image
+                  source={require("../assets/images/avatars/boy.png")}
+                  style={styles.avatar}
+                />
+                <Image
+                  source={require("../assets/images/avatars/woman.png")}
+                  style={styles.avatar}
+                />
+                <Image
+                  source={require("../assets/images/avatars/man.png")}
+                  style={styles.avatar}
+                />
+                <Image
+                  source={require("../assets/images/avatars/woman2.png")}
+                  style={styles.avatar}
+                />
+              </ScrollView>
+            </View>
             <View style={styles.spacing}></View>
             <View style={styles.spacing}></View>
             <View style={styles.avatarHeader}>
@@ -76,7 +117,7 @@ export default function InitialInfoModal() {
             <TextInput
               style={styles.input}
               placeholder="username..."
-              placeholderTextColor="#4E5E85"
+              placeholderTextColor={COLORS.darkBlueAccent2}
               returnKeyType="next"
               textContentType="username"
             />
@@ -86,13 +127,43 @@ export default function InitialInfoModal() {
               <Text style={styles.Header}>BIRTHDAY</Text>
             </View>
             <View style={styles.spacing}></View>
-            <TextInput
-              style={styles.input}
-              placeholder="mm/dd/yyy"
-              placeholderTextColor="#4E5E85"
-              returnKeyType="next"
-              textContentType="none"
-            />
+            <View style={styles.date}>
+              <DatePicker
+                style={styles.datePickerStyle}
+                date={date} // Initial date from state
+                mode="date" // The enum of date, datetime and time
+                placeholder="select date"
+                format="MM-DD-YYYY"
+                minDate="01-01-1950"
+                maxDate="01-01-2020"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  btnTextConfirm: {
+                    color: COLORS.pink,
+                  },
+                  dateIcon: {
+                    //display: 'none',
+                    position: "absolute",
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0,
+                  },
+                  dateInput: {
+                    marginLeft: 36,
+                    borderWidth: 0,
+                  },
+                  dateText: {
+                    color: COLORS.darkBlue,
+                    fontFamily: "HindSiliguri_500Medium",
+                    fontSize: "20rem",
+                  },
+                }}
+                onDateChange={(date) => {
+                  setDate(date);
+                }}
+              />
+            </View>
           </ScrollView>
           <View style={styles.saveButton}>
             <TouchableHighlight
@@ -120,11 +191,29 @@ export default function InitialInfoModal() {
 }
 
 const styles = EStyleSheet.create({
+  avatar: {
+    height: "150rem",
+    width: "150rem",
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: COLORS.yellowAccent,
+    borderRadius: 10,
+  },
+  datePickerStyle: {
+    width: "200rem",
+    backgroundColor: COLORS.yellowAccent,
+    borderRadius: 10,
+  },
+  date: {
+    alignSelf: "center",
+  },
   input: {
     fontSize: "30rem",
-    borderColor: "#707070",
-    backgroundColor: "#FCDDB9",
+    backgroundColor: COLORS.yellowAccent,
     borderRadius: 10,
+    color: COLORS.darkBlue,
   },
   spacing: {
     padding: "15rem",
@@ -137,7 +226,7 @@ const styles = EStyleSheet.create({
   },
   avatarHeader: {
     flexDirection: "row",
-    backgroundColor: "#FCDDB9",
+    backgroundColor: COLORS.yellowAccent2,
     alignSelf: "center",
     borderRadius: 10,
   },
