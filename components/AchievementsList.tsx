@@ -3,9 +3,29 @@ import { Text, View, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
+import { useFocusEffect } from "@react-navigation/native";
 
-const AchievementsList = (props: { navigation: any }) => {
+export default function AchievementsList() {
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
+  const [height, setHeight] = React.useState(0);
+  const [selected, setSelected] = React.useState(false);
   const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [streak, setStreak] = React.useState(0);
+  const [avatar, setAvatar] = React.useState("");
+
+  useFocusEffect(() => {
+    let doc = getStreak();
+    async function getStreak() {
+      const doc = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .get();
+      setStreak(doc.get("streak"));
+      setAvatar(doc.get("avatar"));
+    }
+  });
 
   return (
     <View>
@@ -270,8 +290,7 @@ const AchievementsList = (props: { navigation: any }) => {
       </View>
     </View>
   );
-};
-export default AchievementsList;
+}
 
 const styles = EStyleSheet.create({
   circleContainer: {

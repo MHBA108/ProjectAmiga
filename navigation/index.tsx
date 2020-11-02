@@ -3,7 +3,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
   DarkTheme,
   DefaultTheme,
-  NavigationContainer
+  NavigationContainer,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import firebase from "firebase";
@@ -13,13 +13,13 @@ import { COLORS } from "../assets/COLORS";
 import FriendsScreen from "../screens/FriendsScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
 import FeedScreen from "../screens/FeedScreen";
+import AchievementsScreen from "../screens/AchievementsScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import { AuthContext } from "./context";
-
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -92,6 +92,15 @@ function HamburgerDrawer() {
         options={{
           drawerIcon: ({ color }) => (
             <Feather name="arrow-left" size={24} color={COLORS.beige} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Achievements"
+        component={AchievementsScreen}
+        options={{
+          drawerIcon: ({ color }) => (
+            <Feather name="award" size={24} color={COLORS.beige} />
           ),
         }}
       />
