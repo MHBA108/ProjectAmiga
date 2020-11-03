@@ -102,6 +102,7 @@ const styles = EStyleSheet.create({
     alignItems: "center",
   },
   scrollContainer: {
+    paddingTop: "45rem",
     paddingHorizontal: "8rem",
   },
   containerTop: {
