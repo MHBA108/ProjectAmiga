@@ -4,6 +4,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  SafeAreaView,
   Platform,
 } from "react-native";
 import { AuthContext } from "../navigation/context";
@@ -57,7 +58,7 @@ const HomeScreen = (props: { navigation: any }) => {
       behavior={Platform.OS == "ios" ? "padding" : "height"}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={styles.scrollContainer}
@@ -69,7 +70,7 @@ const HomeScreen = (props: { navigation: any }) => {
             <Calendar />
             <TodoList />
           </ScrollView>
-        </View>
+        </SafeAreaView>
       </TouchableWithoutFeedback>
       <MyHeader navigation={props.navigation} />
     </KeyboardAvoidingView>

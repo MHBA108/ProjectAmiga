@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  ScrollView,
-  Alert,
-  Image,
-} from "react-native";
+import { Text, View, ScrollView, Alert, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
 import avatar from "../assets/images/avatars/female.png";
@@ -15,34 +9,32 @@ export default class FriendItem extends Component {
   render() {
     return (
       <View style={styles.feed}>
-            <View style={styles.dateContainer}>
-                <Text style={styles.usernameFont}> @Username </Text>
+        <View style={styles.dateContainer}>
+          <Text style={styles.usernameFont}> @Username </Text>
           <View style={styles.spacing}></View>
           <View style={styles.streakAndAchievement}>
             <Text style={styles.streakFont}>23</Text>
             <Image
               source={require("../assets/images/streak.png")}
               style={styles.badge}
-                    />
-            <View style={ styles.achievementContainer }>
-            <Text style={styles.streakFont}>3</Text>
-            <Image
-              source={require("../assets/images/achievement.png")}
-              style={styles.badge}
-                    />
+            />
+            <View style={styles.achievementContainer}>
+              <Text style={styles.streakFont}>3</Text>
+              <Image
+                source={require("../assets/images/achievement.png")}
+                style={styles.badge}
+              />
             </View>
-           </View>
+          </View>
         </View>
         <View style={styles.HeaderContainer}>
-                <View style={styles.containerUpperRight}>
-                    <View style={styles.circle}></View>
+          <View style={styles.containerUpperRight}>
+            <View style={styles.circle}></View>
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
               source={avatar}
             />
-            
-            
           </View>
         </View>
         <View style={styles.bar}></View>
@@ -99,7 +91,7 @@ const styles = EStyleSheet.create({
   feed: {
     width: "100%",
     aspectRatio: 5 / 2,
-    backgroundColor: "#4E5E85",
+    backgroundColor: COLORS.darkBlueAccent,
     borderRadius: 10,
     flexDirection: "column",
     padding: "5rem",
@@ -113,7 +105,7 @@ const styles = EStyleSheet.create({
   logContainer: {
     width: "100%",
     aspectRatio: 7 / 1,
-    backgroundColor: "#6771A6",
+    backgroundColor: COLORS.darkBlueAccent2,
     flexDirection: "row",
     paddingVertical: "5rem",
     alignItems: "center",

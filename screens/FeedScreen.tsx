@@ -1,5 +1,11 @@
 import * as React from "react";
-import { ScrollView, Image, TouchableOpacity, Alert } from "react-native";
+import {
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+  SafeAreaView,
+} from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
 import avatar from "../assets/images/avatars/male.png";
@@ -13,7 +19,7 @@ const FeedScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -58,7 +64,7 @@ const FeedScreen = (props: { navigation: any }) => {
         </View>
       </ScrollView>
       <MyHeader navigation={props.navigation} />
-    </View>
+    </SafeAreaView>
   );
 };
 export default FeedScreen;

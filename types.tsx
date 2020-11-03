@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
@@ -29,9 +31,15 @@ export type UserProfileParamList = {
   UserProfileScreen: undefined;
 };
 
-export type LogData = {
-  date: Date;
-  sliderValue: number;
-  emotions: string[];
-  written: string;
+export type Log = {
+  moodPercentile: number;
+  text: string;
+  timestamp: string;
+  moodWords: string[];
+};
+
+export type User = {
+  avatar: string;
+  streak: number;
+  // TODO: add achievments
 };

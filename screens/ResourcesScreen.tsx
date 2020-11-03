@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, SafeAreaView } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
 import ResourcesMap from "../components/ResourcesMap";
@@ -8,7 +8,7 @@ import { COLORS } from "../assets/COLORS";
 
 const ResourcesScreen = (props: { navigation: any }) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -21,7 +21,7 @@ const ResourcesScreen = (props: { navigation: any }) => {
         </View>
       </ScrollView>
       <MyHeader navigation={props.navigation} />
-    </View>
+    </SafeAreaView>
   );
 };
 export default ResourcesScreen;

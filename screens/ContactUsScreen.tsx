@@ -19,7 +19,7 @@ import LottieView from "lottie-react-native";
 
 const ContactUsScreen = (props: { navigation: any }) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <MyHeader navigation={props.navigation} />
       <ScrollView
         style={styles.scrollContainer}
@@ -41,7 +41,7 @@ const ContactUsScreen = (props: { navigation: any }) => {
         </View>
       </ScrollView>
       <MyHeader navigation={props.navigation} />
-    </View>
+    </SafeAreaView>
   );
 };
 

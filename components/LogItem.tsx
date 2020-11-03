@@ -2,39 +2,32 @@ import React, { Component } from "react";
 import { Text, View, ScrollView, Alert, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { AntDesign } from "@expo/vector-icons";
-import { LogData } from "../types";
+import { Log } from "../types";
 import MoodSlider from "./MoodSlider";
 import { COLORS } from "../assets/COLORS";
+import moment from "moment";
 
 var valueToColor = require("../assets/ValueToColor");
 
-export default class LogItem extends Component<LogData> {
-  renderDate() {
-    let month = String(this.props.date.getMonth() + 1);
-    let day = String(this.props.date.getDate());
-    let year = String(this.props.date.getFullYear());
-    return month + "/" + day + "/" + year;
-  }
+export default class LogItem extends Component<Log, Log> {
 
   render() {
     return (
       <View style={styles.log}>
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>{this.renderDate()}</Text>
+          <Text style={styles.date}>{moment(this.props.timestamp).format("M/D/YYYY")}</Text>
         </View>
         <View style={styles.moodHeaderContainer}>
           <Text style={styles.moodHeaderText}>Mood Descriptions:</Text>
         </View>
         <View style={styles.moodBubbleContainer}>
           <ScrollView horizontal={true}>
-            {this.props.emotions.map((item, key) => (
+            {this.props.moodWords.map((item, key) => (
               <View style={styles.moodSpacer} key={key}>
                 <View
                   style={[
                     styles.emotionBubble,
-                    {
-                      backgroundColor: valueToColor(this.props.sliderValue),
-                    },
+                    { backgroundColor: valueToColor(this.props.moodPercentile) },
                   ]}
                 >
                   <Text style={styles.moodHeaderText}>{item}</Text>
@@ -44,7 +37,7 @@ export default class LogItem extends Component<LogData> {
           </ScrollView>
         </View>
 
-        {<MoodSlider sliderValue={this.props.sliderValue} disabled={true} />}
+        {<MoodSlider sliderValue={this.props.moodPercentile} disabled={true} />}
 
         <TouchableOpacity
           style={styles.editContainer}
@@ -53,11 +46,13 @@ export default class LogItem extends Component<LogData> {
           <AntDesign name="edit" size={24} color={COLORS.pink} />
         </TouchableOpacity>
       </View>
+        
     );
   }
 }
 
 const styles = EStyleSheet.create({
+  
   log: {
     width: "100%",
     aspectRatio: 5 / 2,
@@ -130,3 +125,4 @@ const styles = EStyleSheet.create({
     paddingRight: "8rem",
   },
 });
+

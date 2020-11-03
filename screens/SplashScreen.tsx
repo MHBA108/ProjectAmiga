@@ -49,6 +49,7 @@ export default function SplashScreen() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   animationContainer: {
     backgroundColor: COLORS.lightBlue,
