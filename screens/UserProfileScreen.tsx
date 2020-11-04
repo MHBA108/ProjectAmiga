@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Alert,
-  SafeAreaView,
-  StatusBar,
-} from "react-native";
+import { ScrollView, Image, StatusBar } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
 import avatarPlaceHolder from "../assets/images/avatars/male.png";
@@ -18,6 +11,7 @@ import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import OpenProfileDetails from "../components/OpenProfileDetails";
 import { COLORS } from "../assets/COLORS";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -49,7 +43,6 @@ const UserProfileScreen = (props: { navigation: any }) => {
       >
         <View style={styles.containerTop}>
           <View style={styles.containerUpperLeft}>
-            <Text style={styles.usernameStyle}>{user?.displayName}'s Log</Text>
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
                 <Text style={styles.badgeText}>Achievements</Text>
@@ -92,8 +85,9 @@ export default UserProfileScreen;
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F2E9E3",
+    backgroundColor: COLORS.beige,
     alignItems: "center",
+    marginTop: StatusBar.currentHeight,
   },
   scrollContainer: {
     paddingHorizontal: "8rem",

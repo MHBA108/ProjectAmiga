@@ -4,7 +4,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
+  StatusBar,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -13,6 +13,7 @@ import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
 import avatar from "../assets/images/avatars/male.png";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const FriendsScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -41,7 +42,7 @@ const FriendsScreen = (props: { navigation: any }) => {
                 style={styles.button}
                 onPress={() => Alert.alert("Leader board button pressed")}
               >
-                <Text style={styles.buttonText}>Leader board</Text>
+                <Text style={styles.buttonText}>Leaderboard</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
@@ -72,6 +73,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.beige,
     alignItems: "center",
+    marginTop: StatusBar.currentHeight,
   },
   scrollContainer: {
     paddingHorizontal: "8rem",

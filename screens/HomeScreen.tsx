@@ -4,8 +4,8 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  SafeAreaView,
   Platform,
+  StatusBar,
 } from "react-native";
 import { AuthContext } from "../navigation/context";
 import { Text, View } from "../components/Themed";
@@ -16,6 +16,7 @@ import TodoList from "../components/TodoList";
 import firebase, { FirebaseError } from "firebase";
 import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import EStyleSheet from "react-native-extended-stylesheet";
 
@@ -85,12 +86,12 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.beige,
+    marginTop: StatusBar.currentHeight,
   },
   scrollContainer: {
     paddingHorizontal: "15rem",
   },
   textGreeting: {
-    paddingTop: "25rem",
     color: COLORS.darkBlue,
     fontSize: "25rem",
     fontWeight: "bold",
