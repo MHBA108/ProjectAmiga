@@ -13,6 +13,7 @@ import avatarPlaceHolder from "../assets/images/avatars/male.png";
 import LogList from "../components/LogList";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
+import OpenStreaks from "../components/OpenStreaks";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import OpenProfileDetails from "../components/OpenProfileDetails";
@@ -58,16 +59,9 @@ const UserProfileScreen = (props: { navigation: any }) => {
               </View>
               <View style={styles.lowerTopLeft}>
                 <Text style={styles.badgeText}>Streak</Text>
-                <TouchableOpacity
-                  style={styles.badgeContainer}
-                  onPress={() => Alert.alert("Streak button pressed")}
-                >
-                  <Text style={styles.countText}>{streak}</Text>
-                  <Image
-                    source={require("../assets/images/streak.png")}
-                    style={styles.badge}
-                  />
-                </TouchableOpacity>
+                <View style={styles.badgeContainer1}>
+                  <OpenStreaks />
+                </View>
               </View>
             </View>
           </View>
@@ -113,7 +107,7 @@ const styles = EStyleSheet.create({
   containerLog: {
     width: "100%",
     flexDirection: "column",
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     borderRadius: 10,
     padding: "10rem",
   },
@@ -143,15 +137,15 @@ const styles = EStyleSheet.create({
     paddingTop: "10rem",
   },
   buttonEditProfile: {
-    backgroundColor: "#464D77",
+    backgroundColor: COLORS.darkBlue,
     justifyContent: "center",
     borderRadius: 20,
-    color: "#F2E9E3",
+    color: COLORS.beige,
     fontSize: "10rem",
     flexShrink: 1,
   },
   usernameStyle: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "20rem",
   },
@@ -177,14 +171,14 @@ const styles = EStyleSheet.create({
     height: "100%",
   },
   button: {
-    backgroundColor: "#FCD7AE",
+    backgroundColor: COLORS.yellow,
     padding: "5rem",
     borderRadius: 10,
     alignItems: "center",
     flexDirection: "row",
   },
   buttonText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_600SemiBold",
     fontSize: "10rem",
   },
@@ -205,7 +199,7 @@ const styles = EStyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FCD7AE",
+    backgroundColor: COLORS.yellow,
     aspectRatio: 1 / 1,
     padding: "15rem",
   },
@@ -218,7 +212,7 @@ const styles = EStyleSheet.create({
     padding: "10rem",
   },
   countText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "30rem",
   },

@@ -116,7 +116,7 @@ const styles = EStyleSheet.create({
     height: "100rem",
   },
   badge: {
-    backgroundColor: "#FCD7AE",
+    backgroundColor: COLORS.yellow,
     width: "50rem",
     height: "50rem",
   },
