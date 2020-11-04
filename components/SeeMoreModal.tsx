@@ -194,7 +194,7 @@ const styles = EStyleSheet.create({
     marginTop: 10,
   },
   sliderContainer: {
-    backgroundColor: COLORS.darkBlue1,
+    backgroundColor: COLORS.darkBlueAccent,
     width: "100%",
     borderRadius: 10,
     flexDirection: "column",
@@ -203,7 +203,7 @@ const styles = EStyleSheet.create({
     padding: "10rem",
   },
   noteContainer: {
-    backgroundColor: COLORS.darkBlue1,
+    backgroundColor: COLORS.darkBlueAccent,
     width: "100%",
     borderRadius: 10,
     flexDirection: "column",
@@ -238,7 +238,7 @@ const styles = EStyleSheet.create({
     fontFamily: "HindSiliguri_600SemiBold",
   },
   moodContainer: {
-    backgroundColor: COLORS.darkBlue1,
+    backgroundColor: COLORS.darkBlueAccent,
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
@@ -255,7 +255,7 @@ const styles = EStyleSheet.create({
     padding: "10rem",
   },
   buttonStyle: {
-    backgroundColor: COLORS.darkBlue1,
+    backgroundColor: COLORS.darkBlueAccent,
     width: "15%",
     aspectRatio: 3 / 1.2,
     flexDirection: "row",

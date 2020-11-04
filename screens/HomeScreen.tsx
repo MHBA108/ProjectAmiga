@@ -17,6 +17,7 @@ import firebase, { FirebaseError } from "firebase";
 import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
 import { SafeAreaView } from "react-native-safe-area-context";
+import TodayEntry from "../components/TodayEntry";
 
 import EStyleSheet from "react-native-extended-stylesheet";
 
@@ -37,6 +38,41 @@ function renderGreeting(user: firebase.User | null) {
     return Greeting + "!";
   } else {
     return Greeting + " " + user.displayName + "!";
+  }
+}
+
+function renderLogComp() {
+  let hasLogged = false;
+
+  // TODO: Retrieve most recent log and check if today
+  // let lastLog = ??? .collection("userLogs").orderBy("timestamp", "desc")
+  let dummyTimestamp = "2020-11-03T23:52:59-04:00";
+  let lastLog = new Date(dummyTimestamp);
+
+  let today = new Date(Date.now());
+  let date = today.getDate();
+  let month = today.getMonth();
+  let year = today.getFullYear();
+
+  if (lastLog.getDate() == date) {
+    if (lastLog.getMonth() == month) {
+      if (lastLog.getFullYear() == year) {
+        hasLogged = true;
+      }
+    }
+  }
+
+  if (hasLogged) {
+    return (
+      <TodayEntry
+        moodPercentile={12}
+        text="I felt really sad today. I had a really bad dream and it ruined my day. I also failed my math quiz. It rained the whole day and I forgot my umbrella :("
+        timestamp={dummyTimestamp}
+        moodWords={["stressed", "sad"]}
+      />
+    );
+  } else {
+    return <CreateLog sliderValue={50} noteText="" />;
   }
 }
 
@@ -67,7 +103,7 @@ const HomeScreen = (props: { navigation: any }) => {
             <Text style={styles.textGreeting}>{renderGreeting(user)}</Text>
             <Clock showDate={true} showTime={true} />
             <View style={styles.spacer}></View>
-            <CreateLog sliderValue={50} noteText="" />
+            {renderLogComp()}
             <Calendar />
             <TodoList />
           </ScrollView>
