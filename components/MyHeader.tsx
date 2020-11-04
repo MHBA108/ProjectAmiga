@@ -4,6 +4,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import { COLORS } from "../assets/COLORS";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { View, Platform, StatusBar } from "react-native";
+import { StatusBarHeight } from "../assets/TopBarHeight";
 
 const MyHeader = (props: { navigation: any }) => {
   return (
@@ -19,7 +20,7 @@ const styles = EStyleSheet.create({
     height: "30rem",
     borderRadius: "25rem",
     position: "absolute",
-    top: "48rem",
+    top: StatusBarHeight + 3,
     left: "18rem",
     backgroundColor: COLORS.beige,
     justifyContent: "center",
