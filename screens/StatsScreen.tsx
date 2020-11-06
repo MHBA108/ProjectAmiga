@@ -1,10 +1,10 @@
 import * as React from "react";
 import {
-  SafeAreaView,
   ScrollView,
   Dimensions,
   TouchableHighlight,
   Alert,
+  StatusBar,
 } from "react-native";
 import { Avatar } from "react-native-elements";
 import { LineChart } from "react-native-chart-kit";
@@ -15,6 +15,7 @@ import Calendar from "../components/Calendar";
 import { COLORS } from "../assets/COLORS";
 import OpenAchievements from "../components/OpenAchievements";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -206,6 +207,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: COLORS.beige,
+    marginTop: StatusBar.currentHeight,
   },
   scrollContainer: {
     paddingHorizontal: "15rem",
@@ -217,7 +219,6 @@ const styles = EStyleSheet.create({
     padding: 10,
   },
   headContainer: {
-    paddingTop: "25rem",
     width: "100%",
     flexDirection: "row",
     justifyContent: "flex-end",

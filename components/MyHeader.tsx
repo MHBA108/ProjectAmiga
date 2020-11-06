@@ -3,7 +3,8 @@ import { Header } from "react-native-elements";
 import HamburgerMenu from "./HamburgerMenu";
 import { COLORS } from "../assets/COLORS";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { View, Platform } from "react-native";
+import { View, Platform, StatusBar } from "react-native";
+import { StatusBarHeight } from "../assets/TopBarHeight";
 
 const MyHeader = (props: { navigation: any }) => {
   return (
@@ -15,11 +16,11 @@ const MyHeader = (props: { navigation: any }) => {
 
 const styles = EStyleSheet.create({
   circle: {
-    width: "40rem",
-    height: "40rem",
-    borderRadius: "20rem",
+    width: "30rem",
+    height: "30rem",
+    borderRadius: "25rem",
     position: "absolute",
-    top: "50rem",
+    top: StatusBarHeight + 3,
     left: "18rem",
     backgroundColor: COLORS.beige,
     justifyContent: "center",

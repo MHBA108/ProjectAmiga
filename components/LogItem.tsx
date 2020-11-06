@@ -7,33 +7,23 @@ import MoodSlider from "./MoodSlider";
 import { COLORS } from "../assets/COLORS";
 import moment from "moment";
 
-var valueToColor = require("../assets/ValueToColor");
+const arrayToBubbles = require("../assets/ArrayToBubbles");
 
 export default class LogItem extends Component<Log, Log> {
-
   render() {
     return (
       <View style={styles.log}>
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>{moment(this.props.timestamp).format("M/D/YYYY")}</Text>
+          <Text style={styles.date}>
+            {moment(this.props.timestamp).format("M/D/YYYY")}
+          </Text>
         </View>
         <View style={styles.moodHeaderContainer}>
           <Text style={styles.moodHeaderText}>Mood Descriptions:</Text>
         </View>
         <View style={styles.moodBubbleContainer}>
           <ScrollView horizontal={true}>
-            {this.props.moodWords.map((item, key) => (
-              <View style={styles.moodSpacer} key={key}>
-                <View
-                  style={[
-                    styles.emotionBubble,
-                    { backgroundColor: valueToColor(this.props.moodPercentile) },
-                  ]}
-                >
-                  <Text style={styles.moodHeaderText}>{item}</Text>
-                </View>
-              </View>
-            ))}
+            {arrayToBubbles(this.props.moodWords, this.props.moodPercentile)}
           </ScrollView>
         </View>
 
@@ -46,13 +36,11 @@ export default class LogItem extends Component<Log, Log> {
           <AntDesign name="edit" size={24} color={COLORS.pink} />
         </TouchableOpacity>
       </View>
-        
     );
   }
 }
 
 const styles = EStyleSheet.create({
-  
   log: {
     width: "100%",
     aspectRatio: 5 / 2,
@@ -125,4 +113,3 @@ const styles = EStyleSheet.create({
     paddingRight: "8rem",
   },
 });
-

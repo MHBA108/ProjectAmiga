@@ -1,10 +1,11 @@
 import * as React from "react";
-import { ScrollView, SafeAreaView } from "react-native";
+import { ScrollView, StatusBar } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
 import ResourcesMap from "../components/ResourcesMap";
 import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ResourcesScreen = (props: { navigation: any }) => {
   return (
@@ -32,6 +33,7 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.beige,
+    marginTop: StatusBar.currentHeight,
   },
   scrollContainer: {
     paddingHorizontal: "8rem",
@@ -49,9 +51,8 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   textGreeting: {
-    paddingTop: "25rem",
     color: COLORS.darkBlue,
-    fontSize: "25rem",
+    fontSize: "30rem",
     fontWeight: "bold",
     fontFamily: "HindSiliguri_700Bold",
     textAlign: "right",

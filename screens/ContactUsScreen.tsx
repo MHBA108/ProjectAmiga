@@ -1,21 +1,13 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
-import {
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Alert,
-  SafeAreaView,
-  StatusBar,
-} from "react-native";
+import { ScrollView, StatusBar } from "react-native";
 
 import EStyleSheet from "react-native-extended-stylesheet";
 import MyHeader from "../components/MyHeader";
-import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import ContactUsInfo from "../components/ContactUsInfo";
 import { COLORS } from "../assets/COLORS";
 import LottieView from "lottie-react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ContactUsScreen = (props: { navigation: any }) => {
   return (
@@ -52,10 +44,10 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.beige,
     alignItems: "center",
+    marginTop: StatusBar.currentHeight,
   },
   scrollContainer: {
     paddingHorizontal: "8rem",
-    paddingTop: "20rem",
   },
   containerLog: {
     width: "100%",
@@ -66,12 +58,11 @@ const styles = EStyleSheet.create({
   },
   usernameStyle: {
     color: COLORS.darkBlue,
-    fontFamily: "HindSiliguri_600SemiBold",
-    fontSize: "40rem",
+    fontFamily: "HindSiliguri_700Bold",
+    fontSize: "30rem",
   },
   containerTop: {
     width: "100%",
-    aspectRatio: 5 / 1,
     flexDirection: "row",
     justifyContent: "flex-end",
     backgroundColor: "transparent",

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
+import { ScrollView, TouchableOpacity, StatusBar } from "react-native";
 
 import { AuthContext } from "../navigation/context";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -8,6 +8,7 @@ import { Text, View } from "../components/Themed";
 import { COLORS } from "../assets/COLORS";
 import firebase from "firebase";
 import { Feather } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const SettingsScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -86,11 +87,9 @@ const styles = EStyleSheet.create({
   },
   containerTop: {
     width: "100%",
-    aspectRatio: 4 / 1,
     flexDirection: "row",
     backgroundColor: "transparent",
     justifyContent: "flex-end",
-    paddingTop: "25rem",
   },
   container: {
     flex: 1,

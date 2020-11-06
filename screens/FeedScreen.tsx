@@ -4,7 +4,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
+  StatusBar,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -14,6 +14,7 @@ import MyHeader from "../components/MyHeader";
 import OpenStreaks from "../components/OpenStreaks";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const FeedScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -26,7 +27,6 @@ const FeedScreen = (props: { navigation: any }) => {
       >
         <View style={styles.containerTop}>
           <View style={styles.containerUpperLeft}>
-            <Text style={styles.usernameStyle}>{user?.displayName}'s Feed</Text>
             <Text style={styles.badgeText}>Streak</Text>
             <View style={styles.containerAchievementsStreaks}>
               <View style={styles.lowerTopLeft}>
@@ -79,9 +79,9 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.beige,
     alignItems: "center",
+    marginTop: StatusBar.currentHeight,
   },
   scrollContainer: {
-    paddingTop: "25rem",
     paddingHorizontal: "8rem",
   },
   containerTop: {
