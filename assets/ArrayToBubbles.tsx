@@ -3,7 +3,7 @@ import { COLORS } from "../assets/COLORS";
 import React from "react";
 import { Text, View } from "react-native";
 
-var valueToColor = require("../assets/ValueToColor");
+const valueToColor = require("../assets/ValueToColor");
 
 module.exports = function (emotions: String[], perc: number) {
   return emotions.map((item, key) => (
@@ -12,7 +12,7 @@ module.exports = function (emotions: String[], perc: number) {
         style={[
           styles.emotionBubble,
           {
-            backgroundColor: valueToColor(perc),
+            borderColor: valueToColor(perc),
           },
         ]}
       >
@@ -27,15 +27,17 @@ const styles = EStyleSheet.create({
     color: COLORS.beige,
     fontSize: "14rem",
     fontFamily: "HindSiliguri_600SemiBold",
-    textAlign: "left",
+    textAlign: "center",
   },
   emotionBubble: {
     height: "32rem",
     overflow: "hidden",
+    borderWidth: "2rem",
     borderRadius: 18,
     justifyContent: "center",
-    padding: "5rem",
+    padding: "2rem",
     marginVertical: "2rem",
     marginHorizontal: "2rem",
+    backgroundColor: "transparent",
   },
 });

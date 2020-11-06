@@ -108,6 +108,7 @@ function renderGreeting(user: firebase.User | null) {
 // }
 
 // TODO: delete this function in favor of the commented out one above
+
 function renderLogComp(user: firebase.User | null) {
   let hasLogged = false;
   let dummyTimestamp = "2020-11-04T23:52:59-04:00";

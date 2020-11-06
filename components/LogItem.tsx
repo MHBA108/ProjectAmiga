@@ -7,7 +7,7 @@ import MoodSlider from "./MoodSlider";
 import { COLORS } from "../assets/COLORS";
 import moment from "moment";
 
-var arrayToBubbles = require("../assets/ArrayToBubbles");
+const arrayToBubbles = require("../assets/ArrayToBubbles");
 
 export default class LogItem extends Component<Log, Log> {
   render() {
