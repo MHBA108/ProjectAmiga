@@ -13,6 +13,7 @@ import { COLORS } from "../assets/COLORS";
 import MoodSlider from "../components/MoodSlider";
 import { Log } from "../types";
 import moment from "moment";
+import * as firebase from "firebase";
 
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -27,6 +28,7 @@ export default class SeeMoreModal extends Component<
     modalVisible: boolean;
     height: number;
     selected: boolean;
+    streak: number;
   }
 > {
   constructor(props: Log) {
@@ -37,6 +39,7 @@ export default class SeeMoreModal extends Component<
       expanded: false,
       height: 0,
       selected: false,
+      streak: 0,
     };
   }
 
@@ -54,6 +57,16 @@ export default class SeeMoreModal extends Component<
   closeModal() {
     this.setState({ modalVisible: false });
     this.setState({ text: this.props.text });
+  }
+
+  async componentDidMount() {
+    const user = firebase.auth().currentUser;
+    const doc = await firebase
+      .firestore()
+      .collection("users")
+      .doc(user?.uid)
+      .get();
+    this.setState({ streak: doc.get("streak") });
   }
 
   renderDate() {
@@ -77,7 +90,7 @@ export default class SeeMoreModal extends Component<
 
   renderStreak() {
     //TODO: Retrieve streak count
-    let count = 23;
+    let count = this.state.streak;
     return (
       <View style={styles.streakBox}>
         <Text style={styles.countText}>{count}</Text>
