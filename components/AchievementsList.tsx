@@ -4,6 +4,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
+import * as Progress from "react-native-progress";
 
 export default function AchievementsList() {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -27,6 +28,35 @@ export default function AchievementsList() {
     }
   });
 
+  const nurseryStreak: number =
+    (Number([streak]) / 1) * 100 >= 100 ? 100 : (Number([streak]) / 1) * 100;
+  const gardenerStreak: number =
+    (Number([streak]) / 2) * 100 >= 100 ? 100 : (Number([streak]) / 2) * 100;
+  const guruStreak: number =
+    (Number([streak]) / 3) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([streak]) / 3) * 100);
+  const whispererStreak: number =
+    (Number([streak]) / 5) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([streak]) / 5) * 100);
+  const thumbStreak: number =
+    (Number([streak]) / 8) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([streak]) / 8) * 100);
+  const machineStreak: number =
+    (Number([streak]) / 13) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([streak]) / 13) * 100);
+  const weedStreak: number =
+    (Number([streak]) / 21) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([streak]) / 21) * 100);
+  const motherStreak: number =
+    (Number([streak]) / 34) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([streak]) / 34) * 100);
+
   return (
     <View>
       <View style={styles.spacing}></View>
@@ -36,9 +66,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when log for the first time!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([nurseryStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {nurseryStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -56,9 +94,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you log for two days in a row!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([gardenerStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {gardenerStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -76,9 +122,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you log for three days in a row!{" "}
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([guruStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {guruStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -96,9 +150,18 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you log for five days in a row!{" "}
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([whispererStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {whispererStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -116,9 +179,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you log for eight days in a row!{" "}
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([thumbStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {thumbStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -136,9 +207,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you log for thirteen days in a row!{" "}
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([machineStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {machineStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -156,9 +235,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you log for twenty-one days in a row!{" "}
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([weedStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {weedStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -176,9 +263,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you log for thirty-four days in a row!{" "}
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([motherStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {motherStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -299,10 +394,9 @@ const styles = EStyleSheet.create({
     top: "1rem",
     left: "1rem",
   },
-  loadingStatusBar: {
+  nurseryLoading: {
     backgroundColor: COLORS.pink,
-    width: "90%",
-    aspectRatio: 40 / 1,
+    height: "4%",
     position: "absolute",
     top: "100rem",
   },
@@ -353,6 +447,10 @@ const styles = EStyleSheet.create({
   },
   spacing: {
     padding: "10rem",
+    backgroundColor: "transparent",
+  },
+  spacing2: {
+    padding: "5rem",
     backgroundColor: "transparent",
   },
 });

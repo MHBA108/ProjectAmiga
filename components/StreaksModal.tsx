@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   TouchableHighlight,
+  TextInput,
 } from "react-native";
 import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -74,6 +75,15 @@ export default function StreaksModal() {
               </View>
             </View>
             <StreaksList />
+            <View style={styles.spacing}></View>
+            <TextInput
+              style={styles.input}
+              placeholder="type friend's username here..."
+              placeholderTextColor={COLORS.darkBlueAccent2}
+              returnKeyType="next"
+              textContentType="username"
+            />
+            <View style={styles.spacing}></View>
           </ScrollView>
         </View>
       </Modal>
@@ -93,6 +103,17 @@ export default function StreaksModal() {
 }
 
 const styles = EStyleSheet.create({
+  spacing: {
+    padding: "8rem",
+    backgroundColor: "transparent",
+  },
+  input: {
+    fontSize: "15rem",
+    backgroundColor: COLORS.pink,
+    borderRadius: 10,
+    color: COLORS.darkBlue,
+    height: "75rem",
+  },
   Header: {
     color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",

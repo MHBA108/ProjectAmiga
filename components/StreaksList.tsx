@@ -76,24 +76,6 @@ export default class StreaksList extends Component {
           <View style={styles.circle} />
           <Image style={styles.circle2} resizeMode="contain" source={avatar} />
         </View>
-
-        <View style={styles.spacing}></View>
-        <View style={styles.achievement}>
-          <View style={styles.circle} />
-          <Image style={styles.circle2} resizeMode="contain" source={avatar} />
-        </View>
-
-        <View style={styles.spacing}></View>
-        <View style={styles.achievement}>
-          <View style={styles.circle} />
-          <Image style={styles.circle2} resizeMode="contain" source={avatar} />
-        </View>
-
-        <View style={styles.spacing}></View>
-        <View style={styles.achievement}>
-          <View style={styles.circle} />
-          <Image style={styles.circle2} resizeMode="contain" source={avatar} />
-        </View>
       </View>
     );
   }
