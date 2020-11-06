@@ -89,7 +89,6 @@ export default class SeeMoreModal extends Component<
   }
 
   renderStreak() {
-    //TODO: Retrieve streak count
     let count = this.state.streak;
     return (
       <View style={styles.streakBox}>
