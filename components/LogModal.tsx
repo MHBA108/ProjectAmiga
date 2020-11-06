@@ -53,6 +53,10 @@ export default class LogModal extends Component<
     };
   }
 
+  sliderHandler = (sliderValue: number) => {
+    this.setState({ moodPercentile: sliderValue });
+  };
+
   onChangeMoodPercentile = (perc: number) => {
     this.setState({ moodPercentile: perc });
   };
@@ -152,8 +156,10 @@ export default class LogModal extends Component<
               <Text style={styles.questionStyle}>
                 How are you feeling today?
               </Text>
-              {/*TODO: moodslider updates moodpercentile on slide complete */}
-              <MoodSlider sliderValue={this.state.moodPercentile} />
+              <MoodSlider
+                sliderValue={this.state.moodPercentile}
+                parentSync={this.sliderHandler}
+              />
               {this.renderText()}
               <View style={styles.spacer} />
               <Text style={styles.questionStyle}>Mood Descriptions:</Text>

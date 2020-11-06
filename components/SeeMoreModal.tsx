@@ -22,23 +22,29 @@ var arrayToBubbles = require("../assets/ArrayToBubbles");
 export default class SeeMoreModal extends Component<
   Log,
   {
-    text: string;
-    expanded: boolean;
     modalVisible: boolean;
-    height: number;
-    selected: boolean;
+    moodPercentile: number;
+    text: String;
+    timestamp: String;
+    moodWords: String[];
+    editable: Boolean;
   }
 > {
   constructor(props: Log) {
     super(props);
     this.state = {
-      text: this.props.text,
       modalVisible: false,
-      expanded: false,
-      height: 0,
-      selected: false,
+      moodPercentile: this.props.moodPercentile,
+      text: this.props.text,
+      timestamp: this.props.timestamp,
+      moodWords: this.props.moodWords,
+      editable: false,
     };
   }
+
+  sliderHandler = (sliderValue: number) => {
+    this.setState({ moodPercentile: sliderValue });
+  };
 
   // TODO: delete log from firebase, make sure homescreen refreshes (goes back to having createLog instead of TodayEntry)
   onDelete() {
@@ -110,7 +116,11 @@ export default class SeeMoreModal extends Component<
               {this.renderDate()}
               <Text style={styles.questionStyle}>On this day you felt:</Text>
               <View style={styles.sliderContainer}>
-                <MoodSlider sliderValue={this.props.moodPercentile} />
+                <MoodSlider
+                  sliderValue={this.props.moodPercentile}
+                  parentSync={this.sliderHandler}
+                  disabled={!this.state.editable}
+                />
               </View>
 
               <View style={styles.spacer} />

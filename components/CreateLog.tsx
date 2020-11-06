@@ -24,7 +24,7 @@ interface CreateLogProps {
   noteText: string;
 }
 
-export default class CreateLog extends Component<
+export default class CreateLog extends React.Component<
   CreateLogProps,
   {
     value: string;
@@ -89,6 +89,10 @@ export default class CreateLog extends Component<
     };
   }
 
+  sliderHandler = (sliderValue: number) => {
+    this.setState({ sliderValue: sliderValue });
+  };
+
   changeLayout = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded });
@@ -99,8 +103,7 @@ export default class CreateLog extends Component<
       <View style={styles.container}>
         <Text style={styles.questionStyle}>How are you feeling today?</Text>
         <View style={styles.sliderContainer}>
-          {/*TODO update sliderValue state*/}
-          <MoodSlider />
+          <MoodSlider parentSync={this.sliderHandler} />
         </View>
         <TextInput
           placeholder="Tap here to write your entry..."
