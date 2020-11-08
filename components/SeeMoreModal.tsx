@@ -152,6 +152,14 @@ export default class SeeMoreModal extends Component<
     }
   }
 
+  moodContainer() {
+    if (this.state.editable) {
+      return styles.editableMoodContainer;
+    } else {
+      return styles.moodContainer;
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -193,7 +201,7 @@ export default class SeeMoreModal extends Component<
               </View>
               <View style={styles.spacer} />
               <Text style={styles.questionStyle}>Mood Descriptions:</Text>
-              <View style={styles.moodContainer}>
+              <View style={this.moodContainer()}>
                 {arrayToBubbles(
                   this.props.moodWords,
                   this.props.moodPercentile
@@ -276,7 +284,7 @@ const styles = EStyleSheet.create({
     padding: "10rem",
   },
   editableSliderContainer: {
-    backgroundColor: COLORS.lightBlue,
+    backgroundColor: COLORS.darkBlueAccent2,
     width: "100%",
     borderRadius: 10,
     flexDirection: "column",
@@ -296,7 +304,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: "10rem",
   },
   editableNoteContainer: {
-    backgroundColor: COLORS.lightBlue,
+    backgroundColor: COLORS.darkBlueAccent2,
     width: "100%",
     borderRadius: 10,
     flexDirection: "column",
@@ -334,6 +342,14 @@ const styles = EStyleSheet.create({
   },
   moodContainer: {
     backgroundColor: COLORS.darkBlueAccent,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    borderRadius: 10,
+    padding: "5rem",
+  },
+  editableMoodContainer: {
+    backgroundColor: COLORS.darkBlueAccent2,
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",

@@ -186,7 +186,6 @@ export default class LogModal extends Component<
                   onChangeChips={(chips: SelectableChips) =>
                     this.onChangeMoodWords(chips)
                   }
-                  alertRequired={false}
                   chipStyleSelected={styles.chipSelectedStyle}
                   chipStyle={styles.chipStyle}
                   valueStyle={styles.valueStyle}
