@@ -111,7 +111,7 @@ function renderGreeting(user: firebase.User | null) {
 
 function renderLogComp(user: firebase.User | null) {
   let hasLogged = false;
-  let dummyTimestamp = "2020-11-07T23:52:59-04:00";
+  let dummyTimestamp = "2020-11-08T23:52:59-04:00";
   let lastLog = new Date(dummyTimestamp);
 
   let today = new Date(Date.now());

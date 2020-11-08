@@ -3,12 +3,14 @@ import { Text, View, Image } from "react-native";
 import Modal from "react-native-modal";
 import { COLORS } from "../assets/COLORS";
 import EStyleSheet from "react-native-extended-stylesheet";
+import * as firebase from "firebase";
 
 export default class NotificationModal extends Component<
   { modalVisible: boolean; onModalHide: () => void },
   {
     modalVisible: boolean;
     reload: boolean;
+    streak: number;
   }
 > {
   constructor(props: { modalVisible: boolean; onModalHide: () => void }) {
@@ -17,12 +19,23 @@ export default class NotificationModal extends Component<
     this.state = {
       modalVisible: this.props.modalVisible,
       reload: true,
+      streak: 0,
     };
   }
 
   closeModal() {
     this.setState({ reload: false });
     this.setState({ modalVisible: false });
+  }
+
+  async componentDidMount() {
+    const user = firebase.auth().currentUser;
+    const doc = await firebase
+      .firestore()
+      .collection("users")
+      .doc(user?.uid)
+      .get();
+    this.setState({ streak: doc.get("streak") + 1 }); //streak on firestore has not updated yet
   }
 
   reload() {
@@ -35,8 +48,6 @@ export default class NotificationModal extends Component<
   }
 
   render() {
-    // TODO retrieve streak
-    let streak = 23;
     this.reload();
     return (
       <View>
@@ -65,7 +76,7 @@ export default class NotificationModal extends Component<
               />
             </View>
             <Text style={styles.subText}>
-              You just inputted a journal for {streak} days in a row!
+              You just inputted a journal for {this.state.streak} days in a row!
             </Text>
           </View>
         </Modal>
