@@ -16,28 +16,31 @@ export default function LogList() {
   );
   const [limit, setLimit] = useState(9);
   const [lastVisible, setLastVisible] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
   const [user, setUser] = useState(firebase.auth().currentUser);
 
-  useFocusEffect(() => {
-    async function getData() {
-      try {
-        // Cloud Firestore: Initial Query
-        if (!loading) await retrieveData();
-      } catch (error) {
-        console.log(error);
+  useFocusEffect(
+    React.useCallback(() => {
+      let refresh = true;
+      async function getData() {
+        try {
+          // Cloud Firestore: Initial Query
+          if (refresh) {
+            await retrieveData();
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
-    lastDoc = -1;
-    getData();
-  });
+      lastDoc = -1;
+      getData();
+      return () => (refresh = false);
+    }, [])
+  );
 
   // Retrieve Data
   async function retrieveData() {
     try {
       // Set State: Loading
-      setLoading(true);
       console.log("Retrieving Data");
       // Cloud Firestore: Query
       let initialQuery = await firestore()
@@ -72,7 +75,6 @@ export default function LogList() {
     if (!(lastDoc < 9)) {
       try {
         // Set State: Refreshing
-        setRefreshing(true);
         console.log("Retrieving additional Data");
         // Cloud Firestore: Query (Additional Query)
         let additionalQuery: any = await firestore()
@@ -93,10 +95,8 @@ export default function LogList() {
         // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
         let lastDocVisible = docData[docData.length - 1].id;
         // Set State
-
         setDocumentData([...documentData, ...docData]);
-        setLastVisible: lastDocVisible;
-        setRefreshing: false;
+        // setLastVisible: lastDocVisible;
       } catch (error) {
         console.log(error);
       }
@@ -128,7 +128,8 @@ export default function LogList() {
         )}
         onEndReached={retrieveMore}
         onEndReachedThreshold={0.5}
-        refreshing={refreshing}
+        // This requires more research
+        // refreshing={refreshing}
       />
     </View>
   );

@@ -144,7 +144,7 @@ function renderLogComp(user: firebase.User | null) {
 const HomeScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const authContext = React.useContext(AuthContext);
-  // TODO:
+  // TODO: Refresh page when log is submitted
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {

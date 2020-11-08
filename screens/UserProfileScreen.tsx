@@ -18,21 +18,27 @@ const UserProfileScreen = (props: { navigation: any }) => {
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
 
-  useFocusEffect(() => {
-    console.log(
-      "getting the streak right now from firebase in UserProfileScreen.tsx"
-    );
-    let doc = getStreak();
-    async function getStreak() {
-      const doc = await firebase
-        .firestore()
-        .collection("users")
-        .doc(user?.uid)
-        .get();
-      setStreak(doc.get("streak"));
-      setAvatar(doc.get("avatar"));
-    }
-  });
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(
+        "getting the streak right now from firebase in UserProfileScreen.tsx"
+      );
+      let refresh = true;
+      async function getStreak() {
+        const doc = await firebase
+          .firestore()
+          .collection("users")
+          .doc(user?.uid)
+          .get();
+        setStreak(doc.get("streak"));
+        setAvatar(doc.get("avatar"));
+      }
+      if (refresh) {
+        let doc = getStreak();
+      }
+      return () => (refresh = false);
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>

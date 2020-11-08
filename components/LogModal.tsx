@@ -53,6 +53,7 @@ export default class LogModal extends Component<
     };
   }
 
+  // TODO: Make sure the correct mood percentile is submitted
   sliderHandler = (sliderValue: number) => {
     this.setState({ moodPercentile: sliderValue });
   };
