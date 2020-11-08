@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Image,
+  TextInput,
 } from "react-native";
 import Modal from "react-native-modal";
 import { COLORS } from "../assets/COLORS";
@@ -14,6 +15,7 @@ import MoodSlider from "../components/MoodSlider";
 import { Log } from "../types";
 import moment from "moment";
 
+import firebase, { firestore } from "firebase";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import EStyleSheet from "react-native-extended-stylesheet";
 
@@ -22,23 +24,29 @@ var arrayToBubbles = require("../assets/ArrayToBubbles");
 export default class SeeMoreModal extends Component<
   Log,
   {
-    text: string;
-    expanded: boolean;
     modalVisible: boolean;
-    height: number;
-    selected: boolean;
+    moodPercentile: number;
+    text: string;
+    timestamp: string;
+    moodWords: string[];
+    editable: boolean;
   }
 > {
   constructor(props: Log) {
     super(props);
     this.state = {
-      text: this.props.text,
       modalVisible: false,
-      expanded: false,
-      height: 0,
-      selected: false,
+      moodPercentile: this.props.moodPercentile,
+      text: this.props.text,
+      timestamp: this.props.timestamp,
+      moodWords: this.props.moodWords,
+      editable: false,
     };
   }
+
+  sliderHandler = (sliderValue: number) => {
+    this.setState({ moodPercentile: sliderValue });
+  };
 
   // TODO: delete log from firebase, make sure homescreen refreshes (goes back to having createLog instead of TodayEntry)
   onDelete() {
@@ -53,7 +61,25 @@ export default class SeeMoreModal extends Component<
 
   closeModal() {
     this.setState({ modalVisible: false });
-    this.setState({ text: this.props.text });
+  }
+
+  async saveLog() {
+    const user = firebase.auth().currentUser;
+    const date = moment(this.state.timestamp).format("MM-DD-YYYY");
+    const log: Log = {
+      moodPercentile: this.state.moodPercentile,
+      text: this.state.text,
+      timestamp: this.state.timestamp,
+      moodWords: this.state.moodWords,
+    };
+    if (user) {
+      firestore()
+        .collection("users")
+        .doc(user.uid)
+        .collection("userLogs")
+        .doc(date)
+        .set(log);
+    }
   }
 
   renderDate() {
@@ -75,6 +101,27 @@ export default class SeeMoreModal extends Component<
     );
   }
 
+  onChangeText = (text: string) => {
+    this.setState({ text: text });
+  };
+
+  toggleEdit() {
+    if (this.state.editable) {
+      this.saveLog();
+      this.setState({ editable: false });
+    } else {
+      this.setState({ editable: true });
+    }
+  }
+
+  renderEditSaveButton() {
+    if (this.state.editable) {
+      return <MaterialIcons name="save" size={36} color={COLORS.lightBlue} />;
+    } else {
+      return <AntDesign name="edit" size={36} color={COLORS.lightBlue} />;
+    }
+  }
+
   renderStreak() {
     //TODO: Retrieve streak count
     let count = 23;
@@ -87,6 +134,30 @@ export default class SeeMoreModal extends Component<
         />
       </View>
     );
+  }
+
+  sliderContainer() {
+    if (this.state.editable) {
+      return styles.editableSliderContainer;
+    } else {
+      return styles.sliderContainer;
+    }
+  }
+
+  noteContainer() {
+    if (this.state.editable) {
+      return styles.editableNoteContainer;
+    } else {
+      return styles.noteContainer;
+    }
+  }
+
+  moodContainer() {
+    if (this.state.editable) {
+      return styles.editableMoodContainer;
+    } else {
+      return styles.moodContainer;
+    }
   }
 
   render() {
@@ -109,18 +180,28 @@ export default class SeeMoreModal extends Component<
               {this.renderStreak()}
               {this.renderDate()}
               <Text style={styles.questionStyle}>On this day you felt:</Text>
-              <View style={styles.sliderContainer}>
-                <MoodSlider sliderValue={this.props.moodPercentile} />
+              <View style={this.sliderContainer()}>
+                <MoodSlider
+                  sliderValue={this.props.moodPercentile}
+                  parentSync={this.sliderHandler}
+                  disabled={!this.state.editable}
+                />
               </View>
 
               <View style={styles.spacer} />
               <Text style={styles.questionStyle}>Journal Entry:</Text>
-              <View style={styles.noteContainer}>
-                <Text style={styles.note}>{this.props.text}</Text>
+              <View style={this.noteContainer()}>
+                <TextInput
+                  style={styles.note}
+                  value={this.state.text}
+                  onChangeText={(text) => this.onChangeText(text)}
+                  multiline={true}
+                  editable={this.state.editable}
+                ></TextInput>
               </View>
               <View style={styles.spacer} />
               <Text style={styles.questionStyle}>Mood Descriptions:</Text>
-              <View style={styles.moodContainer}>
+              <View style={this.moodContainer()}>
                 {arrayToBubbles(
                   this.props.moodWords,
                   this.props.moodPercentile
@@ -136,10 +217,10 @@ export default class SeeMoreModal extends Component<
               </TouchableHighlight>
               <View style={styles.bottomRight}>
                 <TouchableHighlight
-                  onPress={() => Alert.alert("TODO: Edit button pressed")}
+                  onPress={() => this.toggleEdit()}
                   underlayColor="none"
                 >
-                  <AntDesign name="edit" size={36} color={COLORS.lightBlue} />
+                  {this.renderEditSaveButton()}
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => this.onDelete()}
@@ -202,14 +283,36 @@ const styles = EStyleSheet.create({
     alignContent: "center",
     padding: "10rem",
   },
+  editableSliderContainer: {
+    backgroundColor: COLORS.darkBlueAccent2,
+    width: "100%",
+    borderRadius: 10,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+    padding: "10rem",
+  },
   noteContainer: {
     backgroundColor: COLORS.darkBlueAccent,
     width: "100%",
     borderRadius: 10,
     flexDirection: "column",
-    justifyContent: "flex-start",
-    alignContent: "flex-start",
-    padding: "10rem",
+    justifyContent: "center",
+    alignContent: "center",
+    paddingTop: "5rem",
+    paddingBottom: "10rem",
+    paddingHorizontal: "10rem",
+  },
+  editableNoteContainer: {
+    backgroundColor: COLORS.darkBlueAccent2,
+    width: "100%",
+    borderRadius: 10,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+    paddingTop: "5rem",
+    paddingBottom: "10rem",
+    paddingHorizontal: "10rem",
   },
   note: {
     color: COLORS.beige,
@@ -239,6 +342,14 @@ const styles = EStyleSheet.create({
   },
   moodContainer: {
     backgroundColor: COLORS.darkBlueAccent,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    borderRadius: 10,
+    padding: "5rem",
+  },
+  editableMoodContainer: {
+    backgroundColor: COLORS.darkBlueAccent2,
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
