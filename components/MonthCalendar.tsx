@@ -1,27 +1,27 @@
-import React, { Component, useEffect, useState } from "react";
-import { View, StyleSheet, Platform } from "react-native";
-import CalendarStrip from "react-native-calendar-strip";
+import React, { useState } from "react";
+import { View, StyleSheet, Platform, Text } from "react-native";
 import { COLORS } from "../assets/COLORS";
+import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import firebase, { firestore } from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
+import firebase, { firestore } from "firebase";
 const valueToColor = require("../assets/ValueToColor");
 
-export default function Calendar() {
+export default function MonthCalendar() {
   const [user, setUser] = useState(firebase.auth().currentUser);
   const [limit, setLimit] = useState(9);
+  const [markedDates, setMarkedDates] = useState({
+    customStyles: { container: {}, text: {} },
+  });
   const [loading, setLoading] = useState(false);
-  const [logs, setLogs] = React.useState<firestore.DocumentData[]>([]);
-  const [customDatesStyles, setCustomDatesStyles] = useState(new Array());
-
-  //TODO
-  //implement rerendering of this component when a log is saved
+  const [colorMap, setColorMap] = useState(new Map());
+  const updateMap = (key: any, value: any) => {
+    setColorMap(new Map(colorMap.set(key, value)));
+  };
 
   async function retrieveData() {
     let documentData: firestore.DocumentData[] = [];
     try {
-      const tempMap = new Map();
-      const tempCustomDatesStyles = new Array();
       console.log("Retrieving Data");
       setLoading(true);
       let initialQuery = await firestore()
@@ -36,38 +36,39 @@ export default function Calendar() {
       );
       console.log("retrieve data length " + documentData.length);
       documentData.map((item: any) => {
-        var dateString = moment(item.timestamp);
-        tempMap.set(dateString, item.moodPercentile);
+        var dateString = moment(item.timestamp).format("YYYY-MM-DD");
+        updateMap(dateString, item.moodPercentile);
       });
-      console.log(tempMap);
-      console.log("tempmap size:" + tempMap.size);
-      tempMap.forEach((value, key) => {
-        tempCustomDatesStyles.push({
-          startDate: key,
-          dateContainerStyle: {
-            borderWidth: 4,
-            borderColor: valueToColor(value),
+
+      colorMap.forEach((value, key) => {
+        markedDates[key] = {
+          customStyles: {
+            container: {
+              backgroundColor: valueToColor(value),
+            },
+            text: {
+              color: "black",
+              fontWeight: "bold",
+            },
           },
-        });
+        };
       });
-      console.log("length!!!: " + tempCustomDatesStyles.length);
-      setCustomDatesStyles(tempCustomDatesStyles);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-
-    return documentData;
+    return markedDates;
   }
   useFocusEffect(
     React.useCallback(() => {
       let isLoading = true;
       async function retrieve() {
         try {
-          console.log("Loading Logs: " + isLoading);
+          console.log("ONFOCUS- Loading Logs: " + isLoading);
           const data = await retrieveData();
           if (isLoading) {
-            setLogs(data);
+            //console.log(data);
+            setMarkedDates(data);
           }
         } catch (error) {
           console.log(error);
@@ -76,28 +77,29 @@ export default function Calendar() {
       retrieve();
     }, [])
   );
+
   React.useEffect(() => {});
 
   return (
     <View style={styles.container}>
-      <CalendarStrip
-        scrollable={true}
-        startingDate={moment().add(1, "days").toDate()}
-        maxDate={moment().add(14, "days").toDate()}
-        minDate={moment().subtract(14, "days").toDate()}
-        calendarAnimation={{ type: "parallel", duration: 20 }}
-        daySelectionAnimation={{
-          type: "border",
-          duration: 200,
+      <Calendar
+        onDayPress={(day: any) => {
+          console.log("selected day: " + day.dateString);
         }}
-        calendarHeaderStyle={{
-          fontSize: 20,
-          marginBottom: 10,
-          color: COLORS.darkBlue,
+        onMonthChange={(month: any) => {
+          console.log("month changed", month);
         }}
-        renderColors
-        customDatesStyles={customDatesStyles}
-        style={{ height: 100, paddingTop: 20, paddingBottom: 10 }}
+        markingType={"custom"}
+        markedDates={markedDates}
+        theme={{
+          arrowColor: COLORS.darkBlue,
+          textDayFontSize: 16,
+          textMonthFontSize: 16,
+          textDayHeaderFontSize: 16,
+        }}
+        enableSwipeMonths={true}
+        current={moment().format("YYYY-MM-DD")}
+        displayLoadingIndicator={false}
       />
     </View>
   );
@@ -109,6 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     marginTop: 25,
     fontFamily: "HindSiliguri_400Regular",
+    padding: 10,
     borderRadius: 10,
     ...Platform.select({
       ios: {
