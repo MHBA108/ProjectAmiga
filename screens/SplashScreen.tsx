@@ -11,9 +11,9 @@ export default function SplashScreen() {
 
   // authentication and stuffs
   function load() {
-    // TODO check if logged in
+    //TODO check if logged in
     if (isLoggedIn) {
-      // TODO load anything necessary for home page
+      //TODO load anything necessary for home page
       navigation.navigate("Root");
     } else {
       navigation.navigate("LoginScreen");

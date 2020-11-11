@@ -7,7 +7,6 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import { AuthContext } from "../navigation/context";
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
 import Calendar from "../components/Calendar";
@@ -18,133 +17,32 @@ import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TodayEntry from "../components/TodayEntry";
-
 import EStyleSheet from "react-native-extended-stylesheet";
+import { useFocusEffect } from "@react-navigation/native";
+import moment from "moment";
 
-function renderGreeting(user: firebase.User | null) {
-  let timeOfDay = new Date(Date.now()).getHours();
-  let Greeting;
-  if (timeOfDay < 5) {
-    Greeting = "Good evening";
-  } else if (timeOfDay < 11) {
-    Greeting = "Good morning";
-  } else if (timeOfDay < 18) {
-    Greeting = "Good afternoon";
-  } else {
-    Greeting = "Good evening";
-  }
-
-  if (user == null) {
-    return Greeting + "!";
-  } else {
-    return Greeting + " " + user.displayName + "!";
-  }
-}
-// TODO: Return type firestore.DocumentData of the most recent log
-// async function retrieveLastLog(user: firebase.User | null) {
-//   try {
-//     // Set State: Loading
-//     console.log("Retrieving Log");
-//     // Cloud Firestore: Query
-//     let initialQuery = await firestore()
-//       .collection("users")
-//       .doc(user?.uid)
-//       .collection("userLogs")
-//       .orderBy("timestamp", "desc")
-//       .limit(1);
-//     // Cloud Firestore: Query Snapshot
-//     let documentSnapshots = await initialQuery.get();
-//     // Cloud Firestore: Document Data
-//     let documentData = documentSnapshots.docs.map((document) =>
-//       document.data()
-//     );
-//     let logData = documentData[0];
-//     console.log(logData);
-//     console.log(logData.timestamp);
-//     return logData;
-//   } catch (error) {
-//     console.log(error);
-//     return null;
-//   }
-// }
-
-// function renderLogComp(user: firebase.User | null) {
-//   let hasLogged = false;
-//   let logData = retrieveLastLog(user);
-//   console.log("retrieved logData: " + logData);
-
-//   //TODO handle if no logs?
-//   if (logData === null) {
-//     return <CreateLog sliderValue={50} noteText="" />;
-//   }
-
-//   let mostRecentDay = new Date(logData.timestamp);
-
-//   let today = new Date(Date.now());
-//   let date = today.getDate();
-//   let month = today.getMonth();
-//   let year = today.getFullYear();
-
-//   if (mostRecentDay.getDate() == date) {
-//     if (mostRecentDay.getMonth() == month) {
-//       if (mostRecentDay.getFullYear() == year) {
-//         hasLogged = true;
-//       }
-//     }
-//   }
-
-//   if (hasLogged) {
-//     return (
-//       <TodayEntry
-//         moodPercentile={lastLog.moodPercentile}
-//         text={lastLog.text}
-//         timestamp={lastLog.timestamp}
-//         moodWords={lastLog.moodWords}
-//       />
-//     );
-//   } else {
-//     return <CreateLog sliderValue={50} noteText="" />;
-//   }
-// }
-
-// TODO: delete this function in favor of the commented out one above
-
-function renderLogComp(user: firebase.User | null) {
-  let hasLogged = false;
-  let dummyTimestamp = "2020-11-08T23:52:59-04:00";
-  let lastLog = new Date(dummyTimestamp);
-
-  let today = new Date(Date.now());
-  let date = today.getDate();
-  let month = today.getMonth();
-  let year = today.getFullYear();
-
-  if (lastLog.getDate() == date) {
-    if (lastLog.getMonth() == month) {
-      if (lastLog.getFullYear() == year) {
-        hasLogged = true;
-      }
-    }
-  }
-
-  if (hasLogged) {
-    return (
-      <TodayEntry
-        moodPercentile={12}
-        text="I felt really sad today. I had a really bad dream and it ruined my day. I also failed my math quiz. It rained the whole day and I forgot my umbrella :("
-        timestamp={dummyTimestamp}
-        moodWords={["stressed", "sad"]}
-      />
-    );
-  } else {
-    return <CreateLog sliderValue={50} noteText="" />;
-  }
-}
+const valueToColor = require("../assets/ValueToColor");
 
 const HomeScreen = (props: { navigation: any }) => {
+  //added a call back function that is called when the save button is pressed
+  const callbackCreateLog = () => {
+    retrieveData();
+    renderLogComp();
+    getLog();
+  };
+
   const [user, setUser] = React.useState(firebase.auth().currentUser);
-  const authContext = React.useContext(AuthContext);
-  // TODO: Refresh page when log is submitted
+
+  const [moodPercentile, setMoodPercentile] = React.useState(50);
+  const [text, setText] = React.useState("");
+  const [timestamp, setTimestamp] = React.useState("");
+  const [moodWords, setMoodWords] = React.useState([]);
+  const [lastLogTS, setlastLogTS] = React.useState("");
+  const [limit, setLimit] = React.useState(9);
+  const [loading, setLoading] = React.useState(false);
+  const [logs, setLogs] = React.useState<firestore.DocumentData[]>([]);
+  const [customDatesStyles, setCustomDatesStyles] = React.useState(new Array());
+
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
@@ -152,7 +50,150 @@ const HomeScreen = (props: { navigation: any }) => {
         setUser(user);
       }
     });
-  });
+  }, [user]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let refresh = true;
+      async function getData() {
+        try {
+          if (refresh) {
+            await getLog();
+            await retrieveData();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getData();
+      return () => (refresh = false);
+    }, [])
+  );
+
+  // Retrieve most recent log
+  async function getLog() {
+    console.log("Retrieving most recent log:");
+    try {
+      const initialQuery = await firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("userLogs")
+        .orderBy("timestamp", "desc")
+        .limit(1);
+      let snapshot = await initialQuery.get();
+      let documentData = snapshot.docs.map((document) => document.data());
+      const log = documentData[0];
+      //console.log("log:", log);
+      setMoodPercentile(log.moodPercentile);
+      setTimestamp(log.timestamp);
+      setText(log.text);
+      setMoodWords(log.moodWords);
+
+      setlastLogTS(log.timestamp);
+      console.log(log);
+      return log.timestamp;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function retrieveData() {
+    let documentData: firestore.DocumentData[] = [];
+    try {
+      const tempMap = new Map();
+      const tempCustomDatesStyles = new Array();
+      console.log("Retrieving Data in Home Screen");
+      setLoading(true);
+      let initialQuery = await firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("userLogs")
+        .orderBy("timestamp", "desc");
+      //.limit(limit);
+      let documentSnapshots = await initialQuery.get();
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      console.log("retrieve data length " + documentData.length);
+      documentData.map((item: any) => {
+        var dateString = moment(item.timestamp);
+        tempMap.set(dateString, item.moodPercentile);
+      });
+      tempMap.forEach((value, key) => {
+        tempCustomDatesStyles.push({
+          startDate: key,
+          dateContainerStyle: {
+            borderWidth: 4,
+            borderColor: valueToColor(value),
+          },
+        });
+      });
+      setCustomDatesStyles(tempCustomDatesStyles);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return documentData;
+  }
+  function renderLogComp() {
+    let hasLogged = false;
+
+    if (timestamp === "") {
+    } else {
+      let lastLog = new Date(timestamp);
+      let today = new Date(Date.now());
+      let date = today.getDate();
+      let month = today.getMonth();
+      let year = today.getFullYear();
+
+      if (lastLog.getDate() == date) {
+        if (lastLog.getMonth() == month) {
+          if (lastLog.getFullYear() == year) {
+            hasLogged = true;
+          }
+        }
+      }
+    }
+    if (hasLogged) {
+      return (
+        <TodayEntry
+          moodPercentile={moodPercentile}
+          text={text}
+          timestamp={timestamp}
+          moodWords={moodWords}
+          homeCallback={callbackCreateLog}
+        />
+      );
+    } else {
+      return (
+        //added this homeCallback prop to the CreateLog component
+        <CreateLog
+          sliderValue={50}
+          noteText=""
+          homeCallback={callbackCreateLog}
+        />
+      );
+    }
+  }
+  function renderGreeting() {
+    let timeOfDay = new Date(Date.now()).getHours();
+    let Greeting;
+    if (timeOfDay < 5) {
+      Greeting = "Good evening";
+    } else if (timeOfDay < 11) {
+      Greeting = "Good morning";
+    } else if (timeOfDay < 18) {
+      Greeting = "Good afternoon";
+    } else {
+      Greeting = "Good evening";
+    }
+
+    if (user == null) {
+      return Greeting + "!";
+    } else {
+      return Greeting + " " + user.displayName + "!";
+    }
+  }
 
   return (
     <KeyboardAvoidingView
@@ -165,11 +206,11 @@ const HomeScreen = (props: { navigation: any }) => {
             showsVerticalScrollIndicator={false}
             style={styles.scrollContainer}
           >
-            <Text style={styles.textGreeting}>{renderGreeting(user)}</Text>
+            <Text style={styles.textGreeting}>{renderGreeting()}</Text>
             <Clock showDate={true} showTime={true} />
             <View style={styles.spacer}></View>
-            {renderLogComp(user)}
-            <Calendar />
+            {renderLogComp()}
+            <Calendar customDatesStyles={customDatesStyles} />
             <TodoList />
           </ScrollView>
         </SafeAreaView>

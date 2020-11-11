@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Text, View, ScrollView, Alert, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { AntDesign } from "@expo/vector-icons";
 import { Log } from "../types";
 import MoodSlider from "./MoodSlider";
+import EditModal from "./EditModal";
 import { COLORS } from "../assets/COLORS";
 import moment from "moment";
 
@@ -26,15 +26,13 @@ export default class LogItem extends Component<Log, Log> {
             {arrayToBubbles(this.props.moodWords, this.props.moodPercentile)}
           </ScrollView>
         </View>
-
         {<MoodSlider sliderValue={this.props.moodPercentile} disabled={true} />}
-
-        <TouchableOpacity
-          style={styles.editContainer}
-          onPress={() => Alert.alert("Edit button pressed")}
-        >
-          <AntDesign name="edit" size={24} color={COLORS.pink} />
-        </TouchableOpacity>
+        <EditModal
+          moodPercentile={this.props.moodPercentile}
+          text={this.props.text}
+          timestamp={this.props.timestamp}
+          moodWords={this.props.moodWords}
+        />
       </View>
     );
   }

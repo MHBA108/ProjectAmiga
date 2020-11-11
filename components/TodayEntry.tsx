@@ -8,8 +8,12 @@ import { COLORS } from "../assets/COLORS";
 
 import EStyleSheet from "react-native-extended-stylesheet";
 
+interface TodayEntryProps {
+  homeCallback: Function;
+}
+
 export default class TodayEntry extends Component<
-  Log,
+  Log & TodayEntryProps,
   {
     expanded: boolean;
     modalVisible: boolean;
@@ -17,7 +21,7 @@ export default class TodayEntry extends Component<
 > {
   triggerModal = () => this.setState({ modalVisible: true });
 
-  constructor(props: Log) {
+  constructor(props: Log & TodayEntryProps) {
     super(props);
     this.state = {
       modalVisible: false,
@@ -28,6 +32,10 @@ export default class TodayEntry extends Component<
   changeLayout = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded });
+  };
+  callbackSeeMoreModal = () => {
+    console.log("calling callbackSeeMoreModal");
+    this.props.homeCallback();
   };
 
   render() {
@@ -46,6 +54,7 @@ export default class TodayEntry extends Component<
           text={this.props.text}
           timestamp={this.props.timestamp}
           moodWords={this.props.moodWords}
+          todayEntryCallback={this.callbackSeeMoreModal}
         />
       </View>
     );

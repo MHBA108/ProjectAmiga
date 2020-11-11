@@ -94,7 +94,6 @@ const StatsScreen = (props: { navigation: any }) => {
                   <OpenAchievements />
                 </View>
               </View>
-
               <View style={styles.spacing2}></View>
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>Streak</Text>

@@ -10,34 +10,34 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { COLORS } from "../assets/COLORS";
-import MoodSlider from "../components/MoodSlider";
+import MoodSlider from "./MoodSlider";
 import { Log } from "../types";
 import moment from "moment";
 import firebase, { firestore } from "firebase";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons, Entypo } from "@expo/vector-icons";
 import EStyleSheet from "react-native-extended-stylesheet";
-import SelectableChips from "react-native-chip/SelectableChips";
 
 var arrayToBubbles = require("../assets/ArrayToBubbles");
-interface SeeMoreModalProps {
-  todayEntryCallback: Function;
-}
-export default class SeeMoreModal extends Component<
-  Log & SeeMoreModalProps,
+
+export default class EditModal extends Component<
+  {
+    moodPercentile: number;
+    text: string;
+    timestamp: string;
+    moodWords: string[];
+  },
   {
     modalVisible: boolean;
-    streak: number;
     moodPercentile: number;
     text: string;
     moodWords: string[];
     editable: boolean;
   }
 > {
-  constructor(props: Log & SeeMoreModalProps) {
+  constructor(props: Log) {
     super(props);
     this.state = {
       modalVisible: false,
-      streak: 0,
       moodPercentile: this.props.moodPercentile,
       text: this.props.text,
       moodWords: this.props.moodWords,
@@ -49,6 +49,7 @@ export default class SeeMoreModal extends Component<
     this.setState({ moodPercentile: sliderValue });
   };
 
+  //TODO: refresh LogList on delete
   async onDelete() {
     const docID = moment(this.props.timestamp).format("MM-DD-YYYY");
     const res = await firestore()
@@ -69,6 +70,7 @@ export default class SeeMoreModal extends Component<
     this.setState({ modalVisible: false });
   }
 
+  //TODO: refresh LogItem on edit
   async saveLog() {
     const user = firebase.auth().currentUser;
     const docID = moment(this.props.timestamp).format("MM-DD-YYYY");
@@ -86,16 +88,6 @@ export default class SeeMoreModal extends Component<
         .doc(docID)
         .set(log);
     }
-  }
-
-  async componentDidMount() {
-    const user = firebase.auth().currentUser;
-    const doc = await firebase
-      .firestore()
-      .collection("users")
-      .doc(user?.uid)
-      .get();
-    this.setState({ streak: doc.get("streak") });
   }
 
   renderDate() {
@@ -138,19 +130,6 @@ export default class SeeMoreModal extends Component<
     }
   }
 
-  renderStreak() {
-    let count = this.state.streak;
-    return (
-      <View style={styles.streakBox}>
-        <Text style={styles.countText}>{count}</Text>
-        <Image
-          source={require("../assets/images/streak.png")}
-          style={styles.badge}
-        />
-      </View>
-    );
-  }
-
   sliderContainer() {
     if (this.state.editable) {
       return styles.editableSliderContainer;
@@ -167,56 +146,12 @@ export default class SeeMoreModal extends Component<
     }
   }
 
+  //TODO: allow mood words to be edited
   moodContainer() {
     if (this.state.editable) {
       return styles.editableMoodContainer;
     } else {
       return styles.moodContainer;
-    }
-  }
-
-  onChangeMoodWords = (moodWords: string[]) => {
-    this.setState({ moodWords: moodWords });
-  };
-
-  //TODO: allow mood words to be edited
-  renderMood() {
-    if (this.state.editable) {
-      <View style={this.moodContainer()}>
-        <SelectableChips
-          initialChips={[
-            "excited",
-            "positive",
-            "energetic",
-            "happy",
-            "stressed",
-            "cheerful",
-            "content",
-            "okay",
-            "calm",
-            "rested",
-            "bored",
-            "lonely",
-            "sad",
-            "grumpy",
-            "negative",
-            "mad",
-          ]}
-          onChangeChips={(chips: SelectableChips) =>
-            this.onChangeMoodWords(chips)
-          }
-          chipStyleSelected={styles.chipSelectedStyle}
-          chipStyle={styles.chipStyle}
-          valueStyle={styles.valueStyle}
-          valueStyleSelected={styles.valueStyle}
-        />
-      </View>;
-    } else {
-      return (
-        <View style={this.moodContainer()}>
-          {arrayToBubbles(this.state.moodWords, this.state.moodPercentile)}
-        </View>
-      );
     }
   }
 
@@ -237,7 +172,6 @@ export default class SeeMoreModal extends Component<
         >
           <View style={styles.modalContainer}>
             <ScrollView style={styles.innerContainer}>
-              {this.renderStreak()}
               {this.renderDate()}
               <Text style={styles.questionStyle}>On this day you felt:</Text>
               <View style={this.sliderContainer()}>
@@ -260,14 +194,16 @@ export default class SeeMoreModal extends Component<
               </View>
               <View style={styles.spacer} />
               <Text style={styles.questionStyle}>Mood Descriptions:</Text>
-              <View style={this.moodContainer()}>{this.renderMood()}</View>
+              <View style={this.moodContainer()}>
+                {arrayToBubbles(
+                  this.props.moodWords,
+                  this.props.moodPercentile
+                )}
+              </View>
             </ScrollView>
             <View style={styles.buttons}>
               <TouchableHighlight
-                onPress={() => {
-                  this.props.todayEntryCallback();
-                  this.closeModal();
-                }}
+                onPress={() => this.closeModal()}
                 underlayColor="none"
               >
                 <AntDesign name="back" size={36} color={COLORS.lightBlue} />
@@ -295,10 +231,10 @@ export default class SeeMoreModal extends Component<
         </Modal>
         <View>
           <TouchableOpacity
-            style={styles.buttonStyle}
+            style={styles.editContainer}
             onPress={() => this.openModal()}
           >
-            <AntDesign name="ellipsis1" size={16} color={COLORS.beige} />
+            <Entypo name="open-book" size={24} color={COLORS.pink} />
           </TouchableOpacity>
         </View>
       </View>
@@ -440,32 +376,17 @@ const styles = EStyleSheet.create({
   bottomRight: {
     flexDirection: "row",
   },
-  streakBox: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  badge: {
-    width: "40rem",
-    height: "40rem",
-  },
   countText: {
     color: COLORS.beige,
     fontFamily: "HindSiliguri_600SemiBold",
     fontSize: "20rem",
   },
-  chipSelectedStyle: {
-    backgroundColor: COLORS.pink,
-    borderColor: COLORS.pink,
-  },
-  valueStyle: {
-    color: COLORS.darkBlue,
-  },
-  chipStyle: {
-    backgroundColor: COLORS.lightBlue,
-    borderColor: COLORS.lightBlue,
+  editContainer: {
+    position: "absolute",
+    top: "-128rem",
+    right: "-165rem",
+    backgroundColor: "#555E90",
+    borderRadius: 10,
+    padding: "5rem",
   },
 });

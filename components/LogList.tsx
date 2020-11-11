@@ -1,5 +1,5 @@
-import React, { Component, useEffect, useState } from "react";
-import { Text, View, ActivityIndicator } from "react-native";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogItem from "./LogItem";
 import { COLORS } from "../assets/COLORS";
@@ -7,7 +7,6 @@ import firebase, { firestore } from "firebase";
 import { FlatList } from "react-native-gesture-handler";
 import { useFocusEffect } from "@react-navigation/native";
 
-const valueToColor = require("../assets/ValueToColor");
 let lastDoc = 0;
 
 export default function LogList() {
@@ -16,6 +15,7 @@ export default function LogList() {
   );
   const [limit, setLimit] = useState(11);
   const [lastVisible, setLastVisible] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(firebase.auth().currentUser);
 
   useFocusEffect(
@@ -41,7 +41,8 @@ export default function LogList() {
   async function retrieveData() {
     try {
       // Set State: Loading
-      console.log("Retrieving Data");
+      console.log("Retrieving Data in Log List");
+      setLoading(true);
       // Cloud Firestore: Query
       let initialQuery = await firestore()
         .collection("users")
@@ -75,7 +76,7 @@ export default function LogList() {
     if (!(lastDoc < 9)) {
       try {
         // Set State: Refreshing
-        console.log("Retrieving additional Data");
+        console.log("Retrieving additional Data in Log List");
         // Cloud Firestore: Query (Additional Query)
         let additionalQuery: any = await firestore()
           .collection("users")

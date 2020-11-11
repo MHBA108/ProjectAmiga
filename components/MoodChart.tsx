@@ -30,7 +30,7 @@ export default function MoodChart() {
     try {
       const tempMap = new Map();
       const tempArray = new Array();
-      console.log("Retrieving Data");
+      console.log("Retrieving Data in Mood Chart");
       setLoading(true);
       let initialQuery = await firestore()
         .collection("users")

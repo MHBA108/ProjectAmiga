@@ -21,7 +21,7 @@ export default function MonthCalendar() {
     try {
       const tempMap = new Map();
       const tempMarkedDates = {};
-      console.log("Retrieving Data");
+      console.log("Retrieving Data in Month Calendar");
       let initialQuery = await firestore()
         .collection("users")
         .doc(user?.uid)

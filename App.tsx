@@ -4,7 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { View, LogBox } from "react-native";
+import { View } from "react-native";
 import {
   useFonts,
   HindSiliguri_700Bold,
@@ -19,8 +19,15 @@ import * as firebase from "firebase";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Dimensions } from "react-native";
 
-// import { LogBox }​​​​​​​​​ from "react-native";
-LogBox.ignoreLogs(["Warning: ...", "Setting"]); // Ignore log notification by message
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "Warning: ...",
+  "Setting",
+  "Warning: componentWillReceiveProps",
+  "Warning: componentWillMount",
+  "VirtualizedList:",
+  "VirtualizedLists",
+]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const firebaseConfig = {

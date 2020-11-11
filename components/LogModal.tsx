@@ -22,6 +22,7 @@ interface LogModalProps {
   sliderValue: number;
   noteText: string;
   onModalHide: () => void;
+  parentCallback: Function;
 }
 
 export default class LogModal extends Component<
@@ -53,7 +54,6 @@ export default class LogModal extends Component<
     };
   }
 
-  // TODO: Make sure the correct mood percentile is submitted
   sliderHandler = (sliderValue: number) => {
     this.setState({ moodPercentile: sliderValue });
   };
@@ -75,7 +75,6 @@ export default class LogModal extends Component<
     this.setState({ text: this.props.noteText });
     this.setState({ moodPercentile: this.props.sliderValue });
   }
-
   async closeModal() {
     this.setState({ modalVisible: false });
     this.setState({ text: this.props.noteText });
@@ -99,6 +98,16 @@ export default class LogModal extends Component<
         streak: firestore.FieldValue.increment(1),
       });
     }
+    const initialQuery = await firestore()
+      .collection("users")
+      .doc(this.state.user?.uid)
+      .collection("userLogs")
+      .orderBy("timestamp", "desc");
+    let documentSnapshots = await initialQuery.get();
+    let documentData = documentSnapshots.docs.map((document) =>
+      document.data()
+    );
+    console.log("retrieve data length in create log ");
   }
 
   renderText() {
@@ -195,7 +204,13 @@ export default class LogModal extends Component<
               </View>
               <View style={styles.saveButton}>
                 <TouchableHighlight
-                  onPress={() => this.closeModal()}
+                  onPress={() => {
+                    this.props.parentCallback(
+                      this.state.moodPercentile,
+                      this.state.text
+                    );
+                    this.closeModal();
+                  }}
                   underlayColor="none"
                 >
                   <MaterialIcons

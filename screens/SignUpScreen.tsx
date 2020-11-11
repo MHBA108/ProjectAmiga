@@ -22,7 +22,7 @@ export default function SignUpScreen() {
   const navigation = useNavigation();
 
   function onLoginSuccess(props: any) {
-    // TODO: Sign the user in instead of kicking them back to the login screen
+    //TODO: Sign the user in instead of kicking them back to the login screen
     console.log("successfully made user!");
     Alert.alert("Account Created!");
     // The only way to get to the SignUpScreen is from the LoginScreen
@@ -52,7 +52,7 @@ export default function SignUpScreen() {
   }
 
   return (
-    // TODO: Add styling from LoginScreen
+    //TODO: Add styling from LoginScreen
     <SafeAreaView>
       <TextInput
         style={styles.input}

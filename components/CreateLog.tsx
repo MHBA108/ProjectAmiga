@@ -15,13 +15,13 @@ import moment from "moment";
 import firebase, { firestore } from "firebase";
 import { Log } from "../types";
 import NotificationModal from "../components/NotificationModal";
-
 import EStyleSheet from "react-native-extended-stylesheet";
 import MoodSlider from "./MoodSlider";
 
 interface CreateLogProps {
   sliderValue: number;
   noteText: string;
+  homeCallback: Function;
 }
 
 export default class CreateLog extends React.Component<
@@ -39,9 +39,13 @@ export default class CreateLog extends React.Component<
   onChangeText = (text: string) => {
     this.setState({ value: text });
   };
-
   onChangeMoodPercentile = (sliderValue: number) => {
     this.setState({ sliderValue });
+  };
+  callbackLogModal = (sliderValue: number, text: string) => {
+    this.onChangeText(text);
+    this.onChangeMoodPercentile(sliderValue);
+    this.onSave();
   };
 
   async onSave() {
@@ -65,7 +69,19 @@ export default class CreateLog extends React.Component<
         streak: firestore.FieldValue.increment(1),
       });
     }
-    Alert.alert("Log saved!");
+    const initialQuery = await firestore()
+      .collection("users")
+      .doc(this.state.user?.uid)
+      .collection("userLogs")
+      .orderBy("timestamp", "desc");
+    let documentSnapshots = await initialQuery.get();
+    let documentData = documentSnapshots.docs.map((document) =>
+      document.data()
+    );
+    console.log("retrieve data length in create log ");
+    console.log("The log that being saved: ", log);
+    //homeCallback is called when the save button is pressed
+    this.props.homeCallback();
   }
 
   notification() {
@@ -126,7 +142,9 @@ export default class CreateLog extends React.Component<
         >
           <TouchableOpacity
             style={styles.buttonStyle}
-            onPress={() => this.onSave()}
+            onPress={() => {
+              this.onSave();
+            }}
           >
             <MaterialIcons name="save" size={24} color={COLORS.beige} />
             <Text style={styles.buttonText}> Save entry</Text>
@@ -137,6 +155,7 @@ export default class CreateLog extends React.Component<
               sliderValue={this.state.sliderValue}
               noteText={this.state.value}
               onModalHide={() => this.notification()}
+              parentCallback={this.callbackLogModal}
             />
           </View>
         </View>

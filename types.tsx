@@ -41,5 +41,5 @@ export type Log = {
 export type User = {
   avatar: string;
   streak: number;
-  // TODO: add achievments
+  //TODO: add achievments
 };
