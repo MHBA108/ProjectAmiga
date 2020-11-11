@@ -14,7 +14,7 @@ export default function LogList() {
   const [documentData, setDocumentData] = useState<firestore.DocumentData[]>(
     []
   );
-  const [limit, setLimit] = useState(9);
+  const [limit, setLimit] = useState(11);
   const [lastVisible, setLastVisible] = useState(null);
   const [user, setUser] = useState(firebase.auth().currentUser);
 
@@ -62,9 +62,9 @@ export default function LogList() {
         let lastDocVisible = documentData[documentData.length - 1].id;
         // Set State
         setDocumentData(documentData);
-        setLastVisible: lastDocVisible;
+        setLastVisible(lastDocVisible);
       }
-      setLoading: false;
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }

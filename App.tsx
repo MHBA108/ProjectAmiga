@@ -4,7 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { View } from "react-native";
+import { View, LogBox } from "react-native";
 import {
   useFonts,
   HindSiliguri_700Bold,
@@ -20,8 +20,8 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { Dimensions } from "react-native";
 
 // import { LogBox }​​​​​​​​​ from "react-native";
-// LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-// LogBox.ignoreAllLogs(); //Ignore all log notifications
+LogBox.ignoreLogs(["Warning: ...", "Setting"]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const firebaseConfig = {
   apiKey: "AIzaSyAdmZhF_Qr8-5hLmVXtmq013CLnOpkG6Cc",
@@ -37,16 +37,15 @@ const firebaseConfig = {
 
 console.log("application id: " + Application.applicationId);
 
-
 export default function App() {
   const entireScreenWidth = Dimensions.get("window").width;
   EStyleSheet.build({
     $rem: entireScreenWidth / 380,
   });
-  
+
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  
+
   let [fontsLoaded] = useFonts({
     HindSiliguri_700Bold,
     HindSiliguri_400Regular,

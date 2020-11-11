@@ -10,6 +10,7 @@ import { Avatar } from "react-native-elements";
 import { LineChart } from "react-native-chart-kit";
 import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
+import MoodChart from "../components/MoodChart";
 import { Picker } from "@react-native-community/picker";
 import Calendar from "../components/Calendar";
 import MonthCalendar from "../components/MonthCalendar";
@@ -78,114 +79,7 @@ const StatsScreen = (props: { navigation: any }) => {
                 </Text>
               </View>
             </View>
-            <View style={styles.graphContainer}>
-              <View style={styles.graphHeaderStyle}>
-                <View style={{ backgroundColor: COLORS.darkBlue }}>
-                  <Text
-                    style={{
-                      color: "white",
-                      backgroundColor: COLORS.darkBlue,
-                      fontSize: 25,
-                    }}
-                  >
-                    Mood Chart
-                  </Text>
-                </View>
-                {/* TODO: change buttons to picker */}
-                {/* <Picker
-                selectedValue={this.state.language}
-                style={{ height: 50, width: 100 }}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({ language: itemValue })
-                }
-              >
-                <Picker.Item label="Java" value="java" />
-                <Picker.Item label="JavaScript" value="js" />
-              </Picker> */}
-                <View
-                  style={{ flexDirection: "row", borderRadius: 10, padding: 3 }}
-                >
-                  <TouchableHighlight
-                    underlayColor="none"
-                    onPress={() => Alert.alert("Week pressed")}
-                    style={styles.graphRangeStyle}
-                  >
-                    <Text style={{ color: "white" }}>W</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    underlayColor="none"
-                    onPress={() => Alert.alert("Month pressed")}
-                    style={styles.graphRangeStyle}
-                  >
-                    <Text style={{ color: "white" }}>M</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    underlayColor="none"
-                    onPress={() => Alert.alert("Year pressed")}
-                    style={styles.graphRangeStyle}
-                  >
-                    <Text style={{ color: "white" }}>Y</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-              <View
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: COLORS.darkBlue,
-                }}
-              >
-                <LineChart
-                  data={{
-                    labels: [
-                      "January",
-                      "February",
-                      "March",
-                      "April",
-                      "May",
-                      "June",
-                    ],
-                    datasets: [
-                      {
-                        data: [
-                          Math.floor(Math.random() * 100),
-                          Math.floor(Math.random() * 100),
-                          Math.floor(Math.random() * 100),
-                          Math.floor(Math.random() * 100),
-                          Math.floor(Math.random() * 100),
-                          Math.floor(Math.random() * 100),
-                        ],
-                      },
-                    ],
-                  }}
-                  width={Dimensions.get("window").width * 0.9} // from react-native
-                  height={220}
-                  chartConfig={{
-                    backgroundColor: "blue",
-                    backgroundGradientFrom: COLORS.darkBlue,
-                    backgroundGradientTo: COLORS.darkBlue,
-                    decimalPlaces: 0, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) =>
-                      `rgba(255, 255, 255, ${opacity})`,
-                    style: {
-                      // borderRadius: 16,
-                      alignContent: "stretch",
-                    },
-                    propsForDots: {
-                      r: "6",
-                      strokeWidth: "2",
-                      stroke: COLORS.darkBlue,
-                    },
-                  }}
-                  bezier
-                  style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
-                  }}
-                />
-              </View>
-            </View>
+            <MoodChart></MoodChart>
             <View style={styles.calendarStyle}>
               <MonthCalendar />
             </View>
@@ -225,35 +119,10 @@ const styles = EStyleSheet.create({
     justifyContent: "flex-end",
     backgroundColor: COLORS.beige,
   },
-  graphRangeStyle: {
-    marginHorizontal: 2,
-    paddingHorizontal: 7,
-    paddingVertical: 5,
-    borderRadius: 10,
-    backgroundColor: COLORS.darkBlue,
-  },
   headText: {
     fontSize: "30rem",
     color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_700Bold",
-  },
-  graphContainer: {
-    justifyContent: "center",
-    width: "95%",
-    backgroundColor: COLORS.darkBlue,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    margin: 10,
-    borderRadius: 10,
-  },
-
-  graphHeaderStyle: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "88%",
-    backgroundColor: COLORS.darkBlue,
-    marginVertical: 10,
-    borderRadius: 10,
   },
 
   calendarStyle: {
