@@ -1,29 +1,27 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Platform, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Platform } from "react-native";
 import { COLORS } from "../assets/COLORS";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import { useFocusEffect } from "@react-navigation/native";
 import firebase, { firestore } from "firebase";
+import { Object } from "realm";
+import { useFocusEffect } from "@react-navigation/native";
 const valueToColor = require("../assets/ValueToColor");
+const colorMap = new Map();
 
 export default function MonthCalendar() {
   const [user, setUser] = useState(firebase.auth().currentUser);
   const [limit, setLimit] = useState(9);
-  const [markedDates, setMarkedDates] = useState({
-    customStyles: { container: {}, text: {} },
-  });
   const [loading, setLoading] = useState(false);
-  const [colorMap, setColorMap] = useState(new Map());
-  const updateMap = (key: any, value: any) => {
-    setColorMap(new Map(colorMap.set(key, value)));
-  };
+  const [logs, setLogs] = React.useState<firestore.DocumentData[]>([]);
+  const [markedDates, setMarkedDates] = useState({});
 
   async function retrieveData() {
     let documentData: firestore.DocumentData[] = [];
     try {
+      const tempMap = new Map();
+      const tempMarkedDates = {};
       console.log("Retrieving Data");
-      setLoading(true);
       let initialQuery = await firestore()
         .collection("users")
         .doc(user?.uid)
@@ -34,14 +32,14 @@ export default function MonthCalendar() {
       let documentData = documentSnapshots.docs.map((document) =>
         document.data()
       );
-      console.log("retrieve data length " + documentData.length);
       documentData.map((item: any) => {
-        var dateString = moment(item.timestamp).format("YYYY-MM-DD");
-        updateMap(dateString, item.moodPercentile);
+        var dateString = moment(item.timestamp);
+        tempMap.set(dateString, item.moodPercentile);
       });
 
-      colorMap.forEach((value, key) => {
-        markedDates[key] = {
+      tempMap.forEach((value, key) => {
+        let date = moment(key).format("YYYY-MM-DD");
+        tempMarkedDates[date] = {
           customStyles: {
             container: {
               backgroundColor: valueToColor(value),
@@ -53,22 +51,21 @@ export default function MonthCalendar() {
           },
         };
       });
+      setMarkedDates(tempMarkedDates);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-    return markedDates;
+    return documentData;
   }
   useFocusEffect(
     React.useCallback(() => {
       let isLoading = true;
       async function retrieve() {
         try {
-          console.log("ONFOCUS- Loading Logs: " + isLoading);
           const data = await retrieveData();
           if (isLoading) {
-            //console.log(data);
-            setMarkedDates(data);
+            setLogs(data);
           }
         } catch (error) {
           console.log(error);
@@ -82,14 +79,13 @@ export default function MonthCalendar() {
 
   return (
     <View style={styles.container}>
+      {}
       <Calendar
-        onDayPress={(day: any) => {
-          console.log("selected day: " + day.dateString);
-        }}
-        onMonthChange={(month: any) => {
-          console.log("month changed", month);
-        }}
+        displayLoadingIndicator
         markingType={"custom"}
+        onDayPress={(day: any) => {
+          console.log("selected day", day);
+        }}
         markedDates={markedDates}
         theme={{
           arrowColor: COLORS.darkBlue,
@@ -97,9 +93,6 @@ export default function MonthCalendar() {
           textMonthFontSize: 16,
           textDayHeaderFontSize: 16,
         }}
-        enableSwipeMonths={true}
-        current={moment().format("YYYY-MM-DD")}
-        displayLoadingIndicator={false}
       />
     </View>
   );

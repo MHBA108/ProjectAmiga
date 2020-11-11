@@ -12,6 +12,7 @@ import { Text, View } from "../components/Themed";
 import Clock from "../components/Clock";
 import { Picker } from "@react-native-community/picker";
 import Calendar from "../components/Calendar";
+import MonthCalendar from "../components/MonthCalendar";
 import { COLORS } from "../assets/COLORS";
 import OpenAchievements from "../components/OpenAchievements";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -186,7 +187,7 @@ const StatsScreen = (props: { navigation: any }) => {
               </View>
             </View>
             <View style={styles.calendarStyle}>
-              <Calendar />
+              <MonthCalendar />
             </View>
             <Text style={styles.badgeText}>Achievements</Text>
             <View style={styles.badgeContainer1}>
@@ -210,7 +211,7 @@ const styles = EStyleSheet.create({
     marginTop: StatusBar.currentHeight,
   },
   scrollContainer: {
-    paddingHorizontal: "15rem",
+    paddingHorizontal: "10rem",
   },
   statsStyle: {
     backgroundColor: COLORS.yellow,
