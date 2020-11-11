@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, Image, StatusBar } from "react-native";
+import { ScrollView, Image, StatusBar, TouchableOpacity } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
 import avatarPlaceHolder from "../assets/images/avatars/male.png";
@@ -12,11 +12,14 @@ import { useFocusEffect } from "@react-navigation/native";
 import OpenProfileDetails from "../components/OpenProfileDetails";
 import { COLORS } from "../assets/COLORS";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthContext } from "../navigation/context";
+import { Feather } from "@expo/vector-icons";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
+  const authContext = React.useContext(AuthContext);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -79,8 +82,15 @@ const UserProfileScreen = (props: { navigation: any }) => {
           <LogList />
         </View>
         <View style={styles.spacing}></View>
-        <View style={styles.spacing}></View>
-        <View style={styles.spacing}></View>
+        <TouchableOpacity
+          style={styles.resource}
+          onPress={() => {
+            authContext.signOut();
+          }}
+        >
+          <Feather color={COLORS.beige} name="log-out" size={25} />
+          <Text style={styles.logOffText}> Sign Out </Text>
+        </TouchableOpacity>
       </ScrollView>
       <MyHeader navigation={props.navigation} />
     </SafeAreaView>
@@ -89,6 +99,22 @@ const UserProfileScreen = (props: { navigation: any }) => {
 export default UserProfileScreen;
 
 const styles = EStyleSheet.create({
+  logOffText: {
+    color: COLORS.beige,
+    fontFamily: "HindSiliguri_600SemiBold",
+    fontSize: "15rem",
+  },
+  resource: {
+    width: "30%",
+    aspectRatio: 4 / 2,
+    backgroundColor: COLORS.darkBlue,
+    borderRadius: 10,
+    flexDirection: "row",
+    padding: "5rem",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    alignSelf: "flex-end",
+  },
   container: {
     flex: 1,
     backgroundColor: COLORS.beige,

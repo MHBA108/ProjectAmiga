@@ -122,15 +122,7 @@ function HamburgerDrawer() {
           ),
         }}
       />
-      <Drawer.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Feather name="settings" size={24} color={COLORS.beige} />
-          ),
-        }}
-      />
+
       <Drawer.Screen
         name="Contact Us"
         component={ContactUsScreen}

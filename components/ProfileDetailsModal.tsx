@@ -74,39 +74,6 @@ export default function ProfileDetailsModal() {
                 </TouchableHighlight>
               </View>
             </View>
-            <View style={styles.spacing}></View>
-            <View style={styles.detail}>
-              <Text style={styles.detailTitle}> Name: </Text>
-              <TouchableOpacity
-                style={styles.editContainer}
-                onPress={() => Alert.alert("Edit button pressed")}
-              >
-                <AntDesign name="edit" size={24} color={COLORS.pink} />
-              </TouchableOpacity>
-              <View style={styles.spacing}></View>
-              <View style={styles.lighterDetail}>
-                <Text style={styles.detailDescription}>
-                  {" "}
-                  {user?.displayName}{" "}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.spacing}></View>
-            <View style={styles.detail}>
-              <Text style={styles.detailTitle}> Username: </Text>
-              <TouchableOpacity
-                style={styles.editContainer}
-                onPress={() => Alert.alert("Edit button pressed")}
-              >
-                <AntDesign name="edit" size={24} color={COLORS.pink} />
-              </TouchableOpacity>
-              <View style={styles.spacing}></View>
-              <View style={styles.lighterDetail}>
-                <Text style={styles.detailDescription}> JimSmith23 </Text>
-              </View>
-            </View>
-
             <View style={styles.spacing} />
             <View style={styles.detail}>
               <Text style={styles.detailTitle}> Avatar: </Text>
@@ -124,6 +91,24 @@ export default function ProfileDetailsModal() {
                   source={avatarPlaceHolder}
                 />
               </TouchableOpacity>
+            </View>
+
+            <View style={styles.spacing}></View>
+            <View style={styles.detail}>
+              <Text style={styles.detailTitle}> Name: </Text>
+              <TouchableOpacity
+                style={styles.editContainer}
+                onPress={() => Alert.alert("Edit button pressed")}
+              >
+                <AntDesign name="edit" size={24} color={COLORS.pink} />
+              </TouchableOpacity>
+              <View style={styles.spacing}></View>
+              <View style={styles.lighterDetail}>
+                <Text style={styles.detailDescription}>
+                  {" "}
+                  {user?.displayName}{" "}
+                </Text>
+              </View>
             </View>
 
             <View style={styles.spacing}></View>

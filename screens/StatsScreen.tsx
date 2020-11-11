@@ -18,16 +18,42 @@ import { COLORS } from "../assets/COLORS";
 import OpenAchievements from "../components/OpenAchievements";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { SafeAreaView } from "react-native-safe-area-context";
+import OpenStreaks from "../components/OpenStreaks";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 import MyHeader from "../components/MyHeader";
+import firebase from "firebase";
+import { useFocusEffect } from "@react-navigation/native";
 
 const StatsScreen = (props: { navigation: any }) => {
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [streak, setStreak] = React.useState(0);
   const [language] = React.useState({
     language: "java",
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(
+        "getting the streak right now from firebase in UserProfileScreen.tsx"
+      );
+      let refresh = true;
+      async function getStreak() {
+        const doc = await firebase
+          .firestore()
+          .collection("users")
+          .doc(user?.uid)
+          .get();
+        setStreak(doc.get("streak"));
+      }
+      if (refresh) {
+        let doc = getStreak();
+      }
+      return () => (refresh = false);
+    }, [])
+  );
 
   return (
     <SafeAreaView style={{ backgroundColor: COLORS.beige }}>
@@ -41,23 +67,13 @@ const StatsScreen = (props: { navigation: any }) => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                width: "90%",
-                marginBottom: windowHeight * 0.01,
+                width: "100%",
                 backgroundColor: COLORS.beige,
-                paddingTop: 10,
               }}
             >
-              <Avatar
-                size="medium"
-                rounded
-                title="MT"
-                activeOpacity={0.7}
-                avatarStyle={{ borderWidth: 2 }}
-                titleStyle={{ color: "black" }}
-                containerStyle={{ alignContent: "flex-start" }}
-              />
               <Clock showDate={true} showTime={false} />
             </View>
+            <View style={styles.spacing}></View>
             <View
               style={{
                 flexDirection: "row",
@@ -65,27 +81,27 @@ const StatsScreen = (props: { navigation: any }) => {
                 width: "95%",
                 backgroundColor: COLORS.beige,
               }}
-            >
-              <View style={styles.statsStyle}>
-                <Text style={{ color: COLORS.darkBlue }}>
-                  {" "}
-                  Leaderboard Position: 1
-                </Text>
-              </View>
-              <View style={styles.statsStyle}>
-                <Text style={{ color: COLORS.darkBlue }}>
-                  {" "}
-                  Longest Log Streak: 23
-                </Text>
-              </View>
-            </View>
+            ></View>
             <MoodChart></MoodChart>
             <View style={styles.calendarStyle}>
               <MonthCalendar />
             </View>
-            <Text style={styles.badgeText}>Achievements</Text>
-            <View style={styles.badgeContainer1}>
-              <OpenAchievements />
+            <View style={styles.spacing2}></View>
+            <View style={styles.modal}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>Achievements</Text>
+                <View style={styles.badgeContainer1}>
+                  <OpenAchievements />
+                </View>
+              </View>
+
+              <View style={styles.spacing2}></View>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>Streak</Text>
+                <View style={styles.badgeContainer1}>
+                  <OpenStreaks />
+                </View>
+              </View>
             </View>
           </View>
         </View>
@@ -98,6 +114,25 @@ const StatsScreen = (props: { navigation: any }) => {
 export default StatsScreen;
 
 const styles = EStyleSheet.create({
+  badge: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-around",
+    backgroundColor: "transparent",
+  },
+  modal: {
+    flex: 3,
+    flexDirection: "row",
+    backgroundColor: "transparent",
+  },
+  spacing: {
+    padding: "5rem",
+    backgroundColor: "transparent",
+  },
+  spacing2: {
+    padding: "15rem",
+    backgroundColor: "transparent",
+  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -109,9 +144,11 @@ const styles = EStyleSheet.create({
   },
   statsStyle: {
     backgroundColor: COLORS.yellow,
-    width: "45%",
+    width: "25%",
     borderRadius: 10,
     padding: 10,
+    alignItems: "center",
+    left: "260rem",
   },
   headContainer: {
     width: "100%",
@@ -133,26 +170,14 @@ const styles = EStyleSheet.create({
   badgeText: {
     color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
-    // fontSize: "11rem",
-  },
-  badgeContainer: {
-    flexDirection: "row",
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FCD7AE",
-    // aspectRatio: 1 / 1,
-    padding: "15rem",
   },
   badgeContainer1: {
     flexDirection: "row",
-    alignItems: "stretch",
+    alignItems: "center",
     justifyContent: "center",
     backgroundColor: "transparent",
-    width: "20%",
-    height: "10%",
-
-    // aspectRatio: 1 / 4,
-    // padding: "10rem",
+    padding: "10rem",
+    height: "100rem",
+    width: "100rem",
   },
 });
