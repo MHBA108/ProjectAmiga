@@ -22,13 +22,14 @@ const UserProfileScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
+  const [userLogs, setUserLogs] = React.useState(false);
 
   useFocusEffect(() => {
     console.log(
       "getting the streak right now from firebase in UserProfileScreen.tsx"
     );
-    let doc = getStreak();
-    async function getStreak() {
+    let doc = updateUserProfileInfo();
+    async function updateUserProfileInfo() {
       const doc = await firebase
         .firestore()
         .collection("users")
@@ -37,6 +38,10 @@ const UserProfileScreen = (props: { navigation: any }) => {
       setStreak(doc.get("streak"));
       setAvatar(doc.get("avatar"));
     }
+    React.useCallback(() => {
+      
+      return () => { };
+    }, [userLogs]);
   });
 
   return (
@@ -83,7 +88,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
         </View>
         <View style={styles.spacing}></View>
         <View style={styles.containerLog}>
-          <LogList />
+          <LogList userLogs={userLogs} setUserLogs={setUserLogs} />
         </View>
         <View style={styles.spacing}></View>
         <View style={styles.spacing}></View>

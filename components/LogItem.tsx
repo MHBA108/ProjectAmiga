@@ -27,7 +27,7 @@ export default class LogItem extends Component<Log, Log> {
                 <View
                   style={[
                     styles.emotionBubble,
-                    { backgroundColor: valueToColor(this.props.moodPercentile) },
+                    { borderColor: valueToColor(this.props.moodPercentile) , borderWidth: 2,},
                   ]}
                 >
                   <Text style={styles.moodHeaderText}>{item}</Text>

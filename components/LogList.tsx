@@ -1,4 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
+import React, {
+  Component,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { Text, View, ActivityIndicator } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import LogItem from "./LogItem";
@@ -10,7 +16,13 @@ import { useFocusEffect } from "@react-navigation/native";
 const valueToColor = require("../assets/ValueToColor");
 let lastDoc = 0;
 
-export default function LogList() {
+export default function LogList({
+  userLogs,
+  setUserLogs,
+}: {
+  userLogs: boolean;
+  setUserLogs: Dispatch<SetStateAction<boolean>>;
+}) {
   const [documentData, setDocumentData] = useState<firestore.DocumentData[]>(
     []
   );
@@ -20,7 +32,7 @@ export default function LogList() {
   const [refreshing, setRefreshing] = useState(false);
   const [user, setUser] = useState(firebase.auth().currentUser);
 
-  useFocusEffect(() => {
+  useEffect(() => {
     async function getData() {
       try {
         // Cloud Firestore: Initial Query
@@ -29,8 +41,11 @@ export default function LogList() {
         console.log(error);
       }
     }
-    lastDoc = -1;
-    getData();
+    if (userLogs) {
+      lastDoc = -1;
+      setUserLogs(false);
+      getData();
+    }
   });
 
   // Retrieve Data
@@ -59,9 +74,9 @@ export default function LogList() {
         let lastDocVisible = documentData[documentData.length - 1].id;
         // Set State
         setDocumentData(documentData);
-        setLastVisible: lastDocVisible;
+        setLastVisible(lastDocVisible);
       }
-      setLoading: false;
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -95,8 +110,8 @@ export default function LogList() {
         // Set State
 
         setDocumentData([...documentData, ...docData]);
-        setLastVisible: lastDocVisible;
-        setRefreshing: false;
+        setLastVisible(lastDocVisible);
+        setRefreshing(false);
       } catch (error) {
         console.log(error);
       }
@@ -112,6 +127,8 @@ export default function LogList() {
       <View style={styles.spacing}></View>
       <FlatList
         data={documentData}
+        // refreshing={loading}
+        // onRefresh={retrieveData}
         renderItem={({ item }: { item: firestore.DocumentData }) => (
           console.log("render log: " + item.timestamp),
           (
