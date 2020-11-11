@@ -122,7 +122,6 @@ function HamburgerDrawer() {
           ),
         }}
       />
-
       <Drawer.Screen
         name="Contact Us"
         component={ContactUsScreen}
