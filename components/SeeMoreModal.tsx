@@ -58,6 +58,7 @@ export default class SeeMoreModal extends Component<
       .doc(docID)
       .delete();
     this.closeModal();
+    this.props.todayEntryCallback();
   }
 
   openModal() {
@@ -90,6 +91,7 @@ export default class SeeMoreModal extends Component<
         .doc(docID)
         .set(log);
     }
+    this.props.todayEntryCallback(this.state.moodPercentile);
   }
 
   async componentDidMount() {
@@ -271,7 +273,6 @@ export default class SeeMoreModal extends Component<
             <View style={styles.buttons}>
               <TouchableHighlight
                 onPress={() => {
-                  this.props.todayEntryCallback();
                   this.closeModal();
                 }}
                 underlayColor="none"

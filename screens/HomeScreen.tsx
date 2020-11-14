@@ -24,23 +24,39 @@ import moment from "moment";
 const valueToColor = require("../assets/ValueToColor");
 
 const HomeScreen = (props: { navigation: any }) => {
-  //added a call back function that is called when the save button is pressed
   const callbackCreateLog = () => {
     retrieveData();
-    renderLogComp();
     getLog();
   };
-
+  const callbackTodayEntry = () => {
+    retrieveData();
+    getLog();
+  };
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [moodPercentile, setMoodPercentile] = React.useState(50);
   const [text, setText] = React.useState("");
   const [timestamp, setTimestamp] = React.useState("");
   const [moodWords, setMoodWords] = React.useState([]);
-  const [lastLogTS, setlastLogTS] = React.useState("");
-  const [limit, setLimit] = React.useState(9);
   const [loading, setLoading] = React.useState(false);
-  const [logs, setLogs] = React.useState<firestore.DocumentData[]>([]);
   const [customDatesStyles, setCustomDatesStyles] = React.useState(new Array());
+
+  let hasLogged = false;
+  if (timestamp === "") {
+  } else {
+    let lastLog = new Date(timestamp);
+    let today = new Date(Date.now());
+    let date = today.getDate();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+
+    if (lastLog.getDate() == date) {
+      if (lastLog.getMonth() == month) {
+        if (lastLog.getFullYear() == year) {
+          hasLogged = true;
+        }
+      }
+    }
+  }
 
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -65,11 +81,11 @@ const HomeScreen = (props: { navigation: any }) => {
         }
       }
       getData();
+      renderLogComp();
       return () => (refresh = false);
     }, [])
   );
 
-  // Retrieve most recent log
   async function getLog() {
     console.log("Retrieving most recent log:");
     try {
@@ -82,15 +98,11 @@ const HomeScreen = (props: { navigation: any }) => {
       let snapshot = await initialQuery.get();
       let documentData = snapshot.docs.map((document) => document.data());
       const log = documentData[0];
-      //console.log("log:", log);
       setMoodPercentile(log.moodPercentile);
       setTimestamp(log.timestamp);
       setText(log.text);
       setMoodWords(log.moodWords);
-
-      setlastLogTS(log.timestamp);
-      console.log(log);
-      return log.timestamp;
+      return log;
     } catch (error) {
       console.log(error);
     }
@@ -98,21 +110,19 @@ const HomeScreen = (props: { navigation: any }) => {
   async function retrieveData() {
     let documentData: firestore.DocumentData[] = [];
     try {
+      console.log("Retrieving Data in Home Screen");
       const tempMap = new Map();
       const tempCustomDatesStyles = new Array();
-      console.log("Retrieving Data in Home Screen");
       setLoading(true);
       let initialQuery = await firestore()
         .collection("users")
         .doc(user?.uid)
         .collection("userLogs")
         .orderBy("timestamp", "desc");
-      //.limit(limit);
       let documentSnapshots = await initialQuery.get();
       let documentData = documentSnapshots.docs.map((document) =>
         document.data()
       );
-      console.log("retrieve data length " + documentData.length);
       documentData.map((item: any) => {
         var dateString = moment(item.timestamp);
         tempMap.set(dateString, item.moodPercentile);
@@ -131,28 +141,10 @@ const HomeScreen = (props: { navigation: any }) => {
     } catch (error) {
       console.log(error);
     }
-
     return documentData;
   }
   function renderLogComp() {
-    let hasLogged = false;
-
-    if (timestamp === "") {
-    } else {
-      let lastLog = new Date(timestamp);
-      let today = new Date(Date.now());
-      let date = today.getDate();
-      let month = today.getMonth();
-      let year = today.getFullYear();
-
-      if (lastLog.getDate() == date) {
-        if (lastLog.getMonth() == month) {
-          if (lastLog.getFullYear() == year) {
-            hasLogged = true;
-          }
-        }
-      }
-    }
+    console.log("Retrieving most recent log:");
     if (hasLogged) {
       return (
         <TodayEntry
@@ -160,12 +152,11 @@ const HomeScreen = (props: { navigation: any }) => {
           text={text}
           timestamp={timestamp}
           moodWords={moodWords}
-          homeCallback={callbackCreateLog}
+          homeCallback={callbackTodayEntry}
         />
       );
     } else {
       return (
-        //added this homeCallback prop to the CreateLog component
         <CreateLog
           sliderValue={50}
           noteText=""

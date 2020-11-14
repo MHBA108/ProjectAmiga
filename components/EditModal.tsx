@@ -52,6 +52,7 @@ export default class EditModal extends Component<
 
   //TODO: refresh LogList on delete
   async onDelete() {
+    console.log("onDelete in EditModal");
     const docID = moment(this.props.timestamp).format("MM-DD-YYYY");
     const res = await firestore()
       .collection("users")
@@ -78,6 +79,8 @@ export default class EditModal extends Component<
 
   //TODO: refresh LogItem on edit
   async saveLog() {
+    console.log("saveLog in EditModal");
+
     const user = firebase.auth().currentUser;
     const docID = moment(this.props.timestamp).format("MM-DD-YYYY");
     const log: Log = {
@@ -94,6 +97,7 @@ export default class EditModal extends Component<
         .doc(docID)
         .set(log);
     }
+    console.log("the log that was saved in EditModal", log);
     this.props.logItemCallback();
   }
 

@@ -14,7 +14,6 @@ export default class NotificationModal extends Component<
   }
 > {
   constructor(props: { modalVisible: boolean; onModalHide: () => void }) {
-    console.log("setting states");
     super(props);
     this.state = {
       modalVisible: this.props.modalVisible,

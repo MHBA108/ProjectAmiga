@@ -40,12 +40,12 @@ export default class CreateLog extends React.Component<
     this.setState({ value: text });
   };
   onChangeMoodPercentile = (sliderValue: number) => {
-    this.setState({ sliderValue });
+    this.setState({ sliderValue: sliderValue });
   };
   callbackLogModal = (sliderValue: number, text: string) => {
     this.onChangeText(text);
     this.onChangeMoodPercentile(sliderValue);
-    this.onSave();
+    this.props.homeCallback();
   };
 
   async onSave() {
@@ -80,7 +80,6 @@ export default class CreateLog extends React.Component<
     );
     console.log("retrieve data length in create log ");
     console.log("The log that being saved: ", log);
-    //homeCallback is called when the save button is pressed
     this.props.homeCallback();
   }
 
@@ -119,7 +118,10 @@ export default class CreateLog extends React.Component<
       <View style={styles.container}>
         <Text style={styles.questionStyle}>How are you feeling today?</Text>
         <View style={styles.sliderContainer}>
-          <MoodSlider parentSync={this.sliderHandler} />
+          <MoodSlider
+            sliderValue={this.state.sliderValue}
+            parentSync={this.sliderHandler}
+          />
         </View>
         <TextInput
           placeholder="Tap here to write your entry..."

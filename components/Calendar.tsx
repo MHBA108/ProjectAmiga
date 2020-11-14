@@ -3,7 +3,6 @@ import { View, StyleSheet, Platform } from "react-native";
 import CalendarStrip from "react-native-calendar-strip";
 import { COLORS } from "../assets/COLORS";
 import moment from "moment";
-import firebase, { firestore } from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 const valueToColor = require("../assets/ValueToColor");
 
@@ -34,7 +33,6 @@ export default function Calendar(props: { customDatesStyles: any }) {
         style={{ height: 100, paddingTop: 20, paddingBottom: 10 }}
         iconStyle={{ height: 0, width: 0 }}
         iconContainer={{ flex: 0.05 }}
-        //shouldAllowFontScaling={false}
       />
     </View>
   );

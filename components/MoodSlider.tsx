@@ -1,5 +1,5 @@
-import React, { Component, ComponentClass } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { Component } from "react";
+import { Text, View } from "react-native";
 import Slider from "react-native-slider";
 import { LinearGradient } from "expo-linear-gradient";
 import EStyleSheet from "react-native-extended-stylesheet";

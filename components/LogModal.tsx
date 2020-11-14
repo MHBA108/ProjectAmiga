@@ -108,6 +108,7 @@ export default class LogModal extends Component<
       document.data()
     );
     console.log("retrieve data length in create log ");
+    this.props.parentCallback(this.state.moodPercentile, this.state.text);
   }
 
   renderText() {
@@ -205,10 +206,6 @@ export default class LogModal extends Component<
               <View style={styles.saveButton}>
                 <TouchableHighlight
                   onPress={() => {
-                    this.props.parentCallback(
-                      this.state.moodPercentile,
-                      this.state.text
-                    );
                     this.closeModal();
                   }}
                   underlayColor="none"

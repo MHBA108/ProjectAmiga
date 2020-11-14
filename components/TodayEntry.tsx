@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { View, Text, LayoutAnimation, Platform } from "react-native";
 import { Log } from "../types";
-
 import SeeMoreModal from "../components/SeeMoreModal";
 import MoodSlider from "../components/MoodSlider";
 import { COLORS } from "../assets/COLORS";
-
 import EStyleSheet from "react-native-extended-stylesheet";
 
 interface TodayEntryProps {
@@ -33,8 +31,8 @@ export default class TodayEntry extends Component<
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded });
   };
+
   callbackSeeMoreModal = () => {
-    console.log("calling callbackSeeMoreModal");
     this.props.homeCallback();
   };
 
