@@ -13,6 +13,7 @@ import moment from "moment";
 import firebase, { firestore } from "firebase";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useFocusEffect } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../constants/Colors";
 const valueToColor = require("../assets/ValueToColor");
 
@@ -191,6 +192,12 @@ export default function MoodChart() {
                 borderRadius: 16,
               }}
             />
+            <LinearGradient
+              start={[0, 1]}
+              end={[1, 0]}
+              colors={["#ff0000", "#ffff00", "#00ff00"]}
+              style={styles.linearGradient}
+            ></LinearGradient>
           </View>
         </View>
       )}
@@ -241,5 +248,14 @@ const styles = EStyleSheet.create({
     paddingVertical: 5,
     borderRadius: 10,
     backgroundColor: COLORS.darkBlue,
+  },
+  linearGradient: {
+    position: "absolute",
+    height: 190,
+    aspectRatio: 1 / 30,
+    top: 0,
+    left: "10rem",
+    borderRadius: 3,
+    overflow: "hidden",
   },
 });
