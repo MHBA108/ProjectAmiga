@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import avatar from "../assets/images/avatars/male.png";
+import avatar from "../assets/images/avatars/1.png";
 import FeedList from "../components/FeedList";
 import MyHeader from "../components/MyHeader";
 import OpenStreaks from "../components/OpenStreaks";
@@ -44,18 +44,9 @@ const FeedScreen = (props: { navigation: any }) => {
               source={avatar}
             />
             <View style={styles.feedButtons}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => Alert.alert("Leader board button pressed")}
-              >
-                <Text style={styles.buttonText}>Leaderboard</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => Alert.alert("Friends button pressed")}
-              >
-                <Text style={styles.buttonText}> Friends </Text>
-              </TouchableOpacity>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}> Friends: 4 </Text>
+              </View>
             </View>
           </View>
         </View>

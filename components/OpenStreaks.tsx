@@ -3,6 +3,7 @@ import { View, Platform } from "react-native";
 
 import { COLORS } from "../assets/COLORS";
 import StreaksModal from "./StreaksModal";
+import InitialInfoModal from "./InitialInfoModal";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 export default class OpenStreaks extends Component<

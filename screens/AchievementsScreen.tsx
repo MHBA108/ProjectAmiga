@@ -2,7 +2,7 @@ import * as React from "react";
 import { ScrollView, Image, StatusBar } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import avatar from "../assets/images/avatars/male.png";
+import avatar from "../assets/images/avatars/1.png";
 import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";

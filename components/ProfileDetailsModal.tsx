@@ -7,23 +7,30 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Alert,
+  TextInput,
 } from "react-native";
 import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Feather, AntDesign } from "@expo/vector-icons";
+import { Feather, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../assets/COLORS";
-import avatarPlaceHolder from "../assets/images/avatars/male.png";
+import avatarPlaceHolder from "../assets/images/avatars/1.png";
 import { useFocusEffect } from "@react-navigation/native";
 import firebase from "firebase";
+import DatePicker from "react-native-datepicker";
+import { useState } from "react";
 
 export default function ProfileDetailsModal() {
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [expanded, setExpanded] = React.useState(false);
-  const [height, setHeight] = React.useState(0);
-  const [selected, setSelected] = React.useState(false);
+
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
+  const [date, setDate] = useState("09-10-2010");
+  const [editable, setEditable] = useState(false);
+  const [editOrSave, setEditOrSave] = useState(
+    <AntDesign name="edit" size={36} color={COLORS.pink} />
+  );
+  const [background, setBackground] = useState(COLORS.yellowAccent);
 
   useFocusEffect(() => {
     let doc = getStreak();
@@ -44,7 +51,25 @@ export default function ProfileDetailsModal() {
 
   function closeModal() {
     setModalVisible(false);
+    setEditable(false);
+    setEditOrSave(<AntDesign name="edit" size={36} color={COLORS.pink} />);
+    setBackground(COLORS.yellowAccent);
   }
+
+  function renderEditSaveButton() {
+    if (!editable) {
+      setEditOrSave(
+        <MaterialIcons name="save" size={36} color={COLORS.pink} />
+      );
+      setEditable(true);
+      setBackground(COLORS.yellowAccent2);
+    } else {
+      setEditOrSave(<AntDesign name="edit" size={36} color={COLORS.pink} />);
+      setEditable(false);
+      setBackground(COLORS.yellowAccent);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Modal
@@ -81,65 +106,141 @@ export default function ProfileDetailsModal() {
               <View style={styles.spacing} />
               <View style={styles.spacing} />
               <View style={styles.spacing} />
-              <TouchableOpacity
-                style={styles.circle}
-                onPress={() => Alert.alert("Edit button pressed")}
+              <View
+                style={{
+                  position: "absolute",
+                  top: 6,
+                  height: 125,
+                  width: 125,
+                  borderRadius: 63,
+                  backgroundColor: background,
+                  borderColor: background,
+                  borderWidth: 14,
+                  alignSelf: "center",
+                }}
               >
                 <Image
                   style={styles.circle2}
                   resizeMode="contain"
                   source={avatarPlaceHolder}
                 />
-              </TouchableOpacity>
+              </View>
             </View>
 
             <View style={styles.spacing}></View>
             <View style={styles.detail}>
               <Text style={styles.detailTitle}> Name: </Text>
-              <TouchableOpacity
-                style={styles.editContainer}
-                onPress={() => Alert.alert("Edit button pressed")}
-              >
-                <AntDesign name="edit" size={24} color={COLORS.pink} />
-              </TouchableOpacity>
+
               <View style={styles.spacing}></View>
-              <View style={styles.lighterDetail}>
-                <Text style={styles.detailDescription}>
-                  {" "}
-                  {user?.displayName}{" "}
-                </Text>
+              <View
+                style={{
+                  width: "92%",
+                  aspectRatio: 7 / 2,
+                  backgroundColor: background,
+                  borderRadius: 10,
+                  flexDirection: "column",
+                  justifyContent: "space-around",
+                  alignSelf: "center",
+                  margin: 10,
+                }}
+              >
+                <TextInput
+                  style={styles.detailDescription}
+                  placeholder={user?.displayName}
+                  placeholderTextColor={COLORS.darkBlue}
+                  editable={editable}
+                ></TextInput>
               </View>
             </View>
 
             <View style={styles.spacing}></View>
             <View style={styles.detail}>
               <Text style={styles.detailTitle}> Email: </Text>
-              <TouchableOpacity
-                style={styles.editContainer}
-                onPress={() => Alert.alert("Edit button pressed")}
-              >
-                <AntDesign name="edit" size={24} color={COLORS.pink} />
-              </TouchableOpacity>
+
               <View style={styles.spacing}></View>
-              <View style={styles.lighterDetail}>
-                <Text style={styles.detailDescription}> {user?.email} </Text>
+              <View
+                style={{
+                  width: "92%",
+                  aspectRatio: 7 / 2,
+                  backgroundColor: background,
+                  borderRadius: 10,
+                  flexDirection: "column",
+                  justifyContent: "space-around",
+                  alignSelf: "center",
+                  margin: 10,
+                }}
+              >
+                <TextInput
+                  style={styles.detailDescription}
+                  placeholder={user?.email}
+                  editable={editable}
+                  placeholderTextColor={COLORS.darkBlue}
+                ></TextInput>
               </View>
             </View>
 
             <View style={styles.spacing}></View>
             <View style={styles.detail}>
               <Text style={styles.detailTitle}> Date of Birth: </Text>
-              <TouchableOpacity
-                style={styles.editContainer}
-                onPress={() => Alert.alert("Edit button pressed")}
-              >
-                <AntDesign name="edit" size={24} color={COLORS.pink} />
-              </TouchableOpacity>
+
               <View style={styles.spacing}></View>
-              <View style={styles.lighterDetail}>
-                <Text style={styles.detailDescription}> 12/23/1999 </Text>
+              <View
+                style={{
+                  width: "92%",
+                  aspectRatio: 7 / 2,
+                  backgroundColor: background,
+                  borderRadius: 10,
+                  flexDirection: "column",
+                  justifyContent: "space-around",
+                  alignSelf: "center",
+                  margin: 10,
+                }}
+              >
+                <View style={styles.date}>
+                  <DatePicker
+                    style={styles.datePickerStyle}
+                    date={date} // Initial date from state
+                    mode="date" // The enum of date, datetime and time
+                    placeholder="select date"
+                    format="MM-DD-YYYY"
+                    minDate="01-01-1950"
+                    maxDate="01-01-2020"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                      btnTextConfirm: {
+                        color: COLORS.pink,
+                      },
+                      dateIcon: {
+                        position: "absolute",
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0,
+                      },
+                      dateInput: {
+                        marginLeft: 36,
+                        borderWidth: 0,
+                      },
+                      dateText: {
+                        color: COLORS.darkBlue,
+                        fontFamily: "HindSiliguri_500Medium",
+                        fontSize: 18,
+                      },
+                    }}
+                    onDateChange={(date) => {
+                      setDate(date);
+                    }}
+                  />
+                </View>
               </View>
             </View>
+            <View style={styles.spacing}></View>
+            <TouchableOpacity
+              style={styles.editContainer}
+              onPress={() => renderEditSaveButton()}
+            >
+              {editOrSave}
+            </TouchableOpacity>
           </ScrollView>
         </View>
       </Modal>
@@ -155,6 +256,9 @@ export default function ProfileDetailsModal() {
 }
 
 const styles = EStyleSheet.create({
+  date: {
+    alignSelf: "center",
+  },
   circle: {
     position: "absolute",
     top: "6rem",
@@ -185,13 +289,9 @@ const styles = EStyleSheet.create({
     textAlign: "center",
   },
   editContainer: {
-    position: "absolute",
     alignSelf: "flex-end",
-    backgroundColor: "#FDE3C5",
+    backgroundColor: COLORS.yellowAccent,
     borderRadius: 10,
-    padding: "5rem",
-    right: "5rem",
-    top: "5rem",
   },
   detailTitle: {
     color: COLORS.darkBlue,
@@ -219,7 +319,7 @@ const styles = EStyleSheet.create({
     justifyContent: "space-around",
   },
   spacing: {
-    padding: "10rem",
+    padding: "5rem",
     backgroundColor: "transparent",
   },
   badgeText: {

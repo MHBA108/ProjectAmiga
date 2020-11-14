@@ -2,23 +2,63 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  Image,
   ScrollView,
+  Image,
   TouchableHighlight,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
+import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { Feather, AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../assets/COLORS";
-import StreakItem from "./StreakItem";
+import { useFocusEffect } from "@react-navigation/native";
+import firebase from "firebase";
 
-export default class StreaksList extends Component {
-  render() {
-    return (
-      //TODO make this retrieve the info from firestore to make streakItems
-      <ScrollView style={styles.innerContainer}>
-        <StreakItem />
-      </ScrollView>
-    );
-  }
+//TODO give props
+export default function StreakItem() {
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [streak, setStreak] = React.useState(0);
+  const [avatar, setAvatar] = React.useState("");
+
+  useFocusEffect(() => {
+    let doc = getStreak();
+    async function getStreak() {
+      const doc = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .get();
+      setStreak(doc.get("streak"));
+      setAvatar(doc.get("avatar"));
+    }
+  });
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.spacing}></View>
+      <View style={styles.achievement}>
+        <View style={styles.achievementTitleContainer}>
+          <Text style={styles.achievemetTitle}> {user?.displayName}</Text>
+          <View style={styles.spacing}></View>
+          <View style={styles.streakContainer}>
+            <Text style={styles.achievementDescription}>{streak}</Text>
+            <Image
+              source={require("../assets/images/streak.png")}
+              style={styles.badge}
+            />
+          </View>
+        </View>
+        <View style={styles.circle} />
+        <Image
+          style={styles.circle2}
+          resizeMode="contain"
+          source={require("../assets/images/avatars/70.png")}
+        />
+      </View>
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({
@@ -31,17 +71,6 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
-  },
-  profilePic: {
-    width: "100%",
-    height: "100%",
-  },
-  statusBar: {
-    backgroundColor: COLORS.pink,
-    width: "100%",
-    aspectRatio: 40 / 1,
-    position: "absolute",
-    top: "100rem",
   },
   achievementTitleContainer: {
     width: "63%",

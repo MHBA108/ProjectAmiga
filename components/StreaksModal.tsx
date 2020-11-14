@@ -6,6 +6,9 @@ import {
   Image,
   TouchableHighlight,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from "react-native";
 import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -58,33 +61,49 @@ export default function StreaksModal() {
         backdropTransitionOutTiming={300}
       >
         <View style={styles.modalContainer}>
-          <ScrollView style={styles.innerContainer}>
-            <View style={styles.achievementsHeader}>
-              <Text style={styles.Header}>Log Streaks</Text>
-              <View style={styles.backButton}>
+          <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <ScrollView style={styles.innerContainer}>
+              <View style={styles.achievementsHeader}>
+                <Text style={styles.Header}>Log Streaks</Text>
+                <View style={styles.backButton}>
+                  <TouchableHighlight
+                    onPress={() => closeModal()}
+                    underlayColor="none"
+                  >
+                    <Feather
+                      name="chevron-up"
+                      size={24}
+                      color={COLORS.darkBlue}
+                    />
+                  </TouchableHighlight>
+                </View>
+              </View>
+              <StreaksList />
+              <View style={styles.spacing} />
+              <View style={styles.addFriend}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="type friend's email here..."
+                  placeholderTextColor={COLORS.darkBlueAccent}
+                  returnKeyType="next"
+                  textContentType="emailAddress"
+                />
                 <TouchableHighlight
-                  onPress={() => closeModal()}
-                  underlayColor="none"
+                  onPress={() => Alert.alert("friend added")}
+                  underlayColor="transparent"
                 >
                   <Feather
-                    name="chevron-up"
-                    size={24}
-                    color={COLORS.darkBlue}
+                    name="plus-circle"
+                    size={30}
+                    color={COLORS.darkBlueAccent}
                   />
                 </TouchableHighlight>
               </View>
-            </View>
-            <StreaksList />
-            <View style={styles.spacing}></View>
-            <TextInput
-              style={styles.input}
-              placeholder="type friend's username here..."
-              placeholderTextColor={COLORS.darkBlueAccent2}
-              returnKeyType="next"
-              textContentType="username"
-            />
-            <View style={styles.spacing}></View>
-          </ScrollView>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </View>
       </Modal>
       <View>
@@ -103,16 +122,23 @@ export default function StreaksModal() {
 }
 
 const styles = EStyleSheet.create({
+  addFriend: {
+    flexDirection: "row",
+    backgroundColor: "transparent",
+    alignItems: "center",
+  },
   spacing: {
     padding: "8rem",
     backgroundColor: "transparent",
   },
   input: {
-    fontSize: "15rem",
+    fontSize: "20rem",
     backgroundColor: COLORS.pink,
     borderRadius: 10,
+    fontFamily: "HindSiliguri_500Medium",
     color: COLORS.darkBlue,
-    height: "75rem",
+    height: "50rem",
+    width: "310rem",
   },
   Header: {
     color: COLORS.darkBlue,

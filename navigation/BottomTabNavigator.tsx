@@ -16,7 +16,7 @@ import {
   ResourcesParamList,
   UserProfileParamList,
 } from "../types";
-import avatar from "../assets/images/avatars/male.png";
+import avatar from "../assets/images/avatars/1.png";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -71,11 +71,11 @@ export default function BottomTabNavigator() {
         component={UserProfileNavigator}
         options={{
           tabBarIcon: ({ color }) => (
-                <Image
-                    style={styles.avatarContainer}
-                    resizeMode="contain"
-                    source={avatar}
-                />
+            <Image
+              style={styles.avatarContainer}
+              resizeMode="contain"
+              source={avatar}
+            />
           ),
         }}
       />
@@ -140,11 +140,11 @@ function UserProfileNavigator() {
 const styles = EStyleSheet.create({
   tabBar: {
     backgroundColor: COLORS.lightBlue,
-    },
-    avatarContainer: {
-        height: "24rem",
-        width: "24rem",
-        alignSelf: "center",
-        top:"2rem",
-    },
+  },
+  avatarContainer: {
+    height: "24rem",
+    width: "24rem",
+    alignSelf: "center",
+    top: "2rem",
+  },
 });

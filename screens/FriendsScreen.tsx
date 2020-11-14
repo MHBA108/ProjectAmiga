@@ -1,18 +1,12 @@
 import * as React from "react";
-import {
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Alert,
-  StatusBar,
-} from "react-native";
+import { ScrollView, Image, StatusBar } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
 import FriendsList from "../components/FriendsList";
 import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
-import avatar from "../assets/images/avatars/male.png";
+import avatar from "../assets/images/avatars/1.png";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const FriendsScreen = (props: { navigation: any }) => {
@@ -38,18 +32,9 @@ const FriendsScreen = (props: { navigation: any }) => {
               source={avatar}
             />
             <View style={styles.feedButtons}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => Alert.alert("Leader board button pressed")}
-              >
-                <Text style={styles.buttonText}>Leaderboard</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => Alert.alert("Friends button pressed")}
-              >
+              <View style={styles.button}>
                 <Text style={styles.buttonText}> Friends: 3 </Text>
-              </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>

@@ -16,23 +16,15 @@ import { useFocusEffect } from "@react-navigation/native";
 import { User } from "realm";
 import { useState } from "react";
 import DatePicker from "react-native-datepicker";
+import AvatarCarousel from "./AvatarCarousel";
 
 export default function InitialInfoModal() {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
-  const [height, setHeight] = React.useState(0);
-  const [selected, setSelected] = React.useState(false);
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
-
-  const [date, setDate] = useState("09-10-2020");
-
-  const [background, setBackground] = useState("transparent");
-  const onPress = () =>
-    setBackground(
-      background == "transparent" ? COLORS.yellowAccent2 : "transparent"
-    );
+  const [date, setDate] = useState("09-10-2010");
 
   useFocusEffect(() => {
     let doc = getStreak();
@@ -74,54 +66,18 @@ export default function InitialInfoModal() {
             </View>
             <View style={styles.spacing}></View>
             <View style={styles.container}>
-              <ScrollView horizontal={true} indicatorStyle={"white"}>
-                <TouchableOpacity onPress={onPress}>
-                  <Image
-                    source={require("../assets/images/avatars/male.png")}
-                    style={{
-                      height: 150,
-                      width: 150,
-                      backgroundColor: background,
-                    }}
-                  />
-                </TouchableOpacity>
-
-                <Image
-                  source={require("../assets/images/avatars/female.png")}
-                  style={styles.avatar}
-                />
-                <Image
-                  source={require("../assets/images/avatars/boy.png")}
-                  style={styles.avatar}
-                />
-                <Image
-                  source={require("../assets/images/avatars/woman.png")}
-                  style={styles.avatar}
-                />
-                <Image
-                  source={require("../assets/images/avatars/man.png")}
-                  style={styles.avatar}
-                />
-                <Image
-                  source={require("../assets/images/avatars/woman2.png")}
-                  style={styles.avatar}
-                />
-              </ScrollView>
+              <AvatarCarousel />
             </View>
-            <View style={styles.spacing}></View>
             <View style={styles.spacing}></View>
             <View style={styles.avatarHeader}>
-              <Text style={styles.Header}>USERNAME</Text>
+              <Text style={styles.Header}>YOUR AVATAR PREVIEW:</Text>
             </View>
             <View style={styles.spacing}></View>
-            <TextInput
-              style={styles.input}
-              placeholder="username..."
-              placeholderTextColor={COLORS.darkBlueAccent2}
-              returnKeyType="next"
-              textContentType="username"
+            <Image
+              style={styles.circle2}
+              resizeMode="contain"
+              source={require("../assets/images/avatars/1.png")}
             />
-            <View style={styles.spacing}></View>
             <View style={styles.spacing}></View>
             <View style={styles.avatarHeader}>
               <Text style={styles.Header}>BIRTHDAY</Text>
@@ -156,7 +112,7 @@ export default function InitialInfoModal() {
                   dateText: {
                     color: COLORS.darkBlue,
                     fontFamily: "HindSiliguri_500Medium",
-                    fontSize: "20rem",
+                    fontSize: 18,
                   },
                 }}
                 onDateChange={(date) => {
@@ -164,15 +120,17 @@ export default function InitialInfoModal() {
                 }}
               />
             </View>
+            <View style={styles.spacing}></View>
+            <View style={styles.spacing}></View>
+            <View style={styles.saveButton}>
+              <TouchableHighlight
+                onPress={() => closeModal()}
+                underlayColor="none"
+              >
+                <Text style={styles.saveText}> Save </Text>
+              </TouchableHighlight>
+            </View>
           </ScrollView>
-          <View style={styles.saveButton}>
-            <TouchableHighlight
-              onPress={() => closeModal()}
-              underlayColor="none"
-            >
-              <Text style={styles.saveText}> Save </Text>
-            </TouchableHighlight>
-          </View>
         </View>
       </Modal>
       <View>
@@ -191,6 +149,17 @@ export default function InitialInfoModal() {
 }
 
 const styles = EStyleSheet.create({
+  circle2: {
+    left: "-10rem",
+    top: "-3rem",
+    height: "150rem",
+    width: "150rem",
+    borderRadius: "75rem",
+    backgroundColor: COLORS.lightBlue,
+    borderColor: "transparent",
+    borderWidth: "14rem",
+    alignSelf: "center",
+  },
   avatar: {
     height: "150rem",
     width: "150rem",

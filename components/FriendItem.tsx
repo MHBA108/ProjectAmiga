@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View, ScrollView, Alert, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
-import avatar from "../assets/images/avatars/female.png";
+import avatar from "../assets/images/avatars/1.png";
 
 //TODO: add props
 export default class FriendItem extends Component {

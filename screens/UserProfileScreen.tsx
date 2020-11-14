@@ -2,7 +2,7 @@ import * as React from "react";
 import { ScrollView, Image, StatusBar, TouchableOpacity } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import avatarPlaceHolder from "../assets/images/avatars/male.png";
+import avatarPlaceHolder from "../assets/images/avatars/1.png";
 import LogList from "../components/LogList";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
@@ -216,7 +216,7 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   badgeText: {
-    color: "#464D77",
+    color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "11rem",
   },
