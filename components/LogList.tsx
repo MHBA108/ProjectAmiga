@@ -9,110 +9,27 @@ import { useFocusEffect } from "@react-navigation/native";
 
 let lastDoc = 0;
 
-export default function LogList() {
-  const [documentData, setDocumentData] = useState<firestore.DocumentData[]>(
-    []
-  );
+export default function LogList(props: {
+  userProfileCallback: Function;
+  documentData: firestore.DocumentData[];
+}) {
   const [limit, setLimit] = useState(11);
   const [lastVisible, setLastVisible] = useState(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(firebase.auth().currentUser);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      let refresh = true;
-      async function getData() {
-        try {
-          // Cloud Firestore: Initial Query
-          if (refresh) {
-            await retrieveData();
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      lastDoc = -1;
-      getData();
-      return () => (refresh = false);
-    }, [])
-  );
+  useFocusEffect(React.useCallback(() => {}, [props.documentData]));
+  React.useEffect(() => {}, [props.documentData]);
 
-  // Retrieve Data
-  async function retrieveData() {
-    try {
-      // Set State: Loading
-      console.log("Retrieving Data in Log List");
-      setLoading(true);
-      // Cloud Firestore: Query
-      let initialQuery = await firestore()
-        .collection("users")
-        .doc(user?.uid)
-        .collection("userLogs")
-        .orderBy("timestamp", "desc")
-        .limit(limit);
-      // Cloud Firestore: Query Snapshot
-      let documentSnapshots = await initialQuery.get();
-      // Cloud Firestore: Document Data
-      let documentData = documentSnapshots.docs.map((document) =>
-        document.data()
-      );
-      console.log("retrieve data length " + documentData.length);
-      lastDoc = documentData.length;
-      if (lastDoc != 0) {
-        // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
-        let lastDocVisible = documentData[documentData.length - 1].id;
-        // Set State
-        setDocumentData(documentData);
-        setLastVisible(lastDocVisible);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const callbackUserProfile = () => {
+    props.userProfileCallback();
+  };
 
-  // Retrieve More
-  async function retrieveMore() {
-    if (!(lastDoc < 9)) {
-      try {
-        // Set State: Refreshing
-        console.log("Retrieving additional Data in Log List");
-        // Cloud Firestore: Query (Additional Query)
-        let additionalQuery: any = await firestore()
-          .collection("users")
-          .doc(user?.uid)
-          .collection("userLogs")
-          .orderBy("timestamp", "desc")
-          .startAfter(lastVisible)
-          .limit(limit);
-        // Cloud Firestore: Query Snapshot
-        let documentSnapshots = await additionalQuery.get();
-        // Cloud Firestore: Document Data
-        let docData = documentSnapshots.docs.map(
-          (document: firestore.DocumentData) => document.data()
-        );
-        console.log("retrievemore data length " + docData.length);
-        lastDoc = docData.length;
-        // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
-        let lastDocVisible = docData[docData.length - 1].id;
-        // Set State
-        setDocumentData([...documentData, ...docData]);
-        // setLastVisible: lastDocVisible;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
-
-  return lastDoc == 0 ? (
-    <View style={styles.log}>
-      <Text style={styles.text}>It's quiet... too quiet.</Text>
-    </View>
-  ) : (
+  return (
     <View>
       <View style={styles.spacing}></View>
       <FlatList
-        data={documentData}
+        data={props.documentData}
         renderItem={({ item }: { item: firestore.DocumentData }) => (
           console.log("render log: " + item.timestamp),
           (
@@ -122,12 +39,13 @@ export default function LogList() {
                 moodWords={item.moodWords}
                 text={item.text}
                 timestamp={item.timestamp}
+                logListCallback={callbackUserProfile}
               />
               <View style={styles.spacing} />
             </View>
           )
         )}
-        onEndReached={retrieveMore}
+        //onEndReached={retrieveMore}
         onEndReachedThreshold={0.5}
         // This requires more research
         // refreshing={refreshing}

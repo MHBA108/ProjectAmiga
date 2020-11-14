@@ -14,12 +14,60 @@ import { COLORS } from "../assets/COLORS";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../navigation/context";
 import { Feather } from "@expo/vector-icons";
+import { firestore } from "firebase";
 
 const UserProfileScreen = (props: { navigation: any }) => {
+  //let lastDoc = -1;
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
   const authContext = React.useContext(AuthContext);
+
+  const [documentData, setDocumentData] = React.useState<
+    firestore.DocumentData[]
+  >([]);
+  const [limit, setLimit] = React.useState(11);
+  const [lastVisible, setLastVisible] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+
+  const callbackLogList = () => {
+    retrieveData();
+  };
+
+  async function retrieveData() {
+    try {
+      // Set State: Loading
+      console.log("Retrieving Data in Log List");
+      setLoading(true);
+      // Cloud Firestore: Query
+      let initialQuery = await firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("userLogs")
+        .orderBy("timestamp", "desc")
+        .limit(limit);
+      // Cloud Firestore: Query Snapshot
+      let documentSnapshots = await initialQuery.get();
+      // Cloud Firestore: Document Data
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      setDocumentData(documentData);
+      console.log("retrieve data length in UPS: " + documentData.length);
+      // lastDoc = documentData.length;
+      // if (lastDoc != 0) {
+      //   // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
+      //   let lastDocVisible = documentData[documentData.length - 1].id;
+      //   // Set State
+      //   setDocumentData(documentData);
+      //   setLastVisible(lastDocVisible);
+      // }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+    return documentData;
+  }
 
   useFocusEffect(
     React.useCallback(() => {
@@ -36,6 +84,17 @@ const UserProfileScreen = (props: { navigation: any }) => {
         setStreak(doc.get("streak"));
         setAvatar(doc.get("avatar"));
       }
+      async function getData() {
+        try {
+          if (refresh) {
+            await retrieveData();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getData();
+
       if (refresh) {
         let doc = getStreak();
       }
@@ -79,7 +138,10 @@ const UserProfileScreen = (props: { navigation: any }) => {
         </View>
         <View style={styles.spacing}></View>
         <View style={styles.containerLog}>
-          <LogList />
+          <LogList
+            userProfileCallback={callbackLogList}
+            documentData={documentData}
+          />
         </View>
         <View style={styles.spacing}></View>
         <TouchableOpacity

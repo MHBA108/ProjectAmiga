@@ -9,7 +9,26 @@ import moment from "moment";
 
 const arrayToBubbles = require("../assets/ArrayToBubbles");
 
-export default class LogItem extends Component<Log, Log> {
+interface LogItemProps {
+  logListCallback: Function;
+}
+
+export default class LogItem extends Component<Log & LogItemProps, {}> {
+  constructor(props: Log & LogItemProps) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      expanded: false,
+      height: 0,
+      selected: false,
+    };
+  }
+
+  callbackEditModal = () => {
+    console.log("calling callbackSeeMoreModal");
+    this.props.logListCallback();
+  };
+
   render() {
     return (
       <View style={styles.log}>
@@ -32,6 +51,7 @@ export default class LogItem extends Component<Log, Log> {
           text={this.props.text}
           timestamp={this.props.timestamp}
           moodWords={this.props.moodWords}
+          logItemCallback={this.callbackEditModal}
         />
       </View>
     );

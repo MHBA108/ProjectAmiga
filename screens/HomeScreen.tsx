@@ -32,7 +32,6 @@ const HomeScreen = (props: { navigation: any }) => {
   };
 
   const [user, setUser] = React.useState(firebase.auth().currentUser);
-
   const [moodPercentile, setMoodPercentile] = React.useState(50);
   const [text, setText] = React.useState("");
   const [timestamp, setTimestamp] = React.useState("");

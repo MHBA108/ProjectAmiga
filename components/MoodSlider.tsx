@@ -38,7 +38,7 @@ export default class MoodSlider extends Component<
           <Slider
             style={styles.slider}
             thumbStyle={styles.thumb}
-            value={this.state.sliderValue}
+            value={this.props.sliderValue}
             disabled={this.props.disabled || false}
             minimumValue={0}
             maximumValue={100}

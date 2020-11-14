@@ -21,13 +21,12 @@ import SelectableChips from "react-native-chip/SelectableChips";
 
 const arrayToBubbles = require("../assets/ArrayToBubbles");
 
+interface EditModalProps {
+  logItemCallback: Function;
+}
+
 export default class EditModal extends Component<
-  {
-    moodPercentile: number;
-    text: string;
-    timestamp: string;
-    moodWords: string[];
-  },
+  Log & EditModalProps,
   {
     modalVisible: boolean;
     moodPercentile: number;
@@ -36,7 +35,7 @@ export default class EditModal extends Component<
     editable: boolean;
   }
 > {
-  constructor(props: Log) {
+  constructor(props: Log & EditModalProps) {
     super(props);
     this.state = {
       modalVisible: false,
@@ -61,6 +60,7 @@ export default class EditModal extends Component<
       .doc(docID)
       .delete();
     this.closeModal();
+    this.props.logItemCallback();
   }
 
   openModal() {
@@ -94,6 +94,7 @@ export default class EditModal extends Component<
         .doc(docID)
         .set(log);
     }
+    this.props.logItemCallback();
   }
 
   renderDate() {
