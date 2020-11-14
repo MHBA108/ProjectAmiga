@@ -18,7 +18,7 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import EStyleSheet from "react-native-extended-stylesheet";
 import SelectableChips from "react-native-chip/SelectableChips";
 
-var arrayToBubbles = require("../assets/ArrayToBubbles");
+const arrayToBubbles = require("../assets/ArrayToBubbles");
 interface SeeMoreModalProps {
   todayEntryCallback: Function;
 }
@@ -61,12 +61,16 @@ export default class SeeMoreModal extends Component<
   }
 
   openModal() {
-    this.setState({ modalVisible: true });
-    this.setState({ text: this.props.text });
+    this.setState({
+      modalVisible: true,
+      text: this.props.text,
+      moodPercentile: this.props.moodPercentile,
+      moodWords: this.props.moodWords,
+    });
   }
 
   closeModal() {
-    this.setState({ modalVisible: false });
+    this.setState({ modalVisible: false, editable: false });
   }
 
   async saveLog() {
@@ -179,38 +183,40 @@ export default class SeeMoreModal extends Component<
     this.setState({ moodWords: moodWords });
   };
 
-  //TODO: allow mood words to be edited
+  //TODO: allow mood words to be pre-populated
   renderMood() {
     if (this.state.editable) {
-      <View style={this.moodContainer()}>
-        <SelectableChips
-          initialChips={[
-            "excited",
-            "positive",
-            "energetic",
-            "happy",
-            "stressed",
-            "cheerful",
-            "content",
-            "okay",
-            "calm",
-            "rested",
-            "bored",
-            "lonely",
-            "sad",
-            "grumpy",
-            "negative",
-            "mad",
-          ]}
-          onChangeChips={(chips: SelectableChips) =>
-            this.onChangeMoodWords(chips)
-          }
-          chipStyleSelected={styles.chipSelectedStyle}
-          chipStyle={styles.chipStyle}
-          valueStyle={styles.valueStyle}
-          valueStyleSelected={styles.valueStyle}
-        />
-      </View>;
+      return (
+        <View style={this.moodContainer()}>
+          <SelectableChips
+            initialChips={[
+              "excited",
+              "positive",
+              "energetic",
+              "happy",
+              "stressed",
+              "cheerful",
+              "content",
+              "okay",
+              "calm",
+              "rested",
+              "bored",
+              "lonely",
+              "sad",
+              "grumpy",
+              "negative",
+              "mad",
+            ]}
+            onChangeChips={(chips: SelectableChips) =>
+              this.onChangeMoodWords(chips)
+            }
+            chipStyleSelected={styles.chipSelectedStyle}
+            chipStyle={styles.chipStyle}
+            valueStyle={styles.valueStyle}
+            valueStyleSelected={styles.valueStyle}
+          />
+        </View>
+      );
     } else {
       return (
         <View style={this.moodContainer()}>

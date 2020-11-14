@@ -17,7 +17,9 @@ import firebase, { firestore } from "firebase";
 import { AntDesign, MaterialIcons, Entypo } from "@expo/vector-icons";
 import EStyleSheet from "react-native-extended-stylesheet";
 
-var arrayToBubbles = require("../assets/ArrayToBubbles");
+import SelectableChips from "react-native-chip/SelectableChips";
+
+const arrayToBubbles = require("../assets/ArrayToBubbles");
 
 export default class EditModal extends Component<
   {
@@ -62,12 +64,16 @@ export default class EditModal extends Component<
   }
 
   openModal() {
-    this.setState({ modalVisible: true });
-    this.setState({ text: this.props.text });
+    this.setState({
+      modalVisible: true,
+      text: this.props.text,
+      moodPercentile: this.props.moodPercentile,
+      moodWords: this.props.moodWords,
+    });
   }
 
   closeModal() {
-    this.setState({ modalVisible: false });
+    this.setState({ modalVisible: false, editable: false });
   }
 
   //TODO: refresh LogItem on edit
@@ -155,6 +161,53 @@ export default class EditModal extends Component<
     }
   }
 
+  onChangeMoodWords = (moodWords: string[]) => {
+    this.setState({ moodWords: moodWords });
+  };
+
+  //TODO: allow mood words to be pre-populated
+  renderMood() {
+    if (this.state.editable) {
+      return (
+        <View style={this.moodContainer()}>
+          <SelectableChips
+            initialChips={[
+              "excited",
+              "positive",
+              "energetic",
+              "happy",
+              "stressed",
+              "cheerful",
+              "content",
+              "okay",
+              "calm",
+              "rested",
+              "bored",
+              "lonely",
+              "sad",
+              "grumpy",
+              "negative",
+              "mad",
+            ]}
+            onChangeChips={(chips: SelectableChips) =>
+              this.onChangeMoodWords(chips)
+            }
+            chipStyleSelected={styles.chipSelectedStyle}
+            chipStyle={styles.chipStyle}
+            valueStyle={styles.valueStyle}
+            valueStyleSelected={styles.valueStyle}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View style={this.moodContainer()}>
+          {arrayToBubbles(this.state.moodWords, this.state.moodPercentile)}
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -194,12 +247,7 @@ export default class EditModal extends Component<
               </View>
               <View style={styles.spacer} />
               <Text style={styles.questionStyle}>Mood Descriptions:</Text>
-              <View style={this.moodContainer()}>
-                {arrayToBubbles(
-                  this.props.moodWords,
-                  this.props.moodPercentile
-                )}
-              </View>
+              <View style={this.moodContainer()}>{this.renderMood()}</View>
             </ScrollView>
             <View style={styles.buttons}>
               <TouchableHighlight
@@ -388,5 +436,16 @@ const styles = EStyleSheet.create({
     backgroundColor: "#555E90",
     borderRadius: 10,
     padding: "5rem",
+  },
+  chipSelectedStyle: {
+    backgroundColor: COLORS.pink,
+    borderColor: COLORS.pink,
+  },
+  valueStyle: {
+    color: COLORS.darkBlue,
+  },
+  chipStyle: {
+    backgroundColor: COLORS.lightBlue,
+    borderColor: COLORS.lightBlue,
   },
 });
