@@ -18,7 +18,10 @@ import { useState } from "react";
 import DatePicker from "react-native-datepicker";
 import AvatarCarousel from "./AvatarCarousel";
 
-export default function InitialInfoModal() {
+export default function InitialInfoModal(props: {
+  visible: boolean;
+  setVisible: Function;
+}) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -26,31 +29,19 @@ export default function InitialInfoModal() {
   const [avatar, setAvatar] = React.useState("");
   const [date, setDate] = useState("09-10-2010");
 
-  useFocusEffect(() => {
-    let doc = getStreak();
-    async function getStreak() {
-      const doc = await firebase
-        .firestore()
-        .collection("users")
-        .doc(user?.uid)
-        .get();
-      setStreak(doc.get("streak"));
-      setAvatar(doc.get("avatar"));
-    }
-  });
-
   function openModal() {
-    setModalVisible(true);
+    props.setVisible(true);
   }
 
   function closeModal() {
-    setModalVisible(false);
+    props.setVisible(false);
   }
+
   return (
     <View style={styles.container}>
       <Modal
         hasBackdrop={true}
-        isVisible={modalVisible}
+        isVisible={props.visible}
         backdropColor={COLORS.darkBlue}
         backdropOpacity={0.5}
         animationInTiming={300}

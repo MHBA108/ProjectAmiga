@@ -20,6 +20,8 @@ import TodayEntry from "../components/TodayEntry";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useFocusEffect } from "@react-navigation/native";
 import moment from "moment";
+import InitialInfoModal from "../components/InitialInfoModal";
+import { AuthContext } from "../navigation/context";
 
 const valueToColor = require("../assets/ValueToColor");
 
@@ -33,12 +35,19 @@ const HomeScreen = (props: { navigation: any }) => {
     getLog();
   };
   const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [initAvatar, setInitAvatar] = React.useState(false);
   const [moodPercentile, setMoodPercentile] = React.useState(50);
   const [text, setText] = React.useState("");
   const [timestamp, setTimestamp] = React.useState("");
   const [moodWords, setMoodWords] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [customDatesStyles, setCustomDatesStyles] = React.useState(new Array());
+  const authContext = React.useContext(AuthContext);
+
+  // TODO: Figure out why this crashes the app.
+  // if (authContext.avatar == "") {
+  //   setInitAvatar(true);
+  // }
 
   let hasLogged = false;
   if (timestamp === "") {
@@ -202,6 +211,12 @@ const HomeScreen = (props: { navigation: any }) => {
             {renderLogComp()}
             <Calendar customDatesStyles={customDatesStyles} />
             <TodoList />
+            {/* TODO: Fix bug where setting InitialInfoModal via avatar 
+            in authContext crashes the app.  */}
+            {/* <InitialInfoModal
+              visible={initAvatar}
+              setVisible={setInitAvatar}
+            /> */}
           </ScrollView>
         </SafeAreaView>
       </TouchableWithoutFeedback>

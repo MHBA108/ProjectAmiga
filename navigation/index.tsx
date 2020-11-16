@@ -39,6 +39,7 @@ export default function Navigation({
         firebase.auth().signOut();
         setIsSignedIn(false);
       },
+      avatar: "",
     };
   }, []);
 

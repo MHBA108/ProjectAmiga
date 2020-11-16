@@ -26,9 +26,30 @@ export default function LoginScreen(props: { navigation: any }) {
   const authContext = React.useContext(AuthContext);
   const navigation = useNavigation();
 
-  function onLoginSuccess() {
+  async function onLoginSuccess() {
     console.log("login success");
+    const user = firebase.auth().currentUser;
+    if (user) {
+      let document = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user.uid)
+        .get();
+      if (!(document && document.exists)) {
+        const data = {
+          avatar: "",
+          streak: 0,
+        };
+        firebase.firestore().collection("users").doc(user.uid).set(data);
+      } else {
+        authContext.avatar = document.get("avatar");
+        console.log('authContext.avatar: "' + authContext.avatar + '"');
+      }
+    }
     authContext.signIn();
+    // TODO: make log in go to home page. If you log out from the new
+    // settings page and then log back in, you go to the settings page
+    // and not the home page.
   }
 
   function onLoginFailure(errorMessage: string) {
