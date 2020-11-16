@@ -116,6 +116,7 @@ const HomeScreen = (props: { navigation: any }) => {
       console.log(error);
     }
   }
+
   async function retrieveData() {
     let documentData: firestore.DocumentData[] = [];
     try {
