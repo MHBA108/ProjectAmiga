@@ -60,6 +60,22 @@ export default class EditModal extends Component<
       .collection("userLogs")
       .doc(docID)
       .delete();
+    const today = new Date(Date.now());
+    let date = today.getDate();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let deletedLogTimestamp = new Date(this.props.timestamp);
+    console.log(deletedLogTimestamp);
+    if ( deletedLogTimestamp.getFullYear() == year ) {
+      if ( deletedLogTimestamp.getMonth() == month ) {
+        if ( deletedLogTimestamp.getDate() == date ) {
+          const userRef = firestore().collection("users").doc(firebase.auth().currentUser?.uid);
+          const stre = await userRef.update({
+            streak: firestore.FieldValue.increment(-1),
+          });
+        }
+      }
+    }
     this.closeModal();
     this.props.logItemCallback();
   }
