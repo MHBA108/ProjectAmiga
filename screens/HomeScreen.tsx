@@ -107,6 +107,23 @@ const HomeScreen = (props: { navigation: any }) => {
       let snapshot = await initialQuery.get();
       let documentData = snapshot.docs.map((document) => document.data());
       const log = documentData[0];
+      let today = new Date(Date.now());
+      let date = today.getDate() - 1;
+      let lastTimestamp = new Date(log.timestamp);
+      let month = today.getMonth();
+      let year = today.getFullYear();
+      if (lastTimestamp.getFullYear() == year) {
+        if (lastTimestamp.getMonth() == month) {
+          if (lastTimestamp.getDate() != date && lastTimestamp.getDate() != date + 1) {
+          const streakQuery = await firestore()
+            .collection("users")
+            .doc(user?.uid);
+            const res = await streakQuery.update({
+              streak: 0,
+            });
+          }
+        }
+      }
       setMoodPercentile(log.moodPercentile);
       setTimestamp(log.timestamp);
       setText(log.text);
