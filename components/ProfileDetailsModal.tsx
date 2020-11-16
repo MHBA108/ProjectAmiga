@@ -15,9 +15,10 @@ import { Feather, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../assets/COLORS";
 import avatarPlaceHolder from "../assets/images/avatars/1.png";
 import { useFocusEffect } from "@react-navigation/native";
-import firebase from "firebase";
+import firebase, { firestore } from "firebase";
 import DatePicker from "react-native-datepicker";
 import { useState } from "react";
+import AvatarCarousel from "./AvatarCarousel";
 
 export default function ProfileDetailsModal() {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -25,12 +26,18 @@ export default function ProfileDetailsModal() {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
-  const [date, setDate] = useState("09-10-2010");
+  const [date, setDate] = useState("");
   const [editable, setEditable] = useState(false);
   const [editOrSave, setEditOrSave] = useState(
     <AntDesign name="edit" size={36} color={COLORS.pink} />
   );
   const [background, setBackground] = useState(COLORS.yellowAccent);
+  const [name, setName] = useState("");
+  const [height, setHeight] = useState(140);
+  const [topHeight, setTopHeight] = useState(6);
+  const [carHeight, setCarHeight] = useState(0);
+  const [previewHeight, setPreviewHeight] = useState(0);
+  const [saveHeight, setSaveHeight] = useState(0);
 
   useFocusEffect(() => {
     let doc = getStreak();
@@ -54,6 +61,11 @@ export default function ProfileDetailsModal() {
     setEditable(false);
     setEditOrSave(<AntDesign name="edit" size={36} color={COLORS.pink} />);
     setBackground(COLORS.yellowAccent);
+    setHeight(140);
+    setTopHeight(6);
+    setCarHeight(0);
+    setPreviewHeight(0);
+    setSaveHeight(0);
   }
 
   function renderEditSaveButton() {
@@ -63,10 +75,28 @@ export default function ProfileDetailsModal() {
       );
       setEditable(true);
       setBackground(COLORS.yellowAccent2);
+      setHeight(140);
+      setCarHeight(3 / 2);
+      setPreviewHeight(5 / 2);
+      setSaveHeight(250);
     } else {
       setEditOrSave(<AntDesign name="edit" size={36} color={COLORS.pink} />);
       setEditable(false);
       setBackground(COLORS.yellowAccent);
+      saveDetails();
+      setHeight(140);
+      setCarHeight(0);
+      setPreviewHeight(0);
+      setSaveHeight(0);
+    }
+  }
+
+  function saveDetails() {
+    const user = firebase.auth().currentUser;
+    if (name != "") {
+      user?.updateProfile({
+        displayName: name,
+      });
     }
   }
 
@@ -101,33 +131,12 @@ export default function ProfileDetailsModal() {
             </View>
             <View style={styles.spacing} />
             <View style={styles.detail}>
-              <Text style={styles.detailTitle}> Avatar: </Text>
-              <View style={styles.spacing} />
-              <View style={styles.spacing} />
-              <View style={styles.spacing} />
-              <View style={styles.spacing} />
-              <View
-                style={{
-                  position: "absolute",
-                  top: 6,
-                  height: 125,
-                  width: 125,
-                  borderRadius: 63,
-                  backgroundColor: background,
-                  borderColor: background,
-                  borderWidth: 14,
-                  alignSelf: "center",
-                }}
-              >
-                <Image
-                  style={styles.circle2}
-                  resizeMode="contain"
-                  source={avatarPlaceHolder}
-                />
+              <Text style={styles.detailTitle}> Email: </Text>
+              <View style={styles.lighterDetail}>
+                <Text style={styles.detailDescription}> {user?.email} </Text>
               </View>
             </View>
-
-            <View style={styles.spacing}></View>
+            <View style={styles.spacing} />
             <View style={styles.detail}>
               <Text style={styles.detailTitle}> Name: </Text>
 
@@ -149,98 +158,99 @@ export default function ProfileDetailsModal() {
                   placeholder={user?.displayName}
                   placeholderTextColor={COLORS.darkBlue}
                   editable={editable}
+                  onChangeText={(name) => setName(name)}
+                  value={name}
                 ></TextInput>
               </View>
             </View>
-
-            <View style={styles.spacing}></View>
-            <View style={styles.detail}>
-              <Text style={styles.detailTitle}> Email: </Text>
-
-              <View style={styles.spacing}></View>
+            <View style={styles.spacing} />
+            <View
+              style={{
+                width: "100%",
+                height: height,
+                backgroundColor: COLORS.yellowAccent,
+                borderRadius: 10,
+                flexDirection: "column",
+                justifyContent: "space-around",
+              }}
+            >
+              <Text style={styles.detailTitle}> Avatar: </Text>
+              <View style={styles.spacing} />
+              <View style={styles.spacing} />
+              <View style={styles.spacing} />
+              <View style={styles.spacing} />
               <View
                 style={{
-                  width: "92%",
-                  aspectRatio: 7 / 2,
+                  position: "absolute",
+                  height: 125,
+                  width: 125,
+                  borderRadius: 63,
                   backgroundColor: background,
-                  borderRadius: 10,
-                  flexDirection: "column",
-                  justifyContent: "space-around",
+                  borderColor: background,
+                  borderWidth: 14,
                   alignSelf: "center",
-                  margin: 10,
                 }}
               >
-                <TextInput
-                  style={styles.detailDescription}
-                  placeholder={user?.email}
-                  editable={editable}
-                  placeholderTextColor={COLORS.darkBlue}
-                ></TextInput>
+                <Image
+                  style={styles.circle2}
+                  resizeMode="contain"
+                  source={avatarPlaceHolder}
+                />
               </View>
             </View>
-
             <View style={styles.spacing}></View>
-            <View style={styles.detail}>
-              <Text style={styles.detailTitle}> Date of Birth: </Text>
 
-              <View style={styles.spacing}></View>
+            <View style={{ height: saveHeight }}>
               <View
                 style={{
-                  width: "92%",
-                  aspectRatio: 7 / 2,
-                  backgroundColor: background,
+                  width: "100%",
+                  aspectRatio: carHeight,
+                  backgroundColor: COLORS.yellowAccent2,
                   borderRadius: 10,
                   flexDirection: "column",
                   justifyContent: "space-around",
-                  alignSelf: "center",
-                  margin: 10,
                 }}
               >
-                <View style={styles.date}>
-                  <DatePicker
-                    style={styles.datePickerStyle}
-                    date={date} // Initial date from state
-                    mode="date" // The enum of date, datetime and time
-                    placeholder="select date"
-                    format="MM-DD-YYYY"
-                    minDate="01-01-1950"
-                    maxDate="01-01-2020"
-                    confirmBtnText="Confirm"
-                    cancelBtnText="Cancel"
-                    customStyles={{
-                      btnTextConfirm: {
-                        color: COLORS.pink,
-                      },
-                      dateIcon: {
-                        position: "absolute",
-                        left: 0,
-                        top: 4,
-                        marginLeft: 0,
-                      },
-                      dateInput: {
-                        marginLeft: 36,
-                        borderWidth: 0,
-                      },
-                      dateText: {
-                        color: COLORS.darkBlue,
-                        fontFamily: "HindSiliguri_500Medium",
-                        fontSize: 18,
-                      },
-                    }}
-                    onDateChange={(date) => {
-                      setDate(date);
-                    }}
-                  />
+                <View style={styles.header}>
+                  <Text style={styles.Header}>CHOOSE YOUR AVATAR:</Text>
+                </View>
+                <View
+                  style={{
+                    width: "92%",
+                    height: "70%",
+                    backgroundColor: COLORS.yellowAccent2,
+                    borderRadius: 10,
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                    alignSelf: "center",
+                    margin: 10,
+                  }}
+                >
+                  <AvatarCarousel />
                 </View>
               </View>
+              <View style={styles.spacing}></View>
             </View>
             <View style={styles.spacing}></View>
+
             <TouchableOpacity
               style={styles.editContainer}
               onPress={() => renderEditSaveButton()}
             >
               {editOrSave}
             </TouchableOpacity>
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
+            <View style={styles.spacing} />
           </ScrollView>
         </View>
       </Modal>
@@ -256,6 +266,12 @@ export default function ProfileDetailsModal() {
 }
 
 const styles = EStyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: COLORS.yellowAccent,
+    borderRadius: 10,
+  },
   date: {
     alignSelf: "center",
   },
@@ -302,12 +318,12 @@ const styles = EStyleSheet.create({
   lighterDetail: {
     width: "92%",
     aspectRatio: 7 / 2,
-    backgroundColor: "#FDE3C5",
+    backgroundColor: COLORS.yellowAccent,
     borderRadius: 10,
     flexDirection: "column",
     justifyContent: "space-around",
     alignSelf: "center",
-    margin: "10rem",
+    margin: 10,
   },
   detail: {
     width: "100%",
@@ -330,7 +346,7 @@ const styles = EStyleSheet.create({
   Header: {
     color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
-    fontSize: "30rem",
+    fontSize: "28rem",
   },
   achievementsHeader: {
     flexDirection: "row",
