@@ -192,6 +192,7 @@ export default class EditModal extends Component<
       return (
         <View style={this.moodContainer()}>
           <SelectableChips
+            initialSelectedChips={this.props.moodWords}
             initialChips={[
               "excited",
               "positive",

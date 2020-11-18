@@ -197,6 +197,7 @@ export default class SeeMoreModal extends Component<
       return (
         <View style={this.moodContainer()}>
           <SelectableChips
+            initialSelectedChips={this.props.moodWords}
             initialChips={[
               "excited",
               "positive",
