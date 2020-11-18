@@ -164,16 +164,19 @@ export default class TodoList extends React.Component<IProps, IState> {
     }
     return (
       <View style={styles.card}>
-        <TextInput
-          style={styles.input}
-          placeholder="Add task..."
-          value={newTodoItem}
-          onChangeText={this.newTodoItemController}
-          placeholderTextColor={COLORS.beige}
-          returnKeyType={"done"}
-          autoCorrect={false}
-          onSubmitEditing={this.addTodo}
-        />
+        <View style={styles.header}>
+          <Text style={styles.title}>To Do:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Add task..."
+            value={newTodoItem}
+            onChangeText={this.newTodoItemController}
+            placeholderTextColor={COLORS.beige}
+            returnKeyType={"done"}
+            autoCorrect={false}
+            onSubmitEditing={this.addTodo}
+          />
+        </View>
         <ScrollView contentContainerStyle={styles.listContainer}>
           {Object.values(todos).map((item: any) => (
             <TodoItem
@@ -217,11 +220,25 @@ const styles = EStyleSheet.create({
       },
     }),
   },
+  header: {
+    flexDirection: "row",
+    backgroundColor: "transparent",
+    width: "100%",
+    aspectRatio: 5 / 1,
+    alignItems: "center",
+    paddingHorizontal: "10rem",
+  },
+  title: {
+    fontFamily: "HindSiliguri_700Bold",
+    color: COLORS.white,
+    fontSize: "24rem",
+    flex: 1,
+  },
   input: {
     fontFamily: "HindSiliguri_400Regular",
-    padding: 20,
-    fontSize: 24,
+    fontSize: "20rem",
     color: COLORS.beige,
+    flex: 3,
   },
   listContainer: {
     alignItems: "center",
