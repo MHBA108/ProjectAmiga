@@ -3,6 +3,7 @@ export const COLORS = {
   darkBlueAccent: "#4E5E85",
   darkBlueAccent2: "#6771A6",
   lightBlue: "#6699CC",
+  lightBlueAccent: "#79A6D2",
   pink: "#F9A2A2",
   pinkAccent: "#FBBBBB",
   darkPink: "#F67373",

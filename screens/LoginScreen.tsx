@@ -123,6 +123,7 @@ export default function LoginScreen(props: { navigation: any }) {
                     fontWeight: "200",
                     fontSize: 17,
                     textAlign: "center",
+                    fontFamily: "HindSiliguri_300Light",
                     color: COLORS.darkBlue,
                   }}
                   onPress={() => {
@@ -183,24 +184,26 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.yellow,
     width: "69%",
     borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
+    height: "50rem",
+    marginBottom: "20rem",
     justifyContent: "center",
-    padding: 20,
+    paddingHorizontal: "20rem",
   },
   inputText: {
-    height: 50,
     color: COLORS.darkBlue,
+    fontFamily: "HindSiliguri_400Regular",
   },
   loginBtn: {
     width: "69%",
     backgroundColor: COLORS.darkBlue,
     borderRadius: 25,
-    height: 50,
+    height: "50rem",
     alignItems: "center",
     justifyContent: "center",
   },
   loginText: {
     color: COLORS.white,
+    fontFamily: "HindSiliguri_700Bold",
+    fontSize: "20rem",
   },
 });
