@@ -231,27 +231,15 @@ export default function ProfileDetailsModal() {
               </View>
               <View style={styles.spacing}></View>
             </View>
-            <View style={styles.spacing}></View>
-
+          </ScrollView>
+          <View style={styles.buttonBar}>
             <TouchableOpacity
               style={styles.editContainer}
               onPress={() => renderEditSaveButton()}
             >
               {editOrSave}
             </TouchableOpacity>
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-            <View style={styles.spacing} />
-          </ScrollView>
+          </View>
         </View>
       </Modal>
       <View>
@@ -271,6 +259,14 @@ const styles = EStyleSheet.create({
     justifyContent: "center",
     backgroundColor: COLORS.yellowAccent,
     borderRadius: 10,
+  },
+  buttonBar: {
+    position: "absolute",
+    bottom: "10rem",
+    right: "10rem",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   date: {
     alignSelf: "center",
@@ -339,9 +335,9 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   badgeText: {
-    color: "#464D77",
     fontFamily: "HindSiliguri_500Medium",
     fontSize: "11rem",
+    color: COLORS.darkBlue,
   },
   Header: {
     color: COLORS.darkBlue,
@@ -391,6 +387,10 @@ const styles = EStyleSheet.create({
     borderRadius: 20,
     padding: 5,
     alignSelf: "flex-start",
-    left: "120rem",
+    left: "137rem",
+  },
+  innerContainer: {
+    width: "100%",
+    height: "100%",
   },
 });

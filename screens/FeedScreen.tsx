@@ -87,6 +87,7 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.darkBlue,
     borderRadius: 10,
     padding: "10rem",
+    marginBottom: "10rem",
   },
   spacing: {
     padding: "5rem",

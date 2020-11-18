@@ -127,6 +127,11 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
     alignItems: "center",
   },
+  innerContainer: {
+    backgroundColor: "transparent",
+    width: "100%",
+    height: "100%",
+  },
   spacing: {
     padding: "8rem",
     backgroundColor: "transparent",
@@ -139,6 +144,8 @@ const styles = EStyleSheet.create({
     color: COLORS.darkBlue,
     height: "50rem",
     width: "310rem",
+    paddingHorizontal: "20rem",
+    marginRight: "2rem",
   },
   Header: {
     color: COLORS.darkBlue,

@@ -62,6 +62,8 @@ const styles = EStyleSheet.create({
     color: COLORS.darkBlue,
     height: "50rem",
     width: "310rem",
+    paddingHorizontal: "20rem",
+    marginRight: "2rem",
   },
   buttonText: {
     color: COLORS.darkBlue,

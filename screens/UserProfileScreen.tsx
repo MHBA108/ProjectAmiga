@@ -54,14 +54,6 @@ const UserProfileScreen = (props: { navigation: any }) => {
       );
       setDocumentData(documentData);
       console.log("retrieve data length in UPS: " + documentData.length);
-      // lastDoc = documentData.length;
-      // if (lastDoc != 0) {
-      //   // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
-      //   let lastDocVisible = documentData[documentData.length - 1].id;
-      //   // Set State
-      //   setDocumentData(documentData);
-      //   setLastVisible(lastDocVisible);
-      // }
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -176,6 +168,7 @@ const styles = EStyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     alignSelf: "flex-end",
+    marginBottom: "10rem",
   },
   container: {
     flex: 1,
