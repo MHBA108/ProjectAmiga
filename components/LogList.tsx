@@ -31,19 +31,16 @@ export default function LogList(props: {
       <FlatList
         data={props.documentData}
         renderItem={({ item }: { item: firestore.DocumentData }) => (
-          console.log("render log: " + item.timestamp),
-          (
-            <View>
-              <LogItem
-                moodPercentile={item.moodPercentile}
-                moodWords={item.moodWords}
-                text={item.text}
-                timestamp={item.timestamp}
-                logListCallback={callbackUserProfile}
-              />
-              <View style={styles.spacing} />
-            </View>
-          )
+          <View>
+            <LogItem
+              moodPercentile={item.moodPercentile}
+              moodWords={item.moodWords}
+              text={item.text}
+              timestamp={item.timestamp}
+              logListCallback={callbackUserProfile}
+            />
+            <View style={styles.spacing} />
+          </View>
         )}
         //onEndReached={retrieveMore}
         onEndReachedThreshold={0.5}

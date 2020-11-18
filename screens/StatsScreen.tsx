@@ -14,6 +14,7 @@ import MoodChart from "../components/MoodChart";
 import { Picker } from "@react-native-community/picker";
 import Calendar from "../components/Calendar";
 import MonthCalendar from "../components/MonthCalendar";
+import AnalyzeStreaks from "../components/AnalyzeStreaks";
 import { COLORS } from "../assets/COLORS";
 import OpenAchievements from "../components/OpenAchievements";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -83,9 +84,11 @@ const StatsScreen = (props: { navigation: any }) => {
               }}
             ></View>
             <MoodChart></MoodChart>
+
             <View style={styles.calendarStyle}>
               <MonthCalendar />
             </View>
+            <AnalyzeStreaks></AnalyzeStreaks>
             <View style={styles.spacing2}></View>
             <View style={styles.modal}>
               <View style={styles.badge}>

@@ -6,6 +6,8 @@ import moment from "moment";
 import firebase, { firestore } from "firebase";
 import { Object } from "realm";
 import { useFocusEffect } from "@react-navigation/native";
+var Color = require("color");
+
 const valueToColor = require("../assets/ValueToColor");
 const colorMap = new Map();
 
@@ -39,14 +41,32 @@ export default function MonthCalendar() {
 
       tempMap.forEach((value, key) => {
         let date = moment(key).format("YYYY-MM-DD");
+        var curColor = Color(valueToColor(value));
         tempMarkedDates[date] = {
           customStyles: {
             container: {
-              backgroundColor: valueToColor(value),
+              //lightens all the background color of calendar dates because the red gets difficult to read
+              backgroundColor: curColor.fade(0.3).string(),
+              ...Platform.select({
+                ios: {
+                  top: 2,
+                },
+                android: {
+                  top: 0,
+                },
+              }),
             },
             text: {
               color: "black",
-              fontWeight: "bold",
+              fontFamily: "HindSiliguri_600SemiBold",
+              ...Platform.select({
+                ios: {
+                  bottom: 2,
+                },
+                android: {
+                  bottom: 0,
+                },
+              }),
             },
           },
         };
@@ -81,7 +101,7 @@ export default function MonthCalendar() {
     <View style={styles.container}>
       {}
       <Calendar
-        displayLoadingIndicator
+        enableSwipeMonths={true}
         markingType={"custom"}
         onDayPress={(day: any) => {
           console.log("selected day", day);
@@ -89,9 +109,15 @@ export default function MonthCalendar() {
         markedDates={markedDates}
         theme={{
           arrowColor: COLORS.darkBlue,
+          monthTextColor: COLORS.darkBlue,
           textDayFontSize: 16,
-          textMonthFontSize: 16,
-          textDayHeaderFontSize: 16,
+          textMonthFontSize: 20,
+          textDayHeaderFontSize: 14,
+          textSectionTitleColor: COLORS.lightBlue,
+          todayTextColor: "black",
+          textDayFontFamily: "HindSiliguri_400Regular",
+          textMonthFontFamily: "HindSiliguri_600SemiBold",
+          textDayHeaderFontFamily: "HindSiliguri_400Regular",
         }}
       />
     </View>

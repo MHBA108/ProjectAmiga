@@ -6,6 +6,7 @@ import {
   Text,
   TouchableHighlight,
   Alert,
+  ScrollView,
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { COLORS } from "../assets/COLORS";
@@ -14,7 +15,6 @@ import firebase, { firestore } from "firebase";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { useFocusEffect } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import Colors from "../constants/Colors";
 const valueToColor = require("../assets/ValueToColor");
 
 export default function MoodChart() {
@@ -23,15 +23,19 @@ export default function MoodChart() {
   const [colorMap, setColorMap] = useState(new Map());
   const [loading, setLoading] = useState(false);
   const [logs, setLogs] = React.useState<firestore.DocumentData[]>([]);
-
-  const [arrayOfColors, setarrayOfColors] = useState(new Array());
+  const [highestColor, setHighestColor] = useState("");
+  const [lowestColor, setLowestColor] = useState("");
+  const [length, setLength] = useState(0);
+  const [graphSize, setGraphSize] = useState(0);
+  const [scrollViewEnabled, setScrollViewEnabled] = useState(false);
+  const valueToColor = require("../assets/ValueToColor");
 
   async function retrieveDataWeek() {
-    let documentData: firestore.DocumentData[] = [];
+    let allDocumentData: firestore.DocumentData[] = [];
     try {
       const tempMap = new Map();
-      const tempArray = new Array();
-      console.log("Retrieving Data in Mood Chart");
+      let highestPoint = -1;
+      let lowestPoint = 101;
       setLoading(true);
       let initialQuery = await firestore()
         .collection("users")
@@ -40,23 +44,29 @@ export default function MoodChart() {
         .orderBy("timestamp", "desc")
         .limit(limit);
       let documentSnapshots = await initialQuery.get();
-      let documentData = documentSnapshots.docs.map((document) =>
-        document.data()
-      );
-      console.log("retrieve data length " + documentData.length);
-      documentData.map((item: any) => {
-        var dateString = moment(item.timestamp).format("M/D");
-        tempMap.set(dateString, item.moodPercentile);
-        tempArray.push(valueToColor(item.moodPercentile));
+      let graphData = documentSnapshots.docs.map((document) => document.data());
+      graphData.map((item: any) => {
+        if (moment(item.timestamp).isAfter(moment().subtract(limit, "days"))) {
+          if (highestPoint < item.moodPercentile) {
+            highestPoint = item.moodPercentile;
+          }
+          if (lowestPoint > item.moodPercentile) {
+            lowestPoint = item.moodPercentile;
+          }
+          var dateString = moment(item.timestamp).format("M/D");
+          tempMap.set(dateString, item.moodPercentile);
+        }
       });
-      setarrayOfColors(tempArray.reverse());
-      console.log("colors for points: " + tempArray);
+      setHighestColor(valueToColor(highestPoint));
+      setLowestColor(valueToColor(lowestPoint));
       setLoading(false);
       setColorMap(tempMap);
+      setLength(graphData.length);
+      setGraphSize(tempMap.size);
     } catch (error) {
       console.log(error);
     }
-    return documentData;
+    return allDocumentData;
   }
 
   useFocusEffect(
@@ -64,7 +74,6 @@ export default function MoodChart() {
       let isLoading = true;
       async function retrieveData() {
         try {
-          console.log("Loading Logs: " + isLoading);
           const data = await retrieveDataWeek();
           if (isLoading) {
             setLogs(data);
@@ -74,10 +83,8 @@ export default function MoodChart() {
         }
       }
       retrieveData();
-    }, [])
+    }, [limit])
   );
-
-  React.useEffect(() => {});
 
   return (
     <View style={styles.graphContainer}>
@@ -107,95 +114,205 @@ export default function MoodChart() {
                 Mood Chart
               </Text>
             </View>
-            {/* TODO: change buttons to picker */}
-            {/* <Picker
-                selectedValue={this.state.language}
-                style={{ height: 50, width: 100 }}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({ language: itemValue })
-                }
+            {limit == 7 ? (
+              //week view
+              <View
+                style={{
+                  flexDirection: "row",
+                  borderRadius: 10,
+                  padding: 3,
+                  backgroundColor: "white",
+                }}
               >
-                <Picker.Item label="Java" value="java" />
-                <Picker.Item label="JavaScript" value="js" />
-              </Picker> */}
-
-            {/* 
-            //TODO add button functionality
-            <View
-              style={{
-                flexDirection: "row",
-                borderRadius: 10,
-                padding: 3,
-                backgroundColor: "white",
-              }}
-            >
-              <TouchableHighlight
-                underlayColor="none"
-                onPress={() => Alert.alert("Week pressed")}
-                style={styles.graphRangeStyle}
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    setScrollViewEnabled(false);
+                    setLimit(7);
+                    retrieveDataWeek();
+                  }}
+                  style={styles.graphRangeStyleSelected}
+                >
+                  <Text style={{ color: "white" }}>W</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    setScrollViewEnabled(true);
+                    setLimit(30);
+                    retrieveDataWeek();
+                    console.log(limit);
+                  }}
+                  style={styles.graphRangeStyle}
+                >
+                  <Text style={{ color: "white" }}>M</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    if (length <= 31) {
+                      Alert.alert(
+                        "You haven't logged enough to generate this graph!"
+                      );
+                    } else {
+                      setScrollViewEnabled(true);
+                      setLimit(length);
+                      retrieveDataWeek();
+                    }
+                  }}
+                  style={styles.graphRangeStyle}
+                >
+                  <Text style={{ color: "white" }}>Y</Text>
+                </TouchableHighlight>
+              </View>
+            ) : limit == 30 ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  borderRadius: 10,
+                  padding: 3,
+                  backgroundColor: "white",
+                }}
               >
-                <Text style={{ color: "white" }}>W</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                underlayColor="none"
-                onPress={() => Alert.alert("Month pressed")}
-                style={styles.graphRangeStyle}
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    setScrollViewEnabled(false);
+                    setLimit(7);
+                    retrieveDataWeek();
+                  }}
+                  style={styles.graphRangeStyle}
+                >
+                  <Text style={{ color: "white" }}>W</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    setScrollViewEnabled(true);
+                    setLimit(30);
+                    retrieveDataWeek();
+                  }}
+                  style={styles.graphRangeStyleSelected}
+                >
+                  <Text style={{ color: "white" }}>M</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    if (length <= 31) {
+                      Alert.alert(
+                        "You haven't logged enough to generate this graph!"
+                      );
+                    } else {
+                      setScrollViewEnabled(true);
+                      setLimit(length);
+                      retrieveDataWeek();
+                    }
+                  }}
+                  style={styles.graphRangeStyle}
+                >
+                  <Text style={{ color: "white" }}>Y</Text>
+                </TouchableHighlight>
+              </View>
+            ) : (
+              <View
+                style={{
+                  flexDirection: "row",
+                  borderRadius: 10,
+                  padding: 3,
+                  backgroundColor: "white",
+                }}
               >
-                <Text style={{ color: "white" }}>M</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                underlayColor="none"
-                onPress={() => Alert.alert("Year pressed")}
-                style={styles.graphRangeStyle}
-              >
-                <Text style={{ color: "white" }}>Y</Text>
-              </TouchableHighlight>
-            </View> */}
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    setScrollViewEnabled(false);
+                    setLimit(7);
+                    retrieveDataWeek();
+                  }}
+                  style={styles.graphRangeStyle}
+                >
+                  <Text style={{ color: "white" }}>W</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    setScrollViewEnabled(true);
+                    setLimit(30);
+                    retrieveDataWeek();
+                  }}
+                  style={styles.graphRangeStyle}
+                >
+                  <Text style={{ color: "white" }}>M</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor={COLORS.pink}
+                  onPress={() => {
+                    if (length <= 31) {
+                      Alert.alert(
+                        "You haven't logged enough to generate this graph!"
+                      );
+                    } else {
+                      setScrollViewEnabled(true);
+                      setLimit(length);
+                      retrieveDataWeek();
+                    }
+                  }}
+                  style={styles.graphRangeStyleSelected}
+                >
+                  <Text style={{ color: "white" }}>Y</Text>
+                </TouchableHighlight>
+              </View>
+            )}
           </View>
           <View
             style={{
               alignItems: "center",
             }}
           >
-            <LineChart
-              data={{
-                labels: Array.from(colorMap.keys()).reverse(),
-                datasets: [
-                  {
-                    data: Array.from(colorMap.values()).reverse(),
+            <ScrollView
+              horizontal={scrollViewEnabled}
+              scrollEnabled={scrollViewEnabled}
+            >
+              <LineChart
+                data={{
+                  labels: Array.from(colorMap.keys()).reverse(),
+                  datasets: [
+                    {
+                      data: Array.from(colorMap.values()).reverse(),
+                    },
+                  ],
+                }}
+                width={Dimensions.get("window").width * 0.125 * graphSize}
+                height={220}
+                chartConfig={{
+                  backgroundColor: COLORS.darkBlue,
+                  backgroundGradientFrom: COLORS.darkBlue,
+                  backgroundGradientTo: COLORS.darkBlue,
+                  decimalPlaces: 0,
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  labelColor: (opacity = 1) =>
+                    `rgba(255, 255, 255, ${opacity})`,
+
+                  propsForDots: {
+                    r: "6",
+                    strokeWidth: "1",
+                    stroke: "white",
                   },
-                ],
-              }}
-              width={Dimensions.get("window").width * 0.9} // from react-native
-              height={220}
-              chartConfig={{
-                backgroundColor: COLORS.darkBlue,
-                backgroundGradientFrom: COLORS.darkBlue,
-                backgroundGradientTo: COLORS.darkBlue,
-                decimalPlaces: 0, // optional, defaults to 2dp
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
-                  // borderRadius: 16,
-                  alignContent: "stretch",
-                },
-                propsForDots: {
-                  r: "6",
-                  strokeWidth: "2",
-                  stroke: COLORS.darkBlue,
-                },
-              }}
-              bezier
-              fromZero
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
-            />
+                }}
+                getDotColor={(value: any, index: any) => valueToColor(value)}
+                bezier
+                fromZero
+                withVerticalLines={false}
+                style={{
+                  marginVertical: 8,
+                }}
+              />
+            </ScrollView>
             <LinearGradient
               start={[0, 1]}
               end={[1, 0]}
-              colors={["#ff0000", "#ffff00", "#00ff00"]}
+              colors={["#ff0000", "#ffff00", highestColor]}
               style={styles.linearGradient}
             ></LinearGradient>
           </View>
@@ -249,12 +366,19 @@ const styles = EStyleSheet.create({
     borderRadius: 10,
     backgroundColor: COLORS.darkBlue,
   },
+  graphRangeStyleSelected: {
+    marginHorizontal: 2,
+    paddingHorizontal: 7,
+    paddingVertical: 5,
+    borderRadius: 10,
+    backgroundColor: COLORS.pink,
+  },
   linearGradient: {
     position: "absolute",
-    height: 190,
+    height: 170,
     aspectRatio: 1 / 30,
-    top: 0,
-    left: "10rem",
+    top: 20,
+    left: "-3rem",
     borderRadius: 3,
     overflow: "hidden",
   },

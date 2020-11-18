@@ -96,7 +96,6 @@ const HomeScreen = (props: { navigation: any }) => {
   );
 
   async function getLog() {
-    console.log("Retrieving most recent log:");
     try {
       const initialQuery = await firestore()
         .collection("users")
@@ -171,7 +170,6 @@ const HomeScreen = (props: { navigation: any }) => {
     return documentData;
   }
   function renderLogComp() {
-    console.log("Retrieving most recent log:");
     if (hasLogged) {
       return (
         <TodayEntry
