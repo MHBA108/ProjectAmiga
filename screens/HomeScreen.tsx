@@ -113,10 +113,13 @@ const HomeScreen = (props: { navigation: any }) => {
       let year = today.getFullYear();
       if (lastTimestamp.getFullYear() == year) {
         if (lastTimestamp.getMonth() == month) {
-          if (lastTimestamp.getDate() != date && lastTimestamp.getDate() != date + 1) {
-          const streakQuery = await firestore()
-            .collection("users")
-            .doc(user?.uid);
+          if (
+            lastTimestamp.getDate() != date &&
+            lastTimestamp.getDate() != date + 1
+          ) {
+            const streakQuery = await firestore()
+              .collection("users")
+              .doc(user?.uid);
             const res = await streakQuery.update({
               streak: 0,
             });
@@ -221,9 +224,10 @@ const HomeScreen = (props: { navigation: any }) => {
             showsVerticalScrollIndicator={false}
             style={styles.scrollContainer}
           >
-            <Text style={styles.textGreeting}>{renderGreeting()}</Text>
-            <Clock showDate={true} showTime={true} />
-            <View style={styles.spacer}></View>
+            <View style={styles.header}>
+              <Text style={styles.textGreeting}>{renderGreeting()}</Text>
+              <Clock showDate={true} showTime={true} />
+            </View>
             {renderLogComp()}
             <Calendar customDatesStyles={customDatesStyles} />
             <TodoList />
@@ -251,6 +255,13 @@ const styles = EStyleSheet.create({
     backgroundColor: COLORS.beige,
     marginTop: StatusBar.currentHeight,
   },
+  header: {
+    width: "89%",
+    alignSelf: "flex-end",
+    backgroundColor: "transparent",
+    paddingTop: "10rem",
+    paddingBottom: "20rem",
+  },
   scrollContainer: {
     paddingHorizontal: "15rem",
   },
@@ -260,10 +271,6 @@ const styles = EStyleSheet.create({
     fontWeight: "bold",
     fontFamily: "HindSiliguri_700Bold",
     textAlign: "right",
-  },
-  spacer: {
-    width: "100%",
-    aspectRatio: 15 / 1,
-    backgroundColor: "transparent",
+    lineHeight: "30rem",
   },
 });

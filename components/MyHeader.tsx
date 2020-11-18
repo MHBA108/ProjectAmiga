@@ -1,9 +1,8 @@
 import React from "react";
-import { Header } from "react-native-elements";
 import HamburgerMenu from "./HamburgerMenu";
 import { COLORS } from "../assets/COLORS";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { View, Platform, StatusBar } from "react-native";
+import { View, Platform } from "react-native";
 import { StatusBarHeight } from "../assets/TopBarHeight";
 
 const MyHeader = (props: { navigation: any }) => {
