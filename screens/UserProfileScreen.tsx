@@ -2,7 +2,6 @@ import * as React from "react";
 import { ScrollView, Image, StatusBar, TouchableOpacity } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import avatarPlaceHolder from "../assets/images/avatars/1.png";
 import LogList from "../components/LogList";
 import MyHeader from "../components/MyHeader";
 import OpenAchievements from "../components/OpenAchievements";
@@ -15,12 +14,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../navigation/context";
 import { Feather } from "@expo/vector-icons";
 import { firestore } from "firebase";
+import avatars from "../assets/images/avatars/avatars";
 
 const UserProfileScreen = (props: { navigation: any }) => {
   //let lastDoc = -1;
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
-  const [avatar, setAvatar] = React.useState("");
   const authContext = React.useContext(AuthContext);
 
   const [documentData, setDocumentData] = React.useState<
@@ -74,7 +73,6 @@ const UserProfileScreen = (props: { navigation: any }) => {
           .doc(user?.uid)
           .get();
         setStreak(doc.get("streak"));
-        setAvatar(doc.get("avatar"));
       }
       async function getData() {
         try {
@@ -123,7 +121,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
-              source={avatarPlaceHolder}
+              source={avatars[`${authContext.avatar}`]}
             />
             <OpenProfileDetails />
           </View>

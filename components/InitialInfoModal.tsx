@@ -17,6 +17,8 @@ import { User } from "realm";
 import { useState } from "react";
 import DatePicker from "react-native-datepicker";
 import AvatarCarousel from "./AvatarCarousel";
+import avatars from "../assets/images/avatars/avatars";
+import { AuthContext } from "../navigation/context";
 
 export default function InitialInfoModal(props: {
   visible: boolean;
@@ -26,8 +28,9 @@ export default function InitialInfoModal(props: {
   const [expanded, setExpanded] = React.useState(false);
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
-  const [avatar, setAvatar] = React.useState("");
+  const [avatar, setAvatar] = React.useState(1);
   const [date, setDate] = useState("09-10-2010");
+  const authContext = React.useContext(AuthContext);
 
   function openModal() {
     props.setVisible(true);
@@ -35,6 +38,19 @@ export default function InitialInfoModal(props: {
 
   function closeModal() {
     props.setVisible(false);
+    // Send avatar to database
+    async function setUserAvatar() {
+      const user = firebase.auth().currentUser;
+      const userDoc = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .update({
+          avatar: avatar,
+        });
+      authContext.avatar = "" + avatar;
+    }
+    setUserAvatar();
   }
 
   return (
@@ -57,7 +73,7 @@ export default function InitialInfoModal(props: {
             </View>
             <View style={styles.spacing}></View>
             <View style={styles.container}>
-              <AvatarCarousel />
+              <AvatarCarousel setAvatar={setAvatar} />
             </View>
             <View style={styles.spacing}></View>
             <View style={styles.avatarHeader}>
@@ -67,7 +83,7 @@ export default function InitialInfoModal(props: {
             <Image
               style={styles.circle2}
               resizeMode="contain"
-              source={require("../assets/images/avatars/1.png")}
+              source={avatars[`${avatar}`]}
             />
             <View style={styles.spacing}></View>
             <View style={styles.avatarHeader}>
@@ -124,17 +140,6 @@ export default function InitialInfoModal(props: {
           </ScrollView>
         </View>
       </Modal>
-      <View>
-        <TouchableHighlight onPress={() => openModal()} underlayColor="none">
-          <View style={styles.badgeContainer}>
-            <Text style={styles.countText}>{streak}</Text>
-            <Image
-              source={require("../assets/images/streak.png")}
-              style={styles.badge}
-            />
-          </View>
-        </TouchableHighlight>
-      </View>
     </View>
   );
 }

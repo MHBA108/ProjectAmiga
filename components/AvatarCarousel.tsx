@@ -6,18 +6,12 @@ import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { User } from "realm";
 import { useState } from "react";
-import { AuthContext } from "../navigation/context";
 
-export default function AvatarCarousel() {
-  const authContext = React.useContext(AuthContext);
+export default function AvatarCarousel({ setAvatar }: { setAvatar: Function }) {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
-  const [avatar, setAvatar] = React.useState("");
-  const [date, setDate] = useState("09-10-2010");
-  const avatarDir = "../assets/images/avatars/";
   //TODO: on press set the avatar in firebase to avatar path
   const onPress = (avatar: number) => {
-    console.log(`../assets/images/avatars/${avatar}.png`);
-    setAvatar(avatarDir + `${avatar}.png`);
+    setAvatar(avatar);
   };
 
   useFocusEffect(() => {
@@ -28,7 +22,6 @@ export default function AvatarCarousel() {
         .collection("users")
         .doc(user?.uid)
         .get();
-      setAvatar(doc.get("avatar"));
     }
   });
 

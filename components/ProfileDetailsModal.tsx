@@ -13,19 +13,21 @@ import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Feather, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../assets/COLORS";
-import avatarPlaceHolder from "../assets/images/avatars/1.png";
 import { useFocusEffect } from "@react-navigation/native";
 import firebase, { firestore } from "firebase";
 import DatePicker from "react-native-datepicker";
 import { useState } from "react";
 import AvatarCarousel from "./AvatarCarousel";
+import { AuthContext } from "../navigation/context";
+import avatars from "../assets/images/avatars/avatars";
 
 export default function ProfileDetailsModal() {
   const [modalVisible, setModalVisible] = React.useState(false);
 
+  const authContext = React.useContext(AuthContext);
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
-  const [avatar, setAvatar] = React.useState("");
+  const [avatar, setAvatar] = React.useState(Number(authContext.avatar));
   const [date, setDate] = useState("");
   const [editable, setEditable] = useState(false);
   const [editOrSave, setEditOrSave] = useState(
@@ -48,7 +50,6 @@ export default function ProfileDetailsModal() {
         .doc(user?.uid)
         .get();
       setStreak(doc.get("streak"));
-      setAvatar(doc.get("avatar"));
     }
   });
 
@@ -66,6 +67,19 @@ export default function ProfileDetailsModal() {
     setCarHeight(0);
     setPreviewHeight(0);
     setSaveHeight(0);
+    async function setUserAvatar() {
+      const user = firebase.auth().currentUser;
+      const userDoc = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .update({
+          avatar: avatar,
+        });
+      authContext.avatar = "" + avatar;
+    }
+    setUserAvatar();
+    // TODO: Get parent to update on close as well.
   }
 
   function renderEditSaveButton() {
@@ -194,7 +208,7 @@ export default function ProfileDetailsModal() {
                 <Image
                   style={styles.circle2}
                   resizeMode="contain"
-                  source={avatarPlaceHolder}
+                  source={avatars[`${avatar}`]}
                 />
               </View>
             </View>
@@ -226,7 +240,7 @@ export default function ProfileDetailsModal() {
                     margin: 10,
                   }}
                 >
-                  <AvatarCarousel />
+                  <AvatarCarousel setAvatar={setAvatar} />
                 </View>
               </View>
               <View style={styles.spacing}></View>
