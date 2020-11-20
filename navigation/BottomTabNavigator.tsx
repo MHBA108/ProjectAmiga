@@ -16,12 +16,15 @@ import {
   ResourcesParamList,
   UserProfileParamList,
 } from "../types";
-import avatar from "../assets/images/avatars/1.png";
+import avatars from "../assets/images/avatars/avatars";
 import EStyleSheet from "react-native-extended-stylesheet";
-
+import { AuthContext } from "../navigation/context";
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
+  const authContext = React.useContext(AuthContext);
+  const [avatar, setAvatar] = React.useState(Number(authContext.avatar));
+
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -70,11 +73,11 @@ export default function BottomTabNavigator() {
         name="You"
         component={UserProfileNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: () => (
             <Image
               style={styles.avatarContainer}
               resizeMode="contain"
-              source={avatar}
+              source={avatars[`${authContext.avatar}`]}
             />
           ),
         }}

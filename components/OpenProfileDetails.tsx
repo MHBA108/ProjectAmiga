@@ -6,24 +6,29 @@ import ProfileDetailsModal from "./ProfileDetailsModal";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 export default class OpenProfileDetails extends Component<
-  {},
+  { callbackUserProfileScreen: Function },
   {
     modalVisible: boolean;
   }
 > {
   triggerModal = () => this.setState({ modalVisible: true });
 
-  constructor(props: {}) {
+  constructor(props: { callbackUserProfileScreen: Function }) {
     super(props);
     this.state = {
       modalVisible: false,
     };
   }
+  callbackProfileDetailsModal = () => {
+    this.props.callbackUserProfileScreen();
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <ProfileDetailsModal />
+        <ProfileDetailsModal
+          callbackOpenProfileDetails={this.callbackProfileDetailsModal}
+        />
       </View>
     );
   }

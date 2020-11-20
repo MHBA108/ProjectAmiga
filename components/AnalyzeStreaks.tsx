@@ -67,7 +67,6 @@ export default function AnalyzeStreaks() {
       setLoading(false);
       setAllDatesArray(dateArray);
       setLongestStreak(summary({ dates: dateArray }).longestStreak);
-      console.log("current streak is: " + currentStreak);
     } catch (error) {
       console.log(error);
     }

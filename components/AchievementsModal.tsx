@@ -126,7 +126,7 @@ const styles = EStyleSheet.create({
   },
   modalContainer: {
     margin: -10,
-    marginTop: 50,
+    marginTop: "20rem",
     flex: 1,
     backgroundColor: COLORS.yellow,
     borderRadius: 20,

@@ -37,9 +37,7 @@ const StatsScreen = (props: { navigation: any }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log(
-        "getting the streak right now from firebase in UserProfileScreen.tsx"
-      );
+      console.log();
       let refresh = true;
       async function getStreak() {
         const doc = await firebase

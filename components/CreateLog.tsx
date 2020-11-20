@@ -78,8 +78,6 @@ export default class CreateLog extends React.Component<
     let documentData = documentSnapshots.docs.map((document) =>
       document.data()
     );
-    console.log("retrieve data length in create log ");
-    console.log("The log that being saved: ", log);
     this.props.homeCallback();
   }
 

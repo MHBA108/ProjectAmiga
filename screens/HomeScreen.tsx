@@ -136,7 +136,6 @@ const HomeScreen = (props: { navigation: any }) => {
   async function retrieveData() {
     let documentData: firestore.DocumentData[] = [];
     try {
-      console.log("Retrieving Data in Home Screen");
       const tempMap = new Map();
       const tempCustomDatesStyles = new Array();
       setLoading(true);

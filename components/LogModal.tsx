@@ -107,7 +107,6 @@ export default class LogModal extends Component<
     let documentData = documentSnapshots.docs.map((document) =>
       document.data()
     );
-    console.log("retrieve data length in create log ");
     this.props.parentCallback(this.state.moodPercentile, this.state.text);
   }
 
