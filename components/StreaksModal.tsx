@@ -17,7 +17,6 @@ import StreaksList from "./StreaksList";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
-import { User } from "realm";
 
 export default function StreaksModal() {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -27,6 +26,7 @@ export default function StreaksModal() {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
+  const [friendEmail, setfriendEmail] = React.useState("");
 
   useFocusEffect(() => {
     let doc = getStreak();
@@ -47,6 +47,52 @@ export default function StreaksModal() {
 
   function closeModal() {
     setModalVisible(false);
+  }
+  function checkUser(email: any) {
+    console.log("checking for: " + email);
+    if (validateEmail(email)) {
+      firebase
+        .auth()
+        .fetchSignInMethodsForEmail(email)
+        .then((providers) => {
+          if (providers.length === 0) {
+            Alert.alert("This user does not exist");
+          } else {
+            Alert.alert("Sending Friend Request to: " + email);
+            friendRequest(email);
+          }
+        });
+    } else {
+      Alert.alert("This user does not exist");
+    }
+  }
+  function validateEmail(email: string) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  async function friendRequest(email: any) {
+    try {
+      const res = await firebase
+        .firestore()
+        .collection("userLookup")
+        .doc(email)
+        .get();
+      let friendUID = res.get("uid");
+      const data = {
+        accepted: false,
+        uid: user?.uid,
+        email: user?.email,
+      };
+      const setUserRequest = await firebase
+        .firestore()
+        .collection("users")
+        .doc(friendUID)
+        .collection("requests")
+        .doc(user?.uid)
+        .set(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <View style={styles.container}>
@@ -89,10 +135,13 @@ export default function StreaksModal() {
                   placeholder="type friend's email here..."
                   placeholderTextColor={COLORS.darkBlueAccent}
                   returnKeyType="next"
-                  textContentType="emailAddress"
+                  //textContentType="emailAddress"
+                  onChangeText={(text) => setfriendEmail(text)}
                 />
                 <TouchableHighlight
-                  onPress={() => Alert.alert("friend added")}
+                  onPress={() => {
+                    checkUser(friendEmail);
+                  }}
                   underlayColor="transparent"
                 >
                   <Feather
