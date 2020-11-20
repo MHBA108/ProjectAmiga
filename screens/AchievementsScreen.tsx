@@ -92,9 +92,9 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   circleContainer: {
-    height: "90rem",
-    width: "90rem",
-    borderRadius: "45rem",
+    height: "95rem",
+    width: "95rem",
+    borderRadius: "90rem",
     alignSelf: "center",
     top: "1rem",
   },

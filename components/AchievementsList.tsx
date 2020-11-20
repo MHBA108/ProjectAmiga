@@ -5,6 +5,8 @@ import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import * as Progress from "react-native-progress";
+import moment from "moment";
+import { summary } from "date-streaks";
 
 export default function AchievementsList() {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -14,6 +16,9 @@ export default function AchievementsList() {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
+
+  const [allDatesArray, setAllDatesArray] = React.useState(new Array());
+  const [longestStreak, setLongestStreak] = React.useState(0);
 
   useFocusEffect(() => {
     let doc = getStreak();
@@ -26,36 +31,75 @@ export default function AchievementsList() {
       setStreak(doc.get("streak"));
       setAvatar(doc.get("avatar"));
     }
+    let isLoading = true;
+    async function retrieve() {
+      try {
+        if (isLoading) {
+          await retrieveData();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    retrieve();
+    isLoading = false;
   });
 
+  async function retrieveData() {
+    try {
+      const dateArray = new Array();
+      let initialQuery = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("userLogs")
+        .orderBy("timestamp", "desc");
+      let documentSnapshots = await initialQuery.get();
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      documentData.map((item: any) => {
+        var date = moment(item.timestamp).format("MM/DD/YYYY");
+        dateArray.push(date);
+      });
+      setAllDatesArray(dateArray);
+      setLongestStreak(summary({ dates: dateArray }).longestStreak);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const nurseryStreak: number =
-    (Number([streak]) / 1) * 100 >= 100 ? 100 : (Number([streak]) / 1) * 100;
+    (Number([longestStreak]) / 1) * 100 >= 100
+      ? 100
+      : (Number([longestStreak]) / 1) * 100;
   const gardenerStreak: number =
-    (Number([streak]) / 2) * 100 >= 100 ? 100 : (Number([streak]) / 2) * 100;
+    (Number([longestStreak]) / 2) * 100 >= 100
+      ? 100
+      : (Number([longestStreak]) / 2) * 100;
   const guruStreak: number =
-    (Number([streak]) / 3) * 100 >= 100
+    (Number([longestStreak]) / 3) * 100 >= 100
       ? 100
-      : Math.trunc((Number([streak]) / 3) * 100);
+      : Math.trunc((Number([longestStreak]) / 3) * 100);
   const whispererStreak: number =
-    (Number([streak]) / 5) * 100 >= 100
+    (Number([longestStreak]) / 5) * 100 >= 100
       ? 100
-      : Math.trunc((Number([streak]) / 5) * 100);
+      : Math.trunc((Number([longestStreak]) / 5) * 100);
   const thumbStreak: number =
-    (Number([streak]) / 8) * 100 >= 100
+    (Number([longestStreak]) / 8) * 100 >= 100
       ? 100
-      : Math.trunc((Number([streak]) / 8) * 100);
+      : Math.trunc((Number([longestStreak]) / 8) * 100);
   const machineStreak: number =
-    (Number([streak]) / 13) * 100 >= 100
+    (Number([longestStreak]) / 13) * 100 >= 100
       ? 100
-      : Math.trunc((Number([streak]) / 13) * 100);
+      : Math.trunc((Number([longestStreak]) / 13) * 100);
   const weedStreak: number =
-    (Number([streak]) / 21) * 100 >= 100
+    (Number([longestStreak]) / 21) * 100 >= 100
       ? 100
-      : Math.trunc((Number([streak]) / 21) * 100);
+      : Math.trunc((Number([longestStreak]) / 21) * 100);
   const motherStreak: number =
-    (Number([streak]) / 34) * 100 >= 100
+    (Number([longestStreak]) / 34) * 100 >= 100
       ? 100
-      : Math.trunc((Number([streak]) / 34) * 100);
+      : Math.trunc((Number([longestStreak]) / 34) * 100);
 
   return (
     <View>
@@ -64,7 +108,7 @@ export default function AchievementsList() {
         <View style={styles.achievementTitleContainer}>
           <Text style={styles.achievemetTitle}>Nurseryman</Text>
           <Text style={styles.achievementDescription}>
-            Earn this award when log for the first time!
+            Earn this award when you log for the first time!
           </Text>
           <View style={styles.spacing2}></View>
           <Progress.Bar

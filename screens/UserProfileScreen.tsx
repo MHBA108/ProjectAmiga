@@ -231,7 +231,7 @@ const styles = EStyleSheet.create({
   circleContainer: {
     height: "90rem",
     width: "90rem",
-    borderRadius: "45rem",
+    borderRadius: "90rem",
     alignSelf: "center",
   },
   circle: {
