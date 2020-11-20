@@ -57,8 +57,10 @@ export default class SeeMoreModal extends Component<
       .collection("userLogs")
       .doc(docID)
       .delete();
-    const userRef = await firestore().collection("users").doc(firebase.auth().currentUser?.uid)
-    if(Number(userRef.collection("streak").get()) != 0){
+    const userRef = await firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid);
+    if (Number(userRef.collection("streak").get()) != 0) {
       const res1 = await userRef.update({
         streak: firestore.FieldValue.increment(-1),
       });
@@ -197,7 +199,6 @@ export default class SeeMoreModal extends Component<
       return (
         <View style={this.moodContainer()}>
           <SelectableChips
-            initialSelectedChips={this.props.moodWords}
             initialChips={[
               "excited",
               "positive",
