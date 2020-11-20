@@ -135,7 +135,6 @@ export default function StreaksModal() {
                   placeholder="type friend's email here..."
                   placeholderTextColor={COLORS.darkBlueAccent}
                   returnKeyType="next"
-                  //textContentType="emailAddress"
                   onChangeText={(text) => setfriendEmail(text)}
                 />
                 <TouchableHighlight
