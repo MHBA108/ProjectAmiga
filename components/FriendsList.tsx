@@ -92,6 +92,7 @@ export default function FriendList() {
           console.log(error);
         }
       }
+      console.log("friendData length: ", friendData.length);
       getData();
       return () => (refresh = false);
     }, [])
@@ -137,21 +138,34 @@ export default function FriendList() {
         </TouchableHighlight>
       </View>
       <View style={styles.spacing} />
-      {}
-      <FlatList
-        data={friendData}
-        renderItem={({ item }: { item: firestore.DocumentData }) => (
-          <View>
-            <FriendItem
-              email={item.email}
-              uid={item.uid}
-              callbackFriendsList={callbackFriendItem}
-            />
-            <View style={styles.spacing} />
-          </View>
-        )}
-        onEndReachedThreshold={0.5}
-      />
+      {friendData.length == 0 ? (
+        <Text
+          style={{
+            color: COLORS.beige,
+            fontSize: 18,
+            fontFamily: "HindSiliguri_600SemiBold",
+            textAlign: "center",
+          }}
+        >
+          No friends yet, feel free to add some!
+        </Text>
+      ) : (
+        <FlatList
+          data={friendData}
+          renderItem={({ item }: { item: firestore.DocumentData }) => (
+            <View>
+              <FriendItem
+                email={item.email}
+                uid={item.uid}
+                callbackFriendsList={callbackFriendItem}
+              />
+              <View style={styles.spacing} />
+            </View>
+          )}
+          onEndReachedThreshold={0.5}
+        />
+      )}
+
       <View style={styles.spacing} />
     </KeyboardAvoidingView>
   );
