@@ -2,15 +2,17 @@ import * as React from "react";
 import { ScrollView, Image, StatusBar } from "react-native";
 import { Text, View } from "../components/Themed";
 import EStyleSheet from "react-native-extended-stylesheet";
-import avatar from "../assets/images/avatars/1.png";
 import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
 import AchievementsList from "../components/AchievementsList";
 import { SafeAreaView } from "react-native-safe-area-context";
+import avatars from "../assets/images/avatars/avatars";
+import { AuthContext } from "../navigation/context";
 
 const AchievementsScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const authContext = React.useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +29,7 @@ const AchievementsScreen = (props: { navigation: any }) => {
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
-              source={avatar}
+              source={avatars[`${authContext.avatar}`]}
             />
           </View>
         </View>
@@ -90,9 +92,9 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
   },
   circleContainer: {
-    height: "90rem",
-    width: "90rem",
-    borderRadius: "45rem",
+    height: "95rem",
+    width: "95rem",
+    borderRadius: "90rem",
     alignSelf: "center",
     top: "1rem",
   },

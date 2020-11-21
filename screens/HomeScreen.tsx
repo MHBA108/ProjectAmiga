@@ -35,7 +35,6 @@ const HomeScreen = (props: { navigation: any }) => {
     getLog();
   };
   const [user, setUser] = React.useState(firebase.auth().currentUser);
-  const [initAvatar, setInitAvatar] = React.useState(false);
   const [moodPercentile, setMoodPercentile] = React.useState(50);
   const [text, setText] = React.useState("");
   const [timestamp, setTimestamp] = React.useState("");
@@ -43,11 +42,9 @@ const HomeScreen = (props: { navigation: any }) => {
   const [loading, setLoading] = React.useState(false);
   const [customDatesStyles, setCustomDatesStyles] = React.useState(new Array());
   const authContext = React.useContext(AuthContext);
-
-  // TODO: Figure out why this crashes the app.
-  // if (authContext.avatar == "") {
-  //   setInitAvatar(true);
-  // }
+  const [initAvatar, setInitAvatar] = React.useState(
+    true ? authContext.avatar == "" : false
+  );
 
   let hasLogged = false;
   if (timestamp === "") {
@@ -233,10 +230,7 @@ const HomeScreen = (props: { navigation: any }) => {
             <TodoList />
             {/* TODO: Fix bug where setting InitialInfoModal via avatar 
             in authContext crashes the app.  */}
-            {/* <InitialInfoModal
-              visible={initAvatar}
-              setVisible={setInitAvatar}
-            /> */}
+            <InitialInfoModal visible={initAvatar} setVisible={setInitAvatar} />
           </ScrollView>
         </SafeAreaView>
       </TouchableWithoutFeedback>
