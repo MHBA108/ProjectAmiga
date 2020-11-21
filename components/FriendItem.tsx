@@ -61,7 +61,7 @@ export default function FriendItem(props: {
       }
       getData();
       return () => (refresh = false);
-    }, [])
+    }, [avatar])
   );
   let swipeBtns = [
     {
@@ -80,6 +80,7 @@ export default function FriendItem(props: {
         style={{ borderRadius: 10 }}
         right={swipeBtns}
         backgroundColor="transparent"
+        autoClose={true}
       >
         <View style={styles.feed}>
           <View style={styles.dateContainer}>
