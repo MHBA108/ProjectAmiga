@@ -1,3 +1,5 @@
+import firebase from "firebase";
+import { firestore } from "firebase";
 import React, { Component } from "react";
 import { Text, View, ScrollView, Alert, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -5,42 +7,71 @@ import { COLORS } from "../assets/COLORS";
 import avatar from "../assets/images/avatars/1.png";
 
 //TODO: add props
-export default class FriendItem extends Component {
-  render() {
-    return (
-      <View style={styles.feed}>
-        <View style={styles.dateContainer}>
-          <Text style={styles.usernameFont}> @Username </Text>
-          <View style={styles.spacing}></View>
-          <View style={styles.streakAndAchievement}>
-            <Text style={styles.streakFont}>23</Text>
+export default function FriendItem(props: { email: any; uid: any }) {
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [friendData, setFriendData] = React.useState(new Map());
+  async function retrieveData() {
+    try {
+      const tempMap = new Map();
+      let initialQuery = await firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("friends");
+      let documentSnapshots = await initialQuery.get();
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      documentData.map(async (item: any) => {
+        var friendInfo = await getFriendsInfo(item.uid);
+        tempMap.set(item.email, friendInfo);
+        //console.log("friend map info: ", tempMap);
+        setFriendData(tempMap);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getFriendsInfo(item: any) {
+    try {
+      const doc = await firestore().collection("users").doc(item).get();
+      return [doc.get("streak"), doc.get("avatar")];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  return (
+    <View style={styles.feed}>
+      <View style={styles.dateContainer}>
+        <Text style={styles.usernameFont}> {props.email} </Text>
+        <View style={styles.spacing}></View>
+        <View style={styles.streakAndAchievement}>
+          <Text style={styles.streakFont}>2 </Text>
+          <Image
+            source={require("../assets/images/streak.png")}
+            style={styles.badge}
+          />
+          <View style={styles.achievementContainer}>
+            <Text style={styles.streakFont}>2 </Text>
             <Image
-              source={require("../assets/images/streak.png")}
+              source={require("../assets/images/achievement.png")}
               style={styles.badge}
             />
-            <View style={styles.achievementContainer}>
-              <Text style={styles.streakFont}>3</Text>
-              <Image
-                source={require("../assets/images/achievement.png")}
-                style={styles.badge}
-              />
-            </View>
           </View>
         </View>
-        <View style={styles.HeaderContainer}>
-          <View style={styles.containerUpperRight}>
-            <View style={styles.circle}></View>
-            <Image
-              style={styles.circleContainer}
-              resizeMode="contain"
-              source={avatar}
-            />
-          </View>
-        </View>
-        <View style={styles.bar}></View>
       </View>
-    );
-  }
+      <View style={styles.HeaderContainer}>
+        <View style={styles.containerUpperRight}>
+          <View style={styles.circle}></View>
+          <Image
+            style={styles.circleContainer}
+            resizeMode="contain"
+            source={avatar}
+          />
+        </View>
+      </View>
+      <View style={styles.bar}></View>
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({
@@ -69,7 +100,7 @@ const styles = EStyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "center",
     color: COLORS.beige,
-    fontSize: "30rem",
+    fontSize: "16rem",
     fontFamily: "HindSiliguri_600SemiBold",
   },
   circleContainer: {
