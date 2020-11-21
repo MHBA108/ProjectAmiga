@@ -18,7 +18,7 @@ export default function FriendItem(props: { email: any; uid: any }) {
   async function retrieveData() {
     try {
       let friendInfo = await getFriendsInfo(props.uid);
-      console.log("avatar number: ", friendInfo[1]);
+      //console.log("avatar number: ", friendInfo[1]);
       setStreak(friendInfo[0]);
       setAvatar(friendInfo[1]);
       setAchievements(5);
@@ -50,20 +50,7 @@ export default function FriendItem(props: { email: any; uid: any }) {
       return () => (refresh = false);
     }, [])
   );
-  // React.useEffect(() => {
-  //   let refresh = true;
-  //   async function getData() {
-  //     try {
-  //       if (refresh) {
-  //         await retrieveData();
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   getData();
-  //   refresh = false;
-  // });
+
   return (
     <View style={styles.feed}>
       <View style={styles.dateContainer}>

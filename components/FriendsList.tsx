@@ -22,8 +22,6 @@ import { AuthContext } from "../navigation/context";
 
 export default function FriendList() {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
-  const [streak, setStreak] = React.useState(0);
-  const [avatar, setAvatar] = React.useState("");
   const [friendEmail, setfriendEmail] = React.useState("");
   const [friendData, setFriendData] = React.useState<firestore.DocumentData[]>(
     []

@@ -1,3 +1,4 @@
+import { firestore } from "firebase";
 import React, { Component } from "react";
 import {
   Text,
@@ -5,20 +6,35 @@ import {
   Image,
   ScrollView,
   TouchableHighlight,
+  FlatList,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
 import StreakItem from "./StreakItem";
 
-export default class StreaksList extends Component {
-  render() {
-    return (
-      //TODO make this retrieve the info from firestore to make streakItems
-      <ScrollView style={styles.innerContainer}>
-        <StreakItem />
-      </ScrollView>
-    );
-  }
+export default function StreaksList(props: {
+  friendData: firestore.DocumentData[];
+}) {
+  const [friendEmail, setfriendEmail] = React.useState("");
+  // const [friendData, setFriendData] = React.useState<firestore.DocumentData[]>(
+  //   []
+  // );
+
+  return (
+    //TODO make this retrieve the info from firestore to make streakItems
+    <ScrollView style={styles.innerContainer}>
+      <FlatList
+        data={props.friendData}
+        renderItem={({ item }: { item: firestore.DocumentData }) => (
+          <View>
+            <StreakItem email={item.email} uid={item.uid} />
+            <View style={styles.spacing} />
+          </View>
+        )}
+        onEndReachedThreshold={0.5}
+      />
+    </ScrollView>
+  );
 }
 
 const styles = EStyleSheet.create({
