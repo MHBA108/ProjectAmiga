@@ -27,26 +27,31 @@ export default function LogList(props: {
 
   return (
     <View>
-      <View style={styles.spacing}></View>
-      <FlatList
-        data={props.documentData}
-        renderItem={({ item }: { item: firestore.DocumentData }) => (
-          <View>
-            <LogItem
-              moodPercentile={item.moodPercentile}
-              moodWords={item.moodWords}
-              text={item.text}
-              timestamp={item.timestamp}
-              logListCallback={callbackUserProfile}
-            />
-            <View style={styles.spacing} />
-          </View>
-        )}
-        //onEndReached={retrieveMore}
-        onEndReachedThreshold={0.5}
-        // This requires more research
-        // refreshing={refreshing}
-      />
+      {props.documentData.length == 0 ? (
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.emptyLogText}>You haven't logged yet!</Text>
+        </View>
+      ) : (
+        <View>
+          <View style={styles.spacing}></View>
+          <FlatList
+            data={props.documentData}
+            renderItem={({ item }: { item: firestore.DocumentData }) => (
+              <View>
+                <LogItem
+                  moodPercentile={item.moodPercentile}
+                  moodWords={item.moodWords}
+                  text={item.text}
+                  timestamp={item.timestamp}
+                  logListCallback={callbackUserProfile}
+                />
+                <View style={styles.spacing} />
+              </View>
+            )}
+            onEndReachedThreshold={0.5}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -78,5 +83,10 @@ const styles = EStyleSheet.create({
     color: "#000",
     marginLeft: 12,
     marginBottom: 12,
+  },
+  emptyLogText: {
+    color: COLORS.beige,
+    fontFamily: "HindSiliguri_600SemiBold",
+    fontSize: "18rem",
   },
 });

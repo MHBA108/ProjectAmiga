@@ -88,18 +88,38 @@ export default function MoodChart() {
 
   return (
     <View style={styles.graphContainer}>
-      {Array.from(colorMap.keys()).length == 0 ? (
+      {Array.from(colorMap.keys()).length == 0 || graphSize < 3 ? (
         <View>
-          <Text
-            style={{
-              alignSelf: "center",
-              color: "white",
-              fontFamily: "HindSiliguri_600SemiBold",
-              fontSize: 18,
-            }}
-          >
-            Calculating your data...
-          </Text>
+          {graphSize > 0 && graphSize < 3 ? (
+            <View>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  alignItems: "center",
+                  color: "white",
+                  fontFamily: "HindSiliguri_600SemiBold",
+                  fontSize: 18,
+                  textAlign: "center",
+                }}
+              >
+                You've only logged {graphSize}{" "}
+                {graphSize == 1 ? "time" : "times"} this week. Come back in
+                {" " + (3 - graphSize) + " "}
+                {3 - graphSize == 1 ? "day" : "days"}!
+              </Text>
+            </View>
+          ) : (
+            <Text
+              style={{
+                alignSelf: "center",
+                color: "white",
+                fontFamily: "HindSiliguri_600SemiBold",
+                fontSize: 18,
+              }}
+            >
+              You haven't logged enough to display data.
+            </Text>
+          )}
         </View>
       ) : (
         <View>
