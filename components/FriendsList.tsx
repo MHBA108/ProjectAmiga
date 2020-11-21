@@ -30,7 +30,6 @@ export default function FriendList() {
     retrieveData();
   }
   function checkUser(email: any) {
-    console.log("checking for: " + email);
     if (validateEmail(email)) {
       firebase
         .auth()
@@ -53,14 +52,12 @@ export default function FriendList() {
   }
   async function friendFollow() {
     try {
-      console.log("friendEmail:" + friendEmail);
       const res = await firebase
         .firestore()
         .collection("userLookup")
         .doc(friendEmail.toLowerCase())
         .get();
       let friendUID = res.get("uid");
-      console.log("friend UID:" + friendUID);
       const data = {
         uid: friendUID,
         email: friendEmail.toLowerCase(),
@@ -92,7 +89,6 @@ export default function FriendList() {
           console.log(error);
         }
       }
-      console.log("friendData length: ", friendData.length);
       getData();
       return () => (refresh = false);
     }, [])

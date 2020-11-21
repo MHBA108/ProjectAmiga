@@ -53,7 +53,6 @@ export default function StreaksModal() {
     setModalVisible(false);
   }
   function checkUser(email: any) {
-    console.log("checking for: " + email);
     if (validateEmail(email)) {
       firebase
         .auth()
@@ -76,14 +75,12 @@ export default function StreaksModal() {
   }
   async function friendFollow() {
     try {
-      console.log("friendEmail:" + friendEmail);
       const res = await firebase
         .firestore()
         .collection("userLookup")
         .doc(friendEmail.toLowerCase())
         .get();
       let friendUID = res.get("uid");
-      console.log("friend UID:" + friendUID);
       const data = {
         uid: friendUID,
         email: friendEmail.toLowerCase(),

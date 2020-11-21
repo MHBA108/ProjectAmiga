@@ -48,7 +48,7 @@ const FriendsScreen = (props: { navigation: any }) => {
       }
       getData();
       return () => (refresh = false);
-    }, [])
+    }, [friendData])
   );
   return (
     <SafeAreaView style={styles.container}>
