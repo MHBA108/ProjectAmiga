@@ -1,32 +1,27 @@
+import { useFocusEffect } from "@react-navigation/native";
 import firebase from "firebase";
 import { firestore } from "firebase";
 import React, { Component } from "react";
 import { Text, View, ScrollView, Alert, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
-import avatar from "../assets/images/avatars/1.png";
+import avatars from "../assets/images/avatars/avatars";
 
 //TODO: add props
 export default function FriendItem(props: { email: any; uid: any }) {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [friendData, setFriendData] = React.useState(new Map());
+  const [avatar, setAvatar] = React.useState(0);
+  const [streak, setStreak] = React.useState(0);
+  const [achievements, setAchievements] = React.useState(0);
+
   async function retrieveData() {
     try {
-      const tempMap = new Map();
-      let initialQuery = await firestore()
-        .collection("users")
-        .doc(user?.uid)
-        .collection("friends");
-      let documentSnapshots = await initialQuery.get();
-      let documentData = documentSnapshots.docs.map((document) =>
-        document.data()
-      );
-      documentData.map(async (item: any) => {
-        var friendInfo = await getFriendsInfo(item.uid);
-        tempMap.set(item.email, friendInfo);
-        //console.log("friend map info: ", tempMap);
-        setFriendData(tempMap);
-      });
+      let friendInfo = await getFriendsInfo(props.uid);
+      console.log("avatar number: ", friendInfo[1]);
+      setStreak(friendInfo[0]);
+      setAvatar(friendInfo[1]);
+      setAchievements(5);
     } catch (error) {
       console.log(error);
     }
@@ -39,19 +34,49 @@ export default function FriendItem(props: { email: any; uid: any }) {
       console.log(error);
     }
   }
+  useFocusEffect(
+    React.useCallback(() => {
+      let refresh = true;
+      async function getData() {
+        try {
+          if (refresh) {
+            await retrieveData();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getData();
+      return () => (refresh = false);
+    }, [])
+  );
+  // React.useEffect(() => {
+  //   let refresh = true;
+  //   async function getData() {
+  //     try {
+  //       if (refresh) {
+  //         await retrieveData();
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   getData();
+  //   refresh = false;
+  // });
   return (
     <View style={styles.feed}>
       <View style={styles.dateContainer}>
         <Text style={styles.usernameFont}> {props.email} </Text>
         <View style={styles.spacing}></View>
         <View style={styles.streakAndAchievement}>
-          <Text style={styles.streakFont}>2 </Text>
+          <Text style={styles.streakFont}>{streak} </Text>
           <Image
             source={require("../assets/images/streak.png")}
             style={styles.badge}
           />
           <View style={styles.achievementContainer}>
-            <Text style={styles.streakFont}>2 </Text>
+            <Text style={styles.streakFont}>{achievements} </Text>
             <Image
               source={require("../assets/images/achievement.png")}
               style={styles.badge}
@@ -65,7 +90,7 @@ export default function FriendItem(props: { email: any; uid: any }) {
           <Image
             style={styles.circleContainer}
             resizeMode="contain"
-            source={avatar}
+            source={avatars[`${avatar}`]}
           />
         </View>
       </View>

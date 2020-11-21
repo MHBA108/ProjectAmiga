@@ -18,6 +18,7 @@ import { Feather } from "@expo/vector-icons";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { firestore } from "firebase";
+import { AuthContext } from "../navigation/context";
 
 export default function FriendList() {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
@@ -71,6 +72,8 @@ export default function FriendList() {
         .collection("friends")
         .doc(friendUID)
         .set(data);
+
+      retrieveData();
       //TODO friend should know they're being followed/being stalked
     } catch (error) {
       console.log(error);
@@ -104,8 +107,7 @@ export default function FriendList() {
       let documentData = documentSnapshots.docs.map((document) =>
         document.data()
       );
-      setFriendData(friendData);
-      console.log("documentData ", documentData);
+      setFriendData(documentData);
     } catch (error) {
       console.log(error);
     }
@@ -134,6 +136,7 @@ export default function FriendList() {
         </TouchableHighlight>
       </View>
       <View style={styles.spacing} />
+      {}
       <FlatList
         data={friendData}
         renderItem={({ item }: { item: firestore.DocumentData }) => (
