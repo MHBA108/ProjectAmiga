@@ -59,7 +59,7 @@ export default function StreaksModal() {
             Alert.alert("This user does not exist");
           } else {
             Alert.alert("Sending Friend Request to: " + email);
-            friendRequest(email);
+            friendFollow(email);
           }
         });
     } else {
@@ -70,7 +70,7 @@ export default function StreaksModal() {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
-  async function friendRequest(email: any) {
+  async function friendFollow(email: any) {
     try {
       const res = await firebase
         .firestore()
@@ -79,17 +79,17 @@ export default function StreaksModal() {
         .get();
       let friendUID = res.get("uid");
       const data = {
-        accepted: false,
         uid: user?.uid,
         email: user?.email,
       };
       const setUserRequest = await firebase
         .firestore()
         .collection("users")
-        .doc(friendUID)
-        .collection("requests")
         .doc(user?.uid)
+        .collection("friends")
+        .doc(friendUID)
         .set(data);
+      //TODO friend should know they're being followed/being stalked
     } catch (error) {
       console.log(error);
     }

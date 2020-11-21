@@ -44,7 +44,7 @@ export default function LoginScreen(props: { navigation: any }) {
         const emailData = {
           uid: user?.uid,
         };
-        firebase.firestore().collection("users").doc(email).set(emailData);
+        firebase.firestore().collection("userLookup").doc(email).set(emailData);
       } else {
         authContext.avatar = document.get("avatar");
         console.log('authContext.avatar: "' + authContext.avatar + '"');
