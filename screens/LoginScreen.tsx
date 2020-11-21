@@ -41,13 +41,20 @@ export default function LoginScreen(props: { navigation: any }) {
           streak: 0,
         };
         firebase.firestore().collection("users").doc(user.uid).set(data);
+      } else {
+        authContext.avatar = document.get("avatar");
+        console.log('authContext.avatar: "' + authContext.avatar + '"');
+      }
+      let userLookup = await firebase
+        .firestore()
+        .collection("userLookup")
+        .doc(email)
+        .get();
+      if (!(userLookup && userLookup.exists)) {
         const emailData = {
           uid: user?.uid,
         };
         firebase.firestore().collection("userLookup").doc(email).set(emailData);
-      } else {
-        authContext.avatar = document.get("avatar");
-        console.log('authContext.avatar: "' + authContext.avatar + '"');
       }
     }
     authContext.signIn();
