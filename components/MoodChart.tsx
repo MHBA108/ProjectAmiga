@@ -115,6 +115,7 @@ export default function MoodChart() {
                 color: "white",
                 fontFamily: "HindSiliguri_600SemiBold",
                 fontSize: 18,
+                textAlign: "center",
               }}
             >
               You haven't logged enough to display data.
