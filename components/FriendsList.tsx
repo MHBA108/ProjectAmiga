@@ -9,18 +9,25 @@ import {
   Platform,
   TextInput,
   TouchableHighlight,
+  FlatList,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import FriendItem from "./FriendItem";
 import { COLORS } from "../assets/COLORS";
 import { Feather } from "@expo/vector-icons";
 import * as firebase from "firebase";
+import { firestore } from "firebase";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function FriendList() {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
   const [friendEmail, setfriendEmail] = React.useState("");
+  const [friendData, setfriendData] = React.useState<firestore.DocumentData[]>(
+    []
+  );
+
   function checkUser(email: any) {
     console.log("checking for: " + email);
     if (validateEmail(email)) {
@@ -67,6 +74,39 @@ export default function FriendList() {
       console.log(error);
     }
   }
+  async function retrieveData() {
+    try {
+      console.log("Retrieving Data in Freinds List");
+      let initialQuery = firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("friends");
+      let documentSnapshots = await initialQuery.get();
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      console.log("documentData:", documentData);
+      setfriendData(documentData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useFocusEffect(
+    React.useCallback(() => {
+      let refresh = true;
+      async function getData() {
+        try {
+          if (refresh) {
+            await retrieveData();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getData();
+      return () => (refresh = false);
+    }, [])
+  );
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -90,7 +130,23 @@ export default function FriendList() {
         </TouchableHighlight>
       </View>
       <View style={styles.spacing} />
-      <FriendItem />
+      <FlatList
+        data={friendData}
+        renderItem={({ item }: { item: firestore.DocumentData }) => (
+          <View>
+            <FriendItem
+              moodPercentile={item.moodPercentile}
+              moodWords={item.moodWords}
+            />
+            <View style={styles.spacing} />
+          </View>
+        )}
+        //onEndReached={retrieveMore}
+        onEndReachedThreshold={0.5}
+        // This requires more research
+        // refreshing={refreshing}
+      />
+      {/* <FriendItem /> */}
       <View style={styles.spacing} />
     </KeyboardAvoidingView>
   );
