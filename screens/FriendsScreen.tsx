@@ -11,9 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const FriendsScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
-  const [friendAmount, setFriendAmount] = React.useState(
-    firebase.auth().currentUser
-  );
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
