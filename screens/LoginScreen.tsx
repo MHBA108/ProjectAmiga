@@ -48,13 +48,17 @@ export default function LoginScreen(props: { navigation: any }) {
       let userLookup = await firebase
         .firestore()
         .collection("userLookup")
-        .doc(email)
+        .doc(email.toLowerCase())
         .get();
       if (!(userLookup && userLookup.exists)) {
         const emailData = {
           uid: user?.uid,
         };
-        firebase.firestore().collection("userLookup").doc(email).set(emailData);
+        firebase
+          .firestore()
+          .collection("userLookup")
+          .doc(email.toLowerCase())
+          .set(emailData);
       }
     }
     authContext.signIn();

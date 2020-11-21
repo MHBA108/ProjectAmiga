@@ -32,7 +32,7 @@ export default function FriendList() {
             Alert.alert("This user does not exist");
           } else {
             Alert.alert("Now following: " + email);
-            friendFollow(email);
+            friendFollow();
           }
         });
     } else {
@@ -43,17 +43,19 @@ export default function FriendList() {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
-  async function friendFollow(email: any) {
+  async function friendFollow() {
     try {
+      console.log("friendEmail:" + friendEmail);
       const res = await firebase
         .firestore()
         .collection("userLookup")
-        .doc(email)
+        .doc(friendEmail.toLowerCase())
         .get();
       let friendUID = res.get("uid");
+      console.log("friend UID:" + friendUID);
       const data = {
-        uid: user?.uid,
-        email: user?.email,
+        uid: friendUID,
+        email: friendEmail.toLowerCase(),
       };
       const setUserRequest = await firebase
         .firestore()
