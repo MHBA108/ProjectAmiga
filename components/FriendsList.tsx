@@ -74,6 +74,7 @@ export default function FriendList() {
         .set(data);
 
       retrieveData();
+
       //TODO friend should know they're being followed/being stalked
     } catch (error) {
       console.log(error);

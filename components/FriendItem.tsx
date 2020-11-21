@@ -22,9 +22,13 @@ export default function FriendItem(props: {
   async function retrieveData() {
     try {
       let friendInfo = await getFriendsInfo(props.uid);
+      console.log(
+        "the avatar number for " + props.email + " is: " + friendInfo[1]
+      );
       setStreak(friendInfo[0]);
       setAvatar(friendInfo[1]);
       setAchievements(5);
+      props.callbackFriendsList();
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +65,7 @@ export default function FriendItem(props: {
       }
       getData();
       return () => (refresh = false);
-    }, [avatar])
+    }, [props.email])
   );
   let swipeBtns = [
     {
