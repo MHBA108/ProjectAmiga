@@ -80,6 +80,7 @@
     "react-native-slider": "^0.11.0",
     "react-native-slider-color-picker": "^2.2.1",
     "react-native-svg": "12.1.0",
+    "react-native-swipeout": "^2.3.6",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.7",
     "react-native-windows": "^0.63.8",

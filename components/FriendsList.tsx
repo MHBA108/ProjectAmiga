@@ -26,7 +26,9 @@ export default function FriendList() {
   const [friendData, setFriendData] = React.useState<firestore.DocumentData[]>(
     []
   );
-
+  function callbackFriendItem() {
+    retrieveData();
+  }
   function checkUser(email: any) {
     console.log("checking for: " + email);
     if (validateEmail(email)) {
@@ -139,7 +141,11 @@ export default function FriendList() {
         data={friendData}
         renderItem={({ item }: { item: firestore.DocumentData }) => (
           <View>
-            <FriendItem email={item.email} uid={item.uid} />
+            <FriendItem
+              email={item.email}
+              uid={item.uid}
+              callbackFriendsList={callbackFriendItem}
+            />
             <View style={styles.spacing} />
           </View>
         )}

@@ -6,9 +6,13 @@ import { Text, View, ScrollView, Alert, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
 import avatars from "../assets/images/avatars/avatars";
+import Swipeout from "react-native-swipeout";
 
-//TODO: add props
-export default function FriendItem(props: { email: any; uid: any }) {
+export default function FriendItem(props: {
+  email: any;
+  uid: any;
+  callbackFriendsList: Function;
+}) {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [friendData, setFriendData] = React.useState(new Map());
   const [avatar, setAvatar] = React.useState(0);
@@ -18,7 +22,6 @@ export default function FriendItem(props: { email: any; uid: any }) {
   async function retrieveData() {
     try {
       let friendInfo = await getFriendsInfo(props.uid);
-      //console.log("avatar number: ", friendInfo[1]);
       setStreak(friendInfo[0]);
       setAvatar(friendInfo[1]);
       setAchievements(5);
@@ -33,6 +36,16 @@ export default function FriendItem(props: { email: any; uid: any }) {
     } catch (error) {
       console.log(error);
     }
+  }
+  async function onDelete() {
+    const setUserRequest = await firebase
+      .firestore()
+      .collection("users")
+      .doc(user?.uid)
+      .collection("friends")
+      .doc(props.uid)
+      .delete();
+    props.callbackFriendsList();
   }
   useFocusEffect(
     React.useCallback(() => {
@@ -50,38 +63,56 @@ export default function FriendItem(props: { email: any; uid: any }) {
       return () => (refresh = false);
     }, [])
   );
-
+  let swipeBtns = [
+    {
+      text: "Delete",
+      backgroundColor: "red",
+      underlayColor: "rgba(0, 0, 0, 1, 0.6)",
+      borderRadius: 10,
+      onPress: () => {
+        onDelete();
+      },
+    },
+  ];
   return (
-    <View style={styles.feed}>
-      <View style={styles.dateContainer}>
-        <Text style={styles.usernameFont}> {props.email} </Text>
-        <View style={styles.spacing}></View>
-        <View style={styles.streakAndAchievement}>
-          <Text style={styles.streakFont}>{streak} </Text>
-          <Image
-            source={require("../assets/images/streak.png")}
-            style={styles.badge}
-          />
-          <View style={styles.achievementContainer}>
-            <Text style={styles.streakFont}>{achievements} </Text>
-            <Image
-              source={require("../assets/images/achievement.png")}
-              style={styles.badge}
-            />
+    <View>
+      <Swipeout
+        style={{ borderRadius: 10 }}
+        right={swipeBtns}
+        backgroundColor="transparent"
+      >
+        <View style={styles.feed}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.usernameFont}> {props.email} </Text>
+            <View style={styles.spacing}></View>
+            <View style={styles.streakAndAchievement}>
+              <Text style={styles.streakFont}>{streak} </Text>
+              <Image
+                source={require("../assets/images/streak.png")}
+                style={styles.badge}
+              />
+              <View style={styles.achievementContainer}>
+                <Text style={styles.streakFont}>{achievements} </Text>
+                <Image
+                  source={require("../assets/images/achievement.png")}
+                  style={styles.badge}
+                />
+              </View>
+            </View>
           </View>
+          <View style={styles.HeaderContainer}>
+            <View style={styles.containerUpperRight}>
+              <View style={styles.circle}></View>
+              <Image
+                style={styles.circleContainer}
+                resizeMode="contain"
+                source={avatars[`${avatar}`]}
+              />
+            </View>
+          </View>
+          <View style={styles.bar}></View>
         </View>
-      </View>
-      <View style={styles.HeaderContainer}>
-        <View style={styles.containerUpperRight}>
-          <View style={styles.circle}></View>
-          <Image
-            style={styles.circleContainer}
-            resizeMode="contain"
-            source={avatars[`${avatar}`]}
-          />
-        </View>
-      </View>
-      <View style={styles.bar}></View>
+      </Swipeout>
     </View>
   );
 }
