@@ -7,6 +7,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import * as Progress from "react-native-progress";
 import moment from "moment";
 import { summary } from "date-streaks";
+import { firestore } from "firebase";
+import { AuthContext } from "../navigation/context";
 
 export default function AchievementsList() {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -20,6 +22,11 @@ export default function AchievementsList() {
   const [allDatesArray, setAllDatesArray] = React.useState(new Array());
   const [longestStreak, setLongestStreak] = React.useState(0);
 
+  const authContext = React.useContext(AuthContext);
+  const [friendData, setFriendData] = React.useState<firestore.DocumentData[]>(
+        []
+    );
+    
   useFocusEffect(() => {
     let doc = getStreak();
     async function getStreak() {
@@ -66,7 +73,21 @@ export default function AchievementsList() {
       setLongestStreak(summary({ dates: dateArray }).longestStreak);
     } catch (error) {
       console.log(error);
-    }
+      }
+      try {
+          const tempMap = new Map();
+          let initialQuery = await firestore()
+              .collection("users")
+              .doc(user?.uid)
+              .collection("friends");
+          let documentSnapshots = await initialQuery.get();
+          let documentData = documentSnapshots.docs.map((document) =>
+              document.data()
+          );
+          setFriendData(documentData);
+      } catch (error) {
+          console.log(error);
+      }
   }
   const nurseryStreak: number =
     (Number([longestStreak]) / 1) * 100 >= 100
@@ -99,8 +120,27 @@ export default function AchievementsList() {
   const motherStreak: number =
     (Number([longestStreak]) / 34) * 100 >= 100
       ? 100
-      : Math.trunc((Number([longestStreak]) / 34) * 100);
-
+            : Math.trunc((Number([longestStreak]) / 34) * 100);
+    const seedShop: number =
+        (Number( friendData.length ) / 1) * 100 >= 100
+            ? 100
+            : (Number(friendData.length) / 1) * 100;
+    const flowerPatch: number =
+        (Number(friendData.length) / 2) * 100 >= 100
+            ? 100
+            : (Number(friendData.length) / 2) * 100;
+    const secretGarden: number =
+        (Number(friendData.length) / 5) * 100 >= 100
+            ? 100
+            : Math.trunc(friendData.length / 5 * 100);
+    const almostEden: number =
+        (Number(friendData.length) / 8) * 100 >= 100
+            ? 100
+            : Math.trunc((Number(friendData.length) / 8) * 100);
+    const gardenOfEden: number =
+        (Number([longestStreak]) / 13) * 100 >= 100
+            ? 100
+            : Math.trunc((Number(friendData.length) / 13) * 100);
   return (
     <View>
       <View style={styles.spacing}></View>
@@ -335,10 +375,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you connect with one friend!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
-        </View>
+                  <View style={styles.spacing2}></View>
+                  <Progress.Bar
+                      progress={Number([seedShop]) / 100}
+                      width={200}
+                      color={COLORS.darkPink}
+                      unfilledColor={COLORS.pink}
+                      height={7}
+                  />
+                  <Text style={styles.achievementDescription}>
+                      {seedShop}% Complete
+          </Text></View>
         <View style={styles.circle2}>
           <Image
             style={styles.circleContainer}
@@ -355,10 +402,16 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you connect with two friends
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
-        </View>
+                  <View style={styles.spacing2}></View>
+                  <Progress.Bar
+                      progress={Number([flowerPatch]) / 100}
+                      width={200}
+                      color={COLORS.darkPink}
+                      unfilledColor={COLORS.pink}
+                      height={7}
+                  /><Text style={styles.achievementDescription}>
+                      {flowerPatch}% Complete
+          </Text></View>
         <View style={styles.circle2}>
           <Image
             style={styles.circleContainer}
@@ -375,10 +428,16 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you connect with five friends!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
-        </View>
+                  <View style={styles.spacing2}></View>
+                  <Progress.Bar
+                      progress={Number([secretGarden]) / 100}
+                      width={200}
+                      color={COLORS.darkPink}
+                      unfilledColor={COLORS.pink}
+                      height={7}
+                  /><Text style={styles.achievementDescription}>
+                      {secretGarden}% Complete
+          </Text></View>
         <View style={styles.circle2}>
           <Image
             style={styles.circleContainer}
@@ -395,10 +454,16 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you connect with eight friends!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
-        </View>
+                  <View style={styles.spacing2}></View>
+                  <Progress.Bar
+                      progress={Number([almostEden]) / 100}
+                      width={200}
+                      color={COLORS.darkPink}
+                      unfilledColor={COLORS.pink}
+                      height={7}
+                  /><Text style={styles.achievementDescription}>
+                      {almostEden}% Complete
+          </Text></View>
         <View style={styles.circle2}>
           <Image
             style={styles.circleContainer}
@@ -415,10 +480,16 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you connect with thirteen friends!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
-        </View>
+                  <View style={styles.spacing2}></View>
+                  <Progress.Bar
+                      progress={Number([gardenOfEden]) / 100}
+                      width={200}
+                      color={COLORS.darkPink}
+                      unfilledColor={COLORS.pink}
+                      height={7}
+                  /><Text style={styles.achievementDescription}>
+                      {gardenOfEden}% Complete
+          </Text></View>
         <View style={styles.circle2}>
           <Image
             style={styles.circleContainer}

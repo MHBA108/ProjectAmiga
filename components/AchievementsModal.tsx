@@ -8,7 +8,7 @@ import {
   TextInput,
   Image,
   TouchableHighlight,
-  Dimensions,
+  Dimensions
 } from "react-native";
 import Modal from "react-native-modal";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -31,7 +31,7 @@ export default class AchievementsModal extends Component<
       modalVisible: false,
       expanded: false,
       height: 0,
-      selected: false,
+      selected: false
     };
   }
 
@@ -100,15 +100,15 @@ const styles = EStyleSheet.create({
   Header: {
     color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
-    fontSize: "30rem",
+    fontSize: "30rem"
   },
   achievementsHeader: {
-    flexDirection: "row",
+    flexDirection: "row"
   },
   countText: {
     color: COLORS.darkBlue,
     fontFamily: "HindSiliguri_500Medium",
-    fontSize: "30rem",
+    fontSize: "30rem"
   },
   badgeContainer: {
     flexDirection: "row",
@@ -117,12 +117,12 @@ const styles = EStyleSheet.create({
     justifyContent: "center",
     backgroundColor: "transparent",
     aspectRatio: 1 / 1,
-    height: "100rem",
+    height: "100rem"
   },
   badge: {
     backgroundColor: "transparent",
     width: "50rem",
-    height: "50rem",
+    height: "50rem"
   },
   modalContainer: {
     margin: -10,
@@ -134,17 +134,17 @@ const styles = EStyleSheet.create({
     shadowColor: COLORS.darkBlue,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.8,
     shadowRadius: 7,
-    elevation: 5,
+    elevation: 5
   },
   backButton: {
     backgroundColor: COLORS.yellowAccent,
     borderRadius: 20,
     padding: 5,
     alignSelf: "flex-start",
-    left: "120rem",
-  },
+    left: "120rem"
+  }
 });
