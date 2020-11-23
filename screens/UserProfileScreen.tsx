@@ -26,33 +26,29 @@ const UserProfileScreen = (props: { navigation: any }) => {
     firestore.DocumentData[]
   >([]);
   const [limit, setLimit] = React.useState(11);
-  const [lastVisible, setLastVisible] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
   const callbackLogList = () => {
     retrieveData();
   };
+  const callbackOpenProfileDetails = () => {
+    retrieveData();
+  };
 
   async function retrieveData() {
     try {
-      // Set State: Loading
-      console.log("Retrieving Data in Log List");
       setLoading(true);
-      // Cloud Firestore: Query
       let initialQuery = await firestore()
         .collection("users")
         .doc(user?.uid)
         .collection("userLogs")
         .orderBy("timestamp", "desc")
         .limit(limit);
-      // Cloud Firestore: Query Snapshot
       let documentSnapshots = await initialQuery.get();
-      // Cloud Firestore: Document Data
       let documentData = documentSnapshots.docs.map((document) =>
         document.data()
       );
       setDocumentData(documentData);
-      console.log("retrieve data length in UPS: " + documentData.length);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -62,9 +58,6 @@ const UserProfileScreen = (props: { navigation: any }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log(
-        "getting the streak right now from firebase in UserProfileScreen.tsx"
-      );
       let refresh = true;
       async function getStreak() {
         const doc = await firebase
@@ -89,7 +82,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
         let doc = getStreak();
       }
       return () => (refresh = false);
-    }, [])
+    }, [authContext])
   );
 
   return (
@@ -123,7 +116,9 @@ const UserProfileScreen = (props: { navigation: any }) => {
               resizeMode="contain"
               source={avatars[`${authContext.avatar}`]}
             />
-            <OpenProfileDetails />
+            <OpenProfileDetails
+              callbackUserProfileScreen={callbackOpenProfileDetails}
+            />
           </View>
         </View>
         <View style={styles.spacing}></View>

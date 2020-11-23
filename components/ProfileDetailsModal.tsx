@@ -21,7 +21,9 @@ import AvatarCarousel from "./AvatarCarousel";
 import { AuthContext } from "../navigation/context";
 import avatars from "../assets/images/avatars/avatars";
 
-export default function ProfileDetailsModal() {
+export default function ProfileDetailsModal(props: {
+  callbackOpenProfileDetails: Function;
+}) {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const authContext = React.useContext(AuthContext);
@@ -40,6 +42,10 @@ export default function ProfileDetailsModal() {
   const [carHeight, setCarHeight] = useState(0);
   const [previewHeight, setPreviewHeight] = useState(0);
   const [saveHeight, setSaveHeight] = useState(0);
+
+  const callbackAvatarCarousel = () => {
+    props.callbackOpenProfileDetails();
+  };
 
   useFocusEffect(() => {
     let doc = getStreak();
@@ -79,7 +85,7 @@ export default function ProfileDetailsModal() {
       authContext.avatar = "" + avatar;
     }
     setUserAvatar();
-    // TODO: Get parent to update on close as well.
+    callbackAvatarCarousel();
   }
 
   function renderEditSaveButton() {
@@ -382,7 +388,7 @@ const styles = EStyleSheet.create({
   },
   modalContainer: {
     margin: "-10rem",
-    marginTop: "50rem",
+    marginTop: "20rem",
     flex: 1,
     backgroundColor: COLORS.yellow,
     borderRadius: "20rem",

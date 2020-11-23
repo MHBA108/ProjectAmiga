@@ -11,7 +11,6 @@ import CustomCallout from "./CustomCallout";
 import Modal from "react-native-modal";
 import getDirections from "react-native-google-maps-directions";
 
-//const googleAPIKey = "AIzaSyCLn-r29khpkY36M7Lk53fc60o-qGWNGqw"; //this one is fake haha :0
 const googleAPIKey = "AIzaSyCLn-r29khpkY36M7Lk53fc60o-qMPNGqw";
 interface ResourcesMapProps {}
 
@@ -60,7 +59,6 @@ export default class ResourcesMap extends Component<
     ["Therapist", require("../assets/images/tooltip-account.png")],
     ["Test", require("../assets/images/tooltip-account.png")],
   ]);
-  //0 means the type markers are not showing on the map, 1 means they are
   hiddenRef = new Map([
     ["Park", 0],
     ["Library", 0],
@@ -93,7 +91,6 @@ export default class ResourcesMap extends Component<
     this.setState({ mapRegion });
   };
   handleGetDirections = (latitudeDir: any, longitudeDir: any) => {
-    //let { userLatitude, userLongitude } = this.state.mapRegion;
     const data = {
       destination: {
         latitude: latitudeDir,
@@ -115,7 +112,6 @@ export default class ResourcesMap extends Component<
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ locationResult: JSON.stringify(location) });
 
-    // Center the map on the location we just fetched.
     this.setState({
       mapRegion: {
         latitude: location.coords.latitude,
@@ -165,13 +161,10 @@ export default class ResourcesMap extends Component<
           places.push(place);
           if (type == "Park") {
             this.state.parks.push(place);
-            // console.log(this.state.parks);
           } else if (type == "Library") {
             this.state.libraries.push(place);
-            // console.log(this.state.parks);
           } else if (type == "Cafe") {
             this.state.cafes.push(place);
-            // console.log(this.state.parks);
           } else if (type == "Therapist") {
             this.state.therapists.push(place);
           }
@@ -183,27 +176,6 @@ export default class ResourcesMap extends Component<
         console.log(error);
       });
   };
-
-  //this code is here so I don't waste API credits when testing!!!!!
-
-  // renderMarkers = (placeType: Array<String>) => {
-  //   placeType.map((type) => {
-  //     var places: Array<Object> = [];
-  //     var place: any = {};
-  //     var testcoordinate = {
-  //       latitude: 33.787,
-  //       longitude: -84.316,
-  //     };
-  //     place["placeTypes"] = "cafe";
-  //     place["searchType"] = type;
-  //     place["coordinate"] = testcoordinate;
-  //     place["placeId"] = "12345678";
-  //     place["placeName"] = "My Secret Hiding Spot";
-  //     place["address"] = "1234 Kachow Kachinga";
-  //     this.state.places.push(place);
-  //     this.setState({ places: this.state.places });
-  //   });
-  // };
 
   mapStyle = [
     {
@@ -550,38 +522,6 @@ export default class ResourcesMap extends Component<
                     </Marker>
                   );
                 })}
-
-                {/*   //this code is here so I don't waste API credits when testing!!!!!
-                {this.state.places.map((marker: any, index: number) => {
-                  
-                  return (
-                    <Marker
-                      key={index}
-                      identifier={marker.placeId}
-                      tracksViewChanges={true}
-                      image={this.iconRef.get(marker.searchType)}
-                      coordinate={marker.coordinate}
-                      title={marker.placeName}
-                      description={marker.address}
-                    >
-                      <Callout
-                        tooltip
-                        onPress={() => {
-                          this.passDataToModal(
-                            marker.placeName,
-                            marker.address,
-                            marker.coordinate
-                          );
-                        }}
-                      >
-                        <CustomCallout>
-                          <Text>{marker.placeName}</Text>
-                          <Text>{marker.address}</Text>
-                        </CustomCallout>
-                      </Callout>
-                    </Marker>
-                  );
-                })} */}
               </MapView>
               <Modal
                 isVisible={this.state.isModalVisible}
@@ -621,13 +561,10 @@ export default class ResourcesMap extends Component<
                 onChangeChips={(chips: SelectableChips) => {
                   console.log(chips);
                   chips.map((type: any) => {
-                    //sets all values to be hidden (temporary)
                     this.hiddenRef.forEach((value, key, map) =>
                       map.set(key, 0)
                     );
-                    //sets all the selected chips to be shown
                     this.hiddenRef.set(type, 1);
-
                     this.fetchNearestPlacesFromGoogle(type);
                   });
                   this.chipArray.map((placeType: any) => {
@@ -652,11 +589,9 @@ export default class ResourcesMap extends Component<
                     ) {
                       this.setState({ therapists: [] });
                     }
-                    //console.log(this.hiddenRef.get(placeType));
                   });
                   console.log("length of chips array: " + chips.length);
                   if (chips.length == 0) {
-                    //console.log("length: " + chips.length);
                     this.setState({ parks: [] });
                     this.setState({ libraries: [] });
                     this.setState({ cafes: [] });
@@ -668,23 +603,6 @@ export default class ResourcesMap extends Component<
                 valueStyle={styles.valueStyle}
                 valueStyleSelected={styles.valueStyle}
               />
-              {/* //this code is here so I don't waste API credits when testing!!!!!
-               <SelectableChips
-                initialChips={["Test"]}
-                onChangeChips={(chips: SelectableChips) => {
-                  console.log(chips);
-                  this.renderMarkers(chips);
-                  if (chips.length == 0) {
-                    console.log("length: " + chips.length);
-                    this.setState({ places: [] });
-                  }
-                }}
-                alertRequired={false}
-                chipStyleSelected={styles.chipSelectedStyle}
-                chipStyle={styles.chipStyle}
-                valueStyle={styles.valueStyle}
-                valueStyleSelected={styles.valueStyle}
-              /> */}
             </View>
           )}
         </View>
@@ -725,7 +643,6 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    //height: 30,
     backgroundColor: COLORS.lightBlue,
     borderRadius: 20,
     padding: 10,

@@ -4,8 +4,6 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
-import { User } from "realm";
-import { useState } from "react";
 
 export default function AvatarCarousel({ setAvatar }: { setAvatar: Function }) {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
