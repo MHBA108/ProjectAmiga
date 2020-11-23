@@ -82,7 +82,7 @@ const UserProfileScreen = (props: { navigation: any }) => {
         let doc = getStreak();
       }
       return () => (refresh = false);
-    }, [])
+    }, [authContext])
   );
 
   return (
