@@ -3,9 +3,7 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput,
   Image,
-  TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
 import Modal from "react-native-modal";
@@ -15,7 +13,6 @@ import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
 import { User } from "realm";
 import { useState } from "react";
-import DatePicker from "react-native-datepicker";
 import AvatarCarousel from "./AvatarCarousel";
 import avatars from "../assets/images/avatars/avatars";
 import { AuthContext } from "../navigation/context";
@@ -27,9 +24,7 @@ export default function InitialInfoModal(props: {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [user, setUser] = React.useState(firebase.auth().currentUser);
-  const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState(1);
-  const [date, setDate] = useState("09-10-2010");
   const authContext = React.useContext(AuthContext);
 
   function openModal() {
@@ -85,48 +80,6 @@ export default function InitialInfoModal(props: {
               resizeMode="contain"
               source={avatars[`${avatar}`]}
             />
-            <View style={styles.spacing}></View>
-            <View style={styles.avatarHeader}>
-              <Text style={styles.Header}>BIRTHDAY</Text>
-            </View>
-            <View style={styles.spacing}></View>
-            <View style={styles.date}>
-              <DatePicker
-                style={styles.datePickerStyle}
-                date={date} // Initial date from state
-                mode="date" // The enum of date, datetime and time
-                placeholder="select date"
-                format="MM-DD-YYYY"
-                minDate="01-01-1950"
-                maxDate="01-01-2020"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                customStyles={{
-                  btnTextConfirm: {
-                    color: COLORS.pink,
-                  },
-                  dateIcon: {
-                    //display: 'none',
-                    position: "absolute",
-                    left: 0,
-                    top: 4,
-                    marginLeft: 0,
-                  },
-                  dateInput: {
-                    marginLeft: 36,
-                    borderWidth: 0,
-                  },
-                  dateText: {
-                    color: COLORS.darkBlue,
-                    fontFamily: "HindSiliguri_500Medium",
-                    fontSize: 18,
-                  },
-                }}
-                onDateChange={(date) => {
-                  setDate(date);
-                }}
-              />
-            </View>
             <View style={styles.spacing}></View>
             <View style={styles.spacing}></View>
             <View style={styles.saveButton}>
