@@ -9,10 +9,21 @@ import AchievementsList from "../components/AchievementsList";
 import { SafeAreaView } from "react-native-safe-area-context";
 import avatars from "../assets/images/avatars/avatars";
 import { AuthContext } from "../navigation/context";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AchievementsScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const authContext = React.useContext(AuthContext);
+  const [avatar, setAvatar] = React.useState(authContext.avatar);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (avatar != authContext.avatar) {
+        // This exists just to refresh the page when there's a new avatar.
+        setAvatar(authContext.avatar);
+      }
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
