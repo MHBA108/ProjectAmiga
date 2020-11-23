@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Modal from "react-native-modal";
-import SelectableChips from "react-native-chip/SelectableChips";
+import SelectableChips from "./SelectableChips";
 import { COLORS } from "../assets/COLORS";
 import firebase, { firestore } from "firebase";
 import moment from "moment";
@@ -194,7 +194,7 @@ export default class LogModal extends Component<
                     "negative",
                     "mad",
                   ]}
-                  onChangeChips={(chips: SelectableChips) =>
+                  onChangeChips={(chips: string[]) =>
                     this.onChangeMoodWords(chips)
                   }
                   chipStyleSelected={styles.chipSelectedStyle}
