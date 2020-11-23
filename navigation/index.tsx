@@ -12,7 +12,6 @@ import { ColorSchemeName } from "react-native";
 import { COLORS } from "../assets/COLORS";
 import FriendsScreen from "../screens/FriendsScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
-import FeedScreen from "../screens/FeedScreen";
 import AchievementsScreen from "../screens/AchievementsScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SettingsScreen from "../screens/SettingsScreen";
@@ -102,15 +101,6 @@ function HamburgerDrawer() {
         options={{
           drawerIcon: ({ color }) => (
             <Feather name="award" size={24} color={COLORS.beige} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Feed"
-        component={FeedScreen}
-        options={{
-          drawerIcon: ({ color }) => (
-            <Feather name="list" size={24} color={COLORS.beige} />
           ),
         }}
       />

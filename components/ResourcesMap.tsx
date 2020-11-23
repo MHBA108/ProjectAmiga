@@ -6,7 +6,7 @@ import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import LottieView from "lottie-react-native";
-import SelectableChips from "react-native-chip/SelectableChips";
+import SelectableChips from "./SelectableChips";
 import CustomCallout from "./CustomCallout";
 import Modal from "react-native-modal";
 import getDirections from "react-native-google-maps-directions";

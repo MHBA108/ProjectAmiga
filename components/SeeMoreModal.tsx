@@ -16,7 +16,7 @@ import moment from "moment";
 import firebase, { firestore } from "firebase";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import EStyleSheet from "react-native-extended-stylesheet";
-import SelectableChips from "react-native-chip/SelectableChips";
+import SelectableChips from "./SelectableChips";
 
 const arrayToBubbles = require("../assets/ArrayToBubbles");
 interface SeeMoreModalProps {
@@ -199,6 +199,7 @@ export default class SeeMoreModal extends Component<
       return (
         <View style={this.moodContainer()}>
           <SelectableChips
+            initialSelectedChips={this.state.moodWords}
             initialChips={[
               "excited",
               "positive",
@@ -217,9 +218,7 @@ export default class SeeMoreModal extends Component<
               "negative",
               "mad",
             ]}
-            onChangeChips={(chips: SelectableChips) =>
-              this.onChangeMoodWords(chips)
-            }
+            onChangeChips={(chips: string[]) => this.onChangeMoodWords(chips)}
             chipStyleSelected={styles.chipSelectedStyle}
             chipStyle={styles.chipStyle}
             valueStyle={styles.valueStyle}
