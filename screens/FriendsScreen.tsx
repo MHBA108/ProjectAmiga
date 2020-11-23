@@ -6,12 +6,50 @@ import FriendsList from "../components/FriendsList";
 import MyHeader from "../components/MyHeader";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
-import avatar from "../assets/images/avatars/1.png";
+import avatars from "../assets/images/avatars/avatars";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthContext } from "../navigation/context";
+import { useFocusEffect } from "@react-navigation/native";
+import { firestore } from "firebase";
 
 const FriendsScreen = (props: { navigation: any }) => {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
-
+  const authContext = React.useContext(AuthContext);
+  const [friendData, setFriendData] = React.useState<firestore.DocumentData[]>(
+    []
+  );
+  async function retrieveData() {
+    try {
+      const tempMap = new Map();
+      let initialQuery = await firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("friends");
+      let documentSnapshots = await initialQuery.get();
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      setFriendData(documentData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useFocusEffect(
+    React.useCallback(() => {
+      let refresh = true;
+      async function getData() {
+        try {
+          if (refresh) {
+            await retrieveData();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getData();
+      return () => (refresh = false);
+    }, [friendData])
+  );
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -29,11 +67,14 @@ const FriendsScreen = (props: { navigation: any }) => {
             <Image
               style={styles.circleContainer}
               resizeMode="contain"
-              source={avatar}
+              source={avatars[`${authContext.avatar}`]}
             />
             <View style={styles.feedButtons}>
               <View style={styles.button}>
-                <Text style={styles.buttonText}> Friends: 3 </Text>
+                <Text style={styles.buttonText}>
+                  {" "}
+                  Friends: {friendData.length}{" "}
+                </Text>
               </View>
             </View>
           </View>
@@ -109,7 +150,7 @@ const styles = EStyleSheet.create({
   circleContainer: {
     height: "115rem",
     width: "115rem",
-    borderRadius: "57.5rem",
+    borderRadius: "90rem",
     alignSelf: "center",
     top: "3rem",
   },
@@ -117,7 +158,7 @@ const styles = EStyleSheet.create({
     position: "absolute",
     height: "125rem",
     width: "125rem",
-    borderRadius: "62.5rem",
+    borderRadius: "90rem",
     backgroundColor: COLORS.lightBlue,
     borderColor: COLORS.lightBlue,
     borderWidth: "7rem",

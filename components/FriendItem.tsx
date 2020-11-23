@@ -1,46 +1,122 @@
+import { useFocusEffect } from "@react-navigation/native";
+import firebase from "firebase";
+import { firestore } from "firebase";
 import React, { Component } from "react";
 import { Text, View, ScrollView, Alert, Image } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { COLORS } from "../assets/COLORS";
-import avatar from "../assets/images/avatars/1.png";
+import avatars from "../assets/images/avatars/avatars";
+import Swipeout from "react-native-swipeout";
 
-//TODO: add props
-export default class FriendItem extends Component {
-  render() {
-    return (
-      <View style={styles.feed}>
-        <View style={styles.dateContainer}>
-          <Text style={styles.usernameFont}> @Username </Text>
-          <View style={styles.spacing}></View>
-          <View style={styles.streakAndAchievement}>
-            <Text style={styles.streakFont}>23</Text>
-            <Image
-              source={require("../assets/images/streak.png")}
-              style={styles.badge}
-            />
-            <View style={styles.achievementContainer}>
-              <Text style={styles.streakFont}>3</Text>
+export default function FriendItem(props: {
+  email: any;
+  uid: any;
+  callbackFriendsList: Function;
+}) {
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [friendData, setFriendData] = React.useState(new Map());
+  const [avatar, setAvatar] = React.useState(0);
+  const [streak, setStreak] = React.useState(0);
+  const [achievements, setAchievements] = React.useState(0);
+
+  async function retrieveData() {
+    try {
+      let friendInfo = await getFriendsInfo(props.uid);
+      setStreak(friendInfo[0]);
+      setAvatar(friendInfo[1]);
+      setAchievements(5);
+      props.callbackFriendsList();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getFriendsInfo(item: any) {
+    try {
+      const doc = await firestore().collection("users").doc(item).get();
+      return [doc.get("streak"), doc.get("avatar")];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function onDelete() {
+    const setUserRequest = await firebase
+      .firestore()
+      .collection("users")
+      .doc(user?.uid)
+      .collection("friends")
+      .doc(props.uid)
+      .delete();
+    props.callbackFriendsList();
+  }
+  useFocusEffect(
+    React.useCallback(() => {
+      let refresh = true;
+      async function getData() {
+        try {
+          if (refresh) {
+            await retrieveData();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getData();
+      return () => (refresh = false);
+    }, [props.email])
+  );
+  let swipeBtns = [
+    {
+      text: "Delete",
+      backgroundColor: "red",
+      underlayColor: "rgba(0, 0, 0, 1, 0.6)",
+      borderRadius: 10,
+      onPress: () => {
+        onDelete();
+      },
+    },
+  ];
+  return (
+    <View>
+      <Swipeout
+        style={{ borderRadius: 10 }}
+        right={swipeBtns}
+        backgroundColor="transparent"
+        autoClose={true}
+      >
+        <View style={styles.feed}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.usernameFont}> {props.email} </Text>
+            <View style={styles.spacing}></View>
+            <View style={styles.streakAndAchievement}>
+              <Text style={styles.streakFont}>{streak} </Text>
               <Image
-                source={require("../assets/images/achievement.png")}
+                source={require("../assets/images/streak.png")}
                 style={styles.badge}
+              />
+              <View style={styles.achievementContainer}>
+                <Text style={styles.streakFont}>{achievements} </Text>
+                <Image
+                  source={require("../assets/images/achievement.png")}
+                  style={styles.badge}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={styles.HeaderContainer}>
+            <View style={styles.containerUpperRight}>
+              <View style={styles.circle}></View>
+              <Image
+                style={styles.circleContainer}
+                resizeMode="contain"
+                source={avatars[`${avatar}`]}
               />
             </View>
           </View>
+          <View style={styles.bar}></View>
         </View>
-        <View style={styles.HeaderContainer}>
-          <View style={styles.containerUpperRight}>
-            <View style={styles.circle}></View>
-            <Image
-              style={styles.circleContainer}
-              resizeMode="contain"
-              source={avatar}
-            />
-          </View>
-        </View>
-        <View style={styles.bar}></View>
-      </View>
-    );
-  }
+      </Swipeout>
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({
@@ -69,7 +145,7 @@ const styles = EStyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "center",
     color: COLORS.beige,
-    fontSize: "30rem",
+    fontSize: "16rem",
     fontFamily: "HindSiliguri_600SemiBold",
   },
   circleContainer: {

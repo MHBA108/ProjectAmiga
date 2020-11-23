@@ -17,7 +17,7 @@ import StreaksList from "./StreaksList";
 import { COLORS } from "../assets/COLORS";
 import * as firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
-import { User } from "realm";
+import { firestore } from "firebase";
 
 export default function StreaksModal() {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -27,7 +27,10 @@ export default function StreaksModal() {
   const [user, setUser] = React.useState(firebase.auth().currentUser);
   const [streak, setStreak] = React.useState(0);
   const [avatar, setAvatar] = React.useState("");
-
+  const [friendEmail, setfriendEmail] = React.useState("");
+  const [friendData, setFriendData] = React.useState<firestore.DocumentData[]>(
+    []
+  );
   useFocusEffect(() => {
     let doc = getStreak();
     async function getStreak() {
@@ -39,6 +42,7 @@ export default function StreaksModal() {
       setStreak(doc.get("streak"));
       setAvatar(doc.get("avatar"));
     }
+    retrieveData();
   });
 
   function openModal() {
@@ -47,6 +51,69 @@ export default function StreaksModal() {
 
   function closeModal() {
     setModalVisible(false);
+  }
+  function checkUser(email: any) {
+    if (validateEmail(email)) {
+      firebase
+        .auth()
+        .fetchSignInMethodsForEmail(email)
+        .then((providers) => {
+          if (providers.length === 0) {
+            Alert.alert("This user does not exist");
+          } else {
+            Alert.alert("Now following: " + email);
+            friendFollow();
+          }
+        });
+    } else {
+      Alert.alert("This user does not exist");
+    }
+  }
+  function validateEmail(email: string) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  async function friendFollow() {
+    try {
+      const res = await firebase
+        .firestore()
+        .collection("userLookup")
+        .doc(friendEmail.toLowerCase())
+        .get();
+      let friendUID = res.get("uid");
+      const data = {
+        uid: friendUID,
+        email: friendEmail.toLowerCase(),
+      };
+      const setUserRequest = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("friends")
+        .doc(friendUID)
+        .set(data);
+
+      retrieveData();
+      //TODO friend should know they're being followed/being stalked
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function retrieveData() {
+    try {
+      const tempMap = new Map();
+      let initialQuery = await firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("friends");
+      let documentSnapshots = await initialQuery.get();
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      setFriendData(documentData);
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <View style={styles.container}>
@@ -81,18 +148,18 @@ export default function StreaksModal() {
                   </TouchableHighlight>
                 </View>
               </View>
-              <StreaksList />
-              <View style={styles.spacing} />
               <View style={styles.addFriend}>
                 <TextInput
                   style={styles.input}
                   placeholder="type friend's email here..."
                   placeholderTextColor={COLORS.darkBlueAccent}
                   returnKeyType="next"
-                  textContentType="emailAddress"
+                  onChangeText={(text) => setfriendEmail(text)}
                 />
                 <TouchableHighlight
-                  onPress={() => Alert.alert("friend added")}
+                  onPress={() => {
+                    checkUser(friendEmail);
+                  }}
                   underlayColor="transparent"
                 >
                   <Feather
@@ -102,6 +169,8 @@ export default function StreaksModal() {
                   />
                 </TouchableHighlight>
               </View>
+              <StreaksList friendData={friendData} />
+              <View style={styles.spacing} />
             </ScrollView>
           </KeyboardAvoidingView>
         </View>

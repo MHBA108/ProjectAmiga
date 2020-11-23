@@ -45,6 +45,21 @@ export default function LoginScreen(props: { navigation: any }) {
         authContext.avatar = document.get("avatar");
         console.log('authContext.avatar: "' + authContext.avatar + '"');
       }
+      let userLookup = await firebase
+        .firestore()
+        .collection("userLookup")
+        .doc(email.toLowerCase())
+        .get();
+      if (!(userLookup && userLookup.exists)) {
+        const emailData = {
+          uid: user?.uid,
+        };
+        firebase
+          .firestore()
+          .collection("userLookup")
+          .doc(email.toLowerCase())
+          .set(emailData);
+      }
     }
     authContext.signIn();
     // TODO: make log in go to home page. If you log out from the new

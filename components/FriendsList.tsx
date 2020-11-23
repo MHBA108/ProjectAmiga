@@ -9,41 +9,162 @@ import {
   Platform,
   TextInput,
   TouchableHighlight,
+  FlatList,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import FriendItem from "./FriendItem";
 import { COLORS } from "../assets/COLORS";
 import { Feather } from "@expo/vector-icons";
+import * as firebase from "firebase";
+import { useFocusEffect } from "@react-navigation/native";
+import { firestore } from "firebase";
+import { AuthContext } from "../navigation/context";
 
-export default class FriendList extends Component {
-  render() {
-    return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
-        <View style={styles.spacing} />
-        <FriendItem />
-        <View style={styles.spacing} />
-
-        <View style={styles.addFriend}>
-          <TextInput
-            style={styles.input}
-            placeholder="type friend's email here..."
-            placeholderTextColor={COLORS.darkBlueAccent}
-            returnKeyType="next"
-            textContentType="emailAddress"
-          />
-          <TouchableHighlight
-            onPress={() => Alert.alert("friend added")}
-            underlayColor="transparent"
-          >
-            <Feather name="plus-circle" size={30} color={COLORS.beige} />
-          </TouchableHighlight>
-        </View>
-      </KeyboardAvoidingView>
-    );
+export default function FriendList() {
+  const [user, setUser] = React.useState(firebase.auth().currentUser);
+  const [friendEmail, setfriendEmail] = React.useState("");
+  const [friendData, setFriendData] = React.useState<firestore.DocumentData[]>(
+    []
+  );
+  function callbackFriendItem() {
+    retrieveData();
   }
+  function checkUser(email: any) {
+    if (validateEmail(email)) {
+      firebase
+        .auth()
+        .fetchSignInMethodsForEmail(email)
+        .then((providers) => {
+          if (providers.length === 0) {
+            Alert.alert("This user does not exist");
+          } else {
+            Alert.alert("Now following: " + email);
+            friendFollow();
+          }
+        });
+    } else {
+      Alert.alert("This user does not exist");
+    }
+  }
+  function validateEmail(email: string) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  async function friendFollow() {
+    try {
+      const res = await firebase
+        .firestore()
+        .collection("userLookup")
+        .doc(friendEmail.toLowerCase())
+        .get();
+      let friendUID = res.get("uid");
+      const data = {
+        uid: friendUID,
+        email: friendEmail.toLowerCase(),
+      };
+      const setUserRequest = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("friends")
+        .doc(friendUID)
+        .set(data);
+
+      retrieveData();
+
+      //TODO friend should know they're being followed/being stalked
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useFocusEffect(
+    React.useCallback(() => {
+      let refresh = true;
+      async function getData() {
+        try {
+          if (refresh) {
+            await retrieveData();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getData();
+      return () => (refresh = false);
+    }, [])
+  );
+
+  async function retrieveData() {
+    try {
+      const tempMap = new Map();
+      let initialQuery = await firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("friends");
+      let documentSnapshots = await initialQuery.get();
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      setFriendData(documentData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+    >
+      <View style={styles.addFriend}>
+        <TextInput
+          style={styles.input}
+          placeholder="type friend's email here..."
+          placeholderTextColor={COLORS.darkBlueAccent}
+          returnKeyType="next"
+          onChangeText={(text) => setfriendEmail(text)}
+        />
+        <TouchableHighlight
+          onPress={() => {
+            checkUser(friendEmail);
+          }}
+          underlayColor="transparent"
+        >
+          <Feather name="plus-circle" size={30} color={COLORS.beige} />
+        </TouchableHighlight>
+      </View>
+      <View style={styles.spacing} />
+      {friendData.length == 0 ? (
+        <Text
+          style={{
+            color: COLORS.beige,
+            fontSize: 18,
+            fontFamily: "HindSiliguri_600SemiBold",
+            textAlign: "center",
+          }}
+        >
+          No friends yet, feel free to add some!
+        </Text>
+      ) : (
+        <FlatList
+          data={friendData}
+          renderItem={({ item }: { item: firestore.DocumentData }) => (
+            <View>
+              <FriendItem
+                email={item.email}
+                uid={item.uid}
+                callbackFriendsList={callbackFriendItem}
+              />
+              <View style={styles.spacing} />
+            </View>
+          )}
+          onEndReachedThreshold={0.5}
+        />
+      )}
+
+      <View style={styles.spacing} />
+    </KeyboardAvoidingView>
+  );
 }
 
 const styles = EStyleSheet.create({
