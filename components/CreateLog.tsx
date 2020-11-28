@@ -1,7 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import React, { Component } from "react";
+import React from "react";
 import {
-  Alert,
   LayoutAnimation,
   Platform,
   Text,
@@ -45,6 +44,9 @@ export default class CreateLog extends React.Component<
   callbackLogModal = (sliderValue: number, text: string) => {
     this.onChangeText(text);
     this.onChangeMoodPercentile(sliderValue);
+  };
+
+  callbackNotification = () => {
     this.props.homeCallback();
   };
 
@@ -75,9 +77,7 @@ export default class CreateLog extends React.Component<
       .collection("userLogs")
       .orderBy("timestamp", "desc");
     let documentSnapshots = await initialQuery.get();
-    let documentData = documentSnapshots.docs.map((document) =>
-      document.data()
-    );
+    documentSnapshots.docs.map((document) => document.data());
     this.props.homeCallback();
   }
 
@@ -162,6 +162,7 @@ export default class CreateLog extends React.Component<
         <NotificationModal
           modalVisible={this.state.notificationVisible}
           onModalHide={() => this.dismissNotif()}
+          parentCallback={this.callbackNotification}
         />
       </View>
     );

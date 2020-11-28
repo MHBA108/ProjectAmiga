@@ -6,14 +6,18 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import * as firebase from "firebase";
 
 export default class NotificationModal extends Component<
-  { modalVisible: boolean; onModalHide: () => void },
+  { modalVisible: boolean; onModalHide: () => void; parentCallback: Function },
   {
     modalVisible: boolean;
     reload: boolean;
     streak: number;
   }
 > {
-  constructor(props: { modalVisible: boolean; onModalHide: () => void }) {
+  constructor(props: {
+    modalVisible: boolean;
+    onModalHide: () => void;
+    parentCallback: Function;
+  }) {
     super(props);
     this.state = {
       modalVisible: this.props.modalVisible,
@@ -25,6 +29,7 @@ export default class NotificationModal extends Component<
   closeModal() {
     this.setState({ reload: false });
     this.setState({ modalVisible: false });
+    this.props.parentCallback();
   }
 
   async componentDidMount() {
