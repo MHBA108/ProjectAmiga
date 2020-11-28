@@ -305,7 +305,19 @@ export default function MoodChart() {
                     },
                   ],
                 }}
-                width={Dimensions.get("window").width * 0.125 * graphSize}
+                width={
+                  graphSize == 3
+                    ? Dimensions.get("window").width * 0.3 * graphSize
+                    : graphSize == 4
+                    ? Dimensions.get("window").width * 0.25 * graphSize
+                    : graphSize == 5
+                    ? Dimensions.get("window").width * 0.19 * graphSize
+                    : graphSize == 6
+                    ? Dimensions.get("window").width * 0.14 * graphSize
+                    : graphSize == 7
+                    ? Dimensions.get("window").width * 0.125 * graphSize
+                    : Dimensions.get("window").width * 0.125 * graphSize
+                }
                 height={220}
                 chartConfig={{
                   backgroundColor: COLORS.darkBlue,

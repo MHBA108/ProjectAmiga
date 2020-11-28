@@ -88,15 +88,10 @@ export default function FriendItem(props: {
             <Text style={styles.usernameFont}> {props.email} </Text>
             <View style={styles.spacing}></View>
             <View style={styles.streakAndAchievement}>
-              <Text style={styles.streakFont}>{streak} </Text>
-              <Image
-                source={require("../assets/images/streak.png")}
-                style={styles.badge}
-              />
               <View style={styles.achievementContainer}>
-                <Text style={styles.streakFont}>{achievements} </Text>
+                <Text style={styles.streakFont}>{streak} </Text>
                 <Image
-                  source={require("../assets/images/achievement.png")}
+                  source={require("../assets/images/streak.png")}
                   style={styles.badge}
                 />
               </View>
@@ -200,6 +195,7 @@ const styles = EStyleSheet.create({
   dateContainer: {
     position: "absolute",
     alignSelf: "flex-end",
+    alignItems: "flex-end",
     backgroundColor: "transparent",
     flexDirection: "column",
     borderRadius: 10,

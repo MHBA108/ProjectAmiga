@@ -3,7 +3,6 @@ import { View, LayoutAnimation, Platform } from "react-native";
 import { COLORS } from "../assets/COLORS";
 import AchievementsModal from "./AchievementsModal";
 import EStyleSheet from "react-native-extended-stylesheet";
-import firebase from "firebase";
 
 export default class OpenAchievements extends Component<
   {},
@@ -13,7 +12,7 @@ export default class OpenAchievements extends Component<
     sliderValue: number;
   }
 > {
-  triggerModal = () => this.setState({ modalVisible: true });
+  //triggerModal = () => this.setState({ modalVisible: true });
 
   constructor(props: {}) {
     super(props);
