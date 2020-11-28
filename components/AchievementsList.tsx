@@ -19,6 +19,7 @@ export default function AchievementsList() {
 
   const [allDatesArray, setAllDatesArray] = React.useState(new Array());
   const [longestStreak, setLongestStreak] = React.useState(0);
+  const [friendLength, setFriendLength] = React.useState(0);
 
   useFocusEffect(() => {
     let doc = getStreak();
@@ -64,6 +65,13 @@ export default function AchievementsList() {
       });
       setAllDatesArray(dateArray);
       setLongestStreak(summary({ dates: dateArray }).longestStreak);
+      let friendQuery = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("friends");
+      let friendsSnapshots = await friendQuery.get();
+      setFriendLength(friendsSnapshots.size);
     } catch (error) {
       console.log(error);
     }
@@ -100,6 +108,27 @@ export default function AchievementsList() {
     (Number([longestStreak]) / 34) * 100 >= 100
       ? 100
       : Math.trunc((Number([longestStreak]) / 34) * 100);
+
+  const seedStreak: number =
+    (Number([friendLength]) / 1) * 100 >= 100
+      ? 100
+      : (Number([friendLength]) / 1) * 100;
+  const flowerStreak: number =
+    (Number([friendLength]) / 2) * 100 >= 100
+      ? 100
+      : (Number([friendLength]) / 2) * 100;
+  const secretStreak: number =
+    (Number([friendLength]) / 3) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([friendLength]) / 3) * 100);
+  const almostStreak: number =
+    (Number([friendLength]) / 5) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([friendLength]) / 5) * 100);
+  const gardenStreak: number =
+    (Number([friendLength]) / 8) * 100 >= 100
+      ? 100
+      : Math.trunc((Number([friendLength]) / 8) * 100);
 
   return (
     <View>
@@ -335,9 +364,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you connect with one friend!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([seedStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {seedStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -355,9 +392,17 @@ export default function AchievementsList() {
           <Text style={styles.achievementDescription}>
             Earn this award when you connect with two friends
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([flowerStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {flowerStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -373,11 +418,19 @@ export default function AchievementsList() {
         <View style={styles.achievementTitleContainer}>
           <Text style={styles.achievemetTitle}>Secret Garden</Text>
           <Text style={styles.achievementDescription}>
-            Earn this award when you connect with five friends!
+            Earn this award when you connect with three friends!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([secretStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {secretStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -393,11 +446,19 @@ export default function AchievementsList() {
         <View style={styles.achievementTitleContainer}>
           <Text style={styles.achievemetTitle}>Almost Eden</Text>
           <Text style={styles.achievementDescription}>
-            Earn this award when you connect with eight friends!
+            Earn this award when you connect with five friends!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([almostStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {almostStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image
@@ -413,11 +474,19 @@ export default function AchievementsList() {
         <View style={styles.achievementTitleContainer}>
           <Text style={styles.achievemetTitle}>Garden of Eden</Text>
           <Text style={styles.achievementDescription}>
-            Earn this award when you connect with thirteen friends!
+            Earn this award when you connect with eight friends!
           </Text>
-          <View style={styles.statusBar}></View>
-          <View style={styles.spacing}></View>
-          <Text style={styles.achievementDescription}>100% Complete</Text>
+          <View style={styles.spacing2}></View>
+          <Progress.Bar
+            progress={Number([gardenStreak]) / 100}
+            width={200}
+            color={COLORS.darkPink}
+            unfilledColor={COLORS.pink}
+            height={7}
+          />
+          <Text style={styles.achievementDescription}>
+            {gardenStreak}% Complete
+          </Text>
         </View>
         <View style={styles.circle2}>
           <Image

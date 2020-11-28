@@ -83,6 +83,7 @@ export default function MoodChart() {
         }
       }
       retrieveData();
+      return () => (isLoading = false);
     }, [limit])
   );
 

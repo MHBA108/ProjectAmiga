@@ -91,6 +91,7 @@ export default function MonthCalendar() {
         }
       }
       retrieve();
+      return () => (isLoading = false);
     }, [])
   );
 

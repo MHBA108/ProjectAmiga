@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import firebase from "firebase";
+import firebase, { firestore } from "firebase";
 import "firebase/firestore";
 import React, { useState } from "react";
 import {
@@ -17,12 +17,13 @@ import { COLORS } from "../assets/COLORS";
 import { AuthContext } from "../navigation/context";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { summary } from "date-streaks";
+import moment from "moment";
 
 export default function LoginScreen(props: { navigation: any }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
   const authContext = React.useContext(AuthContext);
   const navigation = useNavigation();
 
@@ -39,6 +40,7 @@ export default function LoginScreen(props: { navigation: any }) {
         const data = {
           avatar: "",
           streak: 0,
+          longestStreak: 0,
         };
         firebase.firestore().collection("users").doc(user.uid).set(data);
       } else {
@@ -62,9 +64,77 @@ export default function LoginScreen(props: { navigation: any }) {
       }
     }
     authContext.signIn();
+    let streakdata = await checkStreak();
     // TODO: make log in go to home page. If you log out from the new
     // settings page and then log back in, you go to the settings page
     // and not the home page.
+  }
+  async function checkStreak() {
+    try {
+      const user = firebase.auth().currentUser;
+      const dateArray = new Array();
+      let initialQuery = await firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .collection("userLogs")
+        .orderBy("timestamp", "desc");
+      let documentSnapshots = await initialQuery.get();
+      let documentData = documentSnapshots.docs.map((document) =>
+        document.data()
+      );
+      documentData.map((item: any) => {
+        var date = moment(item.timestamp).format("MM/DD/YYYY");
+        dateArray.push(date);
+      });
+
+      let firebaseStreak = await getStreak();
+      if (firebaseStreak !== summary({ dates: dateArray }).currentStreak) {
+        console.log(
+          "(calculated streak and firebase streak don't match up: ",
+          firebaseStreak,
+          " vs " + summary({ dates: dateArray }).currentStreak
+        );
+        let doc = await firebase
+          .firestore()
+          .collection("users")
+          .doc(user?.uid)
+          .get();
+
+        const data = {
+          streak: summary({ dates: dateArray }).currentStreak,
+          longestStreak: doc.get("longestStreak"),
+          avatar: doc.get("avatar"),
+        };
+        firebase.firestore().collection("users").doc(user?.uid).set(data);
+      }
+      let doc = await firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .get();
+
+      const longestStreakData = {
+        streak: doc.get("streak"),
+        avatar: doc.get("avatar"),
+        longestStreak: summary({ dates: dateArray }).longestStreak,
+      };
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(user?.uid)
+        .set(longestStreakData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function getStreak() {
+    const user = firebase.auth().currentUser;
+    const doc = await firebase
+      .firestore()
+      .collection("users")
+      .doc(user?.uid)
+      .get();
+    return doc.get("streak");
   }
 
   function onLoginFailure(errorMessage: string) {

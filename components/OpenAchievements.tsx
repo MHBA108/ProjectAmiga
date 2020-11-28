@@ -3,8 +3,9 @@ import { View, LayoutAnimation, Platform } from "react-native";
 import { COLORS } from "../assets/COLORS";
 import AchievementsModal from "./AchievementsModal";
 import EStyleSheet from "react-native-extended-stylesheet";
+import firebase from "firebase";
 
-export default class CreateLog extends Component<
+export default class OpenAchievements extends Component<
   {},
   {
     modalVisible: boolean;
@@ -26,7 +27,7 @@ export default class CreateLog extends Component<
   render() {
     return (
       <View style={styles.container}>
-        <AchievementsModal />
+        <AchievementsModal modalVisible={this.state.modalVisible} />
       </View>
     );
   }

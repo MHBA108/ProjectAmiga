@@ -15,85 +15,134 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { Feather } from "@expo/vector-icons";
 import AchievementsList from "./AchievementsList";
 import { COLORS } from "../assets/COLORS";
+import firebase from "firebase";
+import { useFocusEffect } from "@react-navigation/native";
 
-export default class AchievementsModal extends Component<
-  {},
-  {
-    expanded: boolean;
-    modalVisible: boolean;
-    height: number;
-    selected: boolean;
-  }
-> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      modalVisible: false,
-      expanded: false,
-      height: 0,
-      selected: false,
-    };
+export default function AchievementsModal(props: { modalVisible: boolean }) {
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [achievementsNumber, setAchievementsNumber] = React.useState(0);
+  const [friendNumber, setFriendNumber] = React.useState(0);
+  const [streakNumber, setStreakNumber] = React.useState(0);
+
+  async function calculateAchieveNumber() {
+    const user = firebase.auth().currentUser;
+    let doc = await firebase
+      .firestore()
+      .collection("users")
+      .doc(user?.uid)
+      .get();
+    let longestStreak = doc.get("longestStreak");
+    let friendQuery = await firebase
+      .firestore()
+      .collection("users")
+      .doc(user?.uid)
+      .collection("friends");
+    let friendsSnapshots = await friendQuery.get();
+    var friendLength = friendsSnapshots.size;
+
+    if (longestStreak == 0) {
+      setStreakNumber(0);
+    } else if (longestStreak == 1) {
+      setStreakNumber(1);
+    } else if (longestStreak == 2) {
+      setStreakNumber(2);
+    } else if (longestStreak > 2 && longestStreak < 5) {
+      setStreakNumber(3);
+    } else if (longestStreak >= 5 && longestStreak < 8) {
+      setStreakNumber(4);
+    } else if (longestStreak >= 8 && longestStreak < 13) {
+      setStreakNumber(5);
+    } else if (longestStreak >= 13 && longestStreak < 21) {
+      setStreakNumber(6);
+    } else {
+      setStreakNumber(7);
+    }
+
+    if (friendLength == 0) {
+      setFriendNumber(0);
+    } else if (friendLength == 1) {
+      setFriendNumber(1);
+    } else if (friendLength == 2) {
+      setFriendNumber(2);
+    } else if (friendLength > 2 && friendLength < 5) {
+      setFriendNumber(3);
+    } else if (friendLength >= 5 && friendLength < 8) {
+      setFriendNumber(4);
+    } else {
+      setFriendNumber(5);
+    }
+    setAchievementsNumber(friendNumber + streakNumber);
   }
 
-  openModal() {
-    this.setState({ modalVisible: true });
+  useFocusEffect(() => {
+    let isLoading = true;
+    async function retrieve() {
+      try {
+        if (isLoading) {
+          await calculateAchieveNumber();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    retrieve();
+
+    return () => (isLoading = false);
+  });
+
+  function openModal() {
+    setModalVisible(true);
   }
 
-  closeModal() {
-    this.setState({ modalVisible: false });
+  function closeModal() {
+    setModalVisible(false);
   }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Modal
-          hasBackdrop={true}
-          isVisible={this.state.modalVisible}
-          backdropColor={COLORS.darkBlue}
-          backdropOpacity={0.5}
-          animationInTiming={300}
-          animationOutTiming={300}
-          backdropTransitionInTiming={300}
-          backdropTransitionOutTiming={300}
-        >
-          <View style={styles.modalContainer}>
-            <ScrollView style={styles.innerContainer}>
-              <View style={styles.achievementsHeader}>
-                <Text style={styles.Header}>Achievements</Text>
-                <View style={styles.backButton}>
-                  <TouchableHighlight
-                    onPress={() => this.closeModal()}
-                    underlayColor="none"
-                  >
-                    <Feather
-                      name="chevron-up"
-                      size={24}
-                      color={COLORS.darkBlue}
-                    />
-                  </TouchableHighlight>
-                </View>
+  return (
+    <View style={styles.container}>
+      <Modal
+        hasBackdrop={true}
+        isVisible={modalVisible}
+        backdropColor={COLORS.darkBlue}
+        backdropOpacity={0.5}
+        animationInTiming={300}
+        animationOutTiming={300}
+        backdropTransitionInTiming={300}
+        backdropTransitionOutTiming={300}
+      >
+        <View style={styles.modalContainer}>
+          <ScrollView style={styles.innerContainer}>
+            <View style={styles.achievementsHeader}>
+              <Text style={styles.Header}>Achievements</Text>
+              <View style={styles.backButton}>
+                <TouchableHighlight
+                  onPress={() => closeModal()}
+                  underlayColor="none"
+                >
+                  <Feather
+                    name="chevron-up"
+                    size={24}
+                    color={COLORS.darkBlue}
+                  />
+                </TouchableHighlight>
               </View>
-              <AchievementsList />
-            </ScrollView>
-          </View>
-        </Modal>
-        <View>
-          <TouchableHighlight
-            onPress={() => this.openModal()}
-            underlayColor="none"
-          >
-            <View style={styles.badgeContainer}>
-              <Text style={styles.countText}> 3</Text>
-              <Image
-                source={require("../assets/images/achievement.png")}
-                style={styles.badge}
-              />
             </View>
-          </TouchableHighlight>
+            <AchievementsList />
+          </ScrollView>
         </View>
+      </Modal>
+      <View>
+        <TouchableHighlight onPress={() => openModal()} underlayColor="none">
+          <View style={styles.badgeContainer}>
+            <Text style={styles.countText}> {achievementsNumber}</Text>
+            <Image
+              source={require("../assets/images/achievement.png")}
+              style={styles.badge}
+            />
+          </View>
+        </TouchableHighlight>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({

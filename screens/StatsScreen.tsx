@@ -37,7 +37,6 @@ const StatsScreen = (props: { navigation: any }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log();
       let refresh = true;
       async function getStreak() {
         const doc = await firebase
