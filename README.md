@@ -4,13 +4,13 @@
 
 This is our CS370 project for the Fall 2020 semester. Welcome to **Amiga**, a mental health app that was created to help users keep track of their mental health and get insights on their progress.
 
-### How to Get Started
-
-Open this link and scan the QR code after downloading the Expo app: https://expo.io/@xelarock/projects/amiga. Alternatively, you can clone this repository and use the "npm ci && npm start" command from your terminal. Note that you will need to have Node.js downloaded.
-
 **Project Members:** Anthony Fiddes (PO), Alex Welsh, Caroline Yoon, Julia Levine, Anna Mola, Mario Becerra Aleman, and Rahul Nair (SM)
 
 <img src="https://i.ibb.co/x6QBPJ5/splash.png" alt="amiga logo" width="374" height="257">
+
+### How to Get Started
+
+Open this link and scan the QR code after downloading the Expo app: https://expo.io/@xelarock/projects/amiga. Alternatively, you can clone this repository and use the "npm ci && npm start" command from your terminal. Note that you will need to have Node.js downloaded.
 
 ### _Project Purpose_
 
