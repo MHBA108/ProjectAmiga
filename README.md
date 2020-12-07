@@ -10,8 +10,8 @@ This is our CS370 project for the Fall 2020 semester. Welcome to **Amiga**, a me
 
 ### How to Get Started
 
-*Open this link and scan the QR code after downloading the Expo app: https://expo.io/@xelarock/projects/amiga. 
-*Alternatively, you can clone this repository and use the "npm ci && npm start" command from your terminal. Note that you will need to have [Node.js downloaded](https://nodejs.org/en/download/ "Node.js downloaded").
+* Open this link and scan the QR code after downloading the Expo app: https://expo.io/@xelarock/projects/amiga. 
+* Alternatively, you can clone this repository and use the "npm ci && npm start" command from your terminal. Note that you will need to have [Node.js downloaded](https://nodejs.org/en/download/ "Node.js downloaded").
 
 ### _Project Purpose_
 
